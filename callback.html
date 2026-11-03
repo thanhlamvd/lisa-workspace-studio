@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lisa Workspace Studio — TikTok Authorization</title>
+<style>body{font-family:system-ui,Arial,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;line-height:1.6;color:#222}.ok{border:1px solid #ccc;border-radius:8px;padding:16px;background:#f7f7f7;word-break:break-all}</style>
+</head><body>
+<h1>Lisa Workspace Studio</h1>
+<h2>TikTok authorization</h2>
+<p id="status">Waiting for TikTok authorization…</p>
+<div class="ok" id="detail">If you arrived here directly, without authorizing TikTok, there is no authorization code to show.</div>
+<p><a href="index.html">Back to Lisa Workspace Studio</a></p>
+<script>
+try {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const error = params.get('error');
+  const status = document.getElementById('status');
+  const detail = document.getElementById('detail');
+  if (code) {
+    status.textContent = 'Authorization successful. You can close this window and return to Lisa Workspace Studio.';
+    detail.textContent = 'Authorization code received. For security, do not share this code in chat or screenshots.';
+  } else if (error) {
+    status.textContent = 'Authorization was not completed.';
+    detail.textContent = 'TikTok returned: ' + error;
+  }
+} catch (e) {}
+</script>
+</body></html>
