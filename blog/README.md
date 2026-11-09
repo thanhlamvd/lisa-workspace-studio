@@ -6,6 +6,7 @@ Blog này chạy miễn phí trên GitHub Pages, dùng chung repo `thanhlamvd/li
 
 - **Mỗi ngày đăng 2 bài blog, 1 bài theo mỗi video:** 1 bài theo video buổi sáng + 1 bài theo video buổi tối.
 - **Mỗi bài có 3–4 tấm hình:** ảnh bìa (hero) + bộ 3 ảnh dáng (trước / xoay lưng / ngồi) lấy từ ảnh của video hôm đó, đặt trong `blog/images/`.
+- **Mỗi bài có mục "Xem video này" với đủ 4 link YouTube / TikTok / Facebook / Instagram dẫn tới đúng video đó.** Link nào đã có thì dùng link video thật; link nào chưa có (video mới hẹn đăng, chưa có link Reels riêng) thì ghi link kênh/trang và ghi chú rõ video lên sóng lúc mấy giờ — không bao giờ bịa link Reels cụ thể chưa tồn tại, và không dùng link video của ngày khác (ví dụ không dùng link Reels tối 08/11 cho bài tối 09/11).
 - Mỗi bài viết theo cùng một mẫu: vì sao hợp ngữ cảnh, cách phối, ai hợp / ai nên cân nhắc, 5 mẹo, FAQ, link xem video cùng ngày. Luôn ghi rõ Lisa là nhân vật AI, không khẳng định đã mặc thật hay dùng thử, không bịa giá hay link — chỗ cần link để `[CHƯA GẮN LINK]`.
 - Từ 09/11/2026, Pip tự đẩy bài lên GitHub bằng token đã kết nối (connector `custom.github`, helper `~/workspace/custom-connectors/custom.github/bin/github.py`), không cần Vo upload tay nữa. Mỗi file đẩy riêng bằng lệnh `file-put`, rồi kiểm tra lại bằng `file-get`.
 
