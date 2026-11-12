@@ -87,6 +87,28 @@ form.order textarea{min-height:84px;resize:vertical}
 .pay-box{margin-top:16px;background:#fff;border:1.5px dashed var(--green);border-radius:10px;padding:14px 16px;font-size:15px}
 .pay-box .amount{font-size:22px;font-weight:800;color:var(--green)}
 .saved-note{margin-top:14px;font-size:14px;color:var(--green);font-weight:700;display:none}
+/* --- Chat với Pip --- */
+#chat-fab{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;background:var(--blue);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:999}
+#chat-fab:hover{background:var(--blue-dark)}
+#chat-panel{position:fixed;right:18px;bottom:90px;width:min(360px,calc(100vw - 36px));height:480px;max-height:calc(100vh - 120px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.2);display:none;flex-direction:column;overflow:hidden;z-index:999}
+#chat-panel.open{display:flex}
+#chat-head{background:var(--blue);color:#fff;padding:12px 14px}
+#chat-head b{font-size:16px}
+#chat-head p{margin:2px 0 0;font-size:13px;opacity:.9}
+#chat-head .close{float:right;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1}
+#chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f7f9fb}
+.chat-msg{max-width:85%;padding:9px 12px;border-radius:12px;font-size:15px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.chat-msg.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.chat-msg.pip{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+.chat-msg .who{display:block;font-size:12px;font-weight:700;margin-bottom:2px;opacity:.8}
+#chat-form{border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;flex-direction:column}
+#chat-form .row{display:flex;gap:8px}
+#chat-form input[type=text]{flex:1;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:15px;min-width:0}
+#chat-form input[type=text]:focus{outline:none;border-color:var(--blue)}
+#chat-send{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+#chat-send:hover{background:var(--blue-dark)}
+#chat-first{display:flex;gap:8px}
+#chat-first input{flex:1;min-width:0}
 @media (max-width:560px){
   h1{font-size:28px}
   .cta,.cta-ghost,.btn{display:block;text-align:center;margin-left:0;margin-right:0}
@@ -418,6 +440,37 @@ Website: videoshopai.vn</p>
   document.getElementById('btn-zalo').addEventListener('click',function(){
     window.open('https://zalo.me/0327659686','_blank');
   });
+})();
+</script>
+<button id="chat-fab" type="button" aria-label="Chat với VideoShop AI">💬</button>
+<div id="chat-panel" role="dialog" aria-label="Chat với VideoShop AI">
+<div id="chat-head"><button class="close" type="button" id="chat-close" aria-label="Đóng">×</button><b>Chat với VideoShop AI</b><p>Pip (trợ lý AI) trả lời trực tiếp tại đây, thường trong 15–30 phút.</p></div>
+<div id="chat-msgs"></div>
+<form id="chat-form">
+<div id="chat-first"><input type="text" id="chat-name" placeholder="Tên bạn" maxlength="60"><input type="text" id="chat-contact" placeholder="Zalo / SĐT (để liên hệ lại)" maxlength="60"></div>
+<div class="row"><input type="text" id="chat-input" placeholder="Bạn cần video cho sản phẩm nào?" maxlength="1000" autocomplete="off"><button type="submit" id="chat-send">Gửi</button></div>
+</form>
+</div>
+<script>
+(function(){
+var fab=document.getElementById('chat-fab'),panel=document.getElementById('chat-panel'),closeBtn=document.getElementById('chat-close'),
+msgs=document.getElementById('chat-msgs'),form=document.getElementById('chat-form'),input=document.getElementById('chat-input'),
+nameEl=document.getElementById('chat-name'),contactEl=document.getElementById('chat-contact'),firstRow=document.getElementById('chat-first');
+var session=null;try{session=localStorage.getItem('vs-chat-session');if(!session){session='vs-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);localStorage.setItem('vs-chat-session',session);}var sn=localStorage.getItem('vs-chat-name');if(sn)nameEl.value=sn;var sc=localStorage.getItem('vs-chat-contact');if(sc)contactEl.value=sc;}catch(_){session='vs-'+Date.now().toString(36);}
+var lastCount=0,pollTimer=null;
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function render(list){msgs.innerHTML='';if(!list.length){msgs.innerHTML='<div class="chat-msg pip"><span class="who">Pip — VideoShop AI</span>Chào bạn! Bạn cần làm video cho sản phẩm nào? Cho mình biết tên sản phẩm với link shop (nếu có) nhé. Gói Thử 3 video 990.000đ, 5 shop đầu tiên được tặng 1 video miễn phí.</div>';return;}
+list.forEach(function(m){var d=document.createElement('div');d.className='chat-msg '+(m.from==='pip'?'pip':'me');d.innerHTML='<span class="who">'+esc(m.from==='pip'?'Pip — VideoShop AI':'Bạn')+'</span>'+esc(m.message);msgs.appendChild(d);});msgs.scrollTop=msgs.scrollHeight;}
+function poll(){fetch('chat.php?action=poll&session='+encodeURIComponent(session)).then(function(r){return r.json();}).then(function(j){if(j.ok&&j.messages){if(j.messages.length!==lastCount){lastCount=j.messages.length;render(j.messages);}}}).catch(function(){});}
+fab.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open')){poll();if(!pollTimer)pollTimer=setInterval(poll,20000);input.focus();}});
+closeBtn.addEventListener('click',function(){panel.classList.remove('open');});
+form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;
+var fd=new FormData();fd.append('action','send');fd.append('session',session);fd.append('name',nameEl.value.trim());fd.append('contact',contactEl.value.trim());fd.append('message',text);
+try{localStorage.setItem('vs-chat-name',nameEl.value.trim());localStorage.setItem('vs-chat-contact',contactEl.value.trim());}catch(_){}
+input.value='';
+fetch('chat.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(j.ok){poll();}else{render([{from:'pip',message:'Gửi tin chưa được, bạn thử lại sau vài giây nhé. Hoặc nhắn Zalo 0327 659 686 cho nhanh.'}]);}}).catch(function(){});
+});
+poll();
 })();
 </script>
 </body>
