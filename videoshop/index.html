@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ</title>
-<meta name="description" content="VideoShop AI làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu.">
+<title>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ | Đặt hàng online</title>
+<meta name="description" content="VideoShop AI làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu. Đặt hàng và thanh toán chuyển khoản ngay trên website.">
 <style>
-:root{--blue:#0b6fa4;--blue-soft:#eef7fc;--ink:#222;--muted:#666;--line:#e5e5e5;--gold:#b7791f}
+:root{--blue:#0b6fa4;--blue-dark:#095a85;--blue-soft:#eef7fc;--ink:#222;--muted:#666;--line:#e5e5e5;--green:#1e7d32;--green-soft:#e8f5e9}
 *{box-sizing:border-box}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;max-width:860px;margin:0 auto;padding:0 20px 60px;line-height:1.65;color:var(--ink);background:#fff}
 header{padding:40px 0 10px;text-align:center}
 h1{color:var(--blue);margin:0 0 4px;font-size:34px}
 .tagline{font-size:19px;color:var(--muted);margin:0 0 14px}
 .cta{display:inline-block;background:var(--blue);color:#fff;border-radius:999px;padding:12px 26px;text-decoration:none;font-weight:700;font-size:17px;margin-top:10px}
-.cta:hover{background:#095a85}
+.cta:hover{background:var(--blue-dark)}
 .cta-ghost{display:inline-block;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:10px 24px;text-decoration:none;font-weight:700;margin:10px 0 0 8px}
 section{margin-top:40px}
 h2{border-bottom:2px solid var(--blue);padding-bottom:6px}
@@ -33,6 +33,12 @@ h3{margin:18px 0 6px}
 .sample{border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
 .sample h3{margin-top:0}
 .sample a{color:var(--blue);font-weight:600}
+.sample video{width:100%;max-width:320px;display:block;border-radius:10px;background:#000;margin:10px auto 0}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.video-card{border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.video-card h3{margin:6px 0 4px;font-size:16px}
+.video-card p{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.video-card video{width:100%;max-width:300px;border-radius:10px;background:#000}
 .note{background:var(--blue-soft);border-left:4px solid var(--blue);padding:14px 16px;border-radius:0 8px 8px 0;font-size:15px}
 .zalo-box{border:2px dashed var(--blue);border-radius:12px;padding:20px;text-align:center;background:var(--blue-soft)}
 .zalo-box .number{font-size:22px;font-weight:800;color:var(--blue)}
@@ -40,6 +46,44 @@ h3{margin:18px 0 6px}
 .channels li a{display:inline-block;border:1px solid var(--blue);color:var(--blue);border-radius:999px;padding:6px 14px;text-decoration:none;font-weight:600}
 .channels li a:hover{background:var(--blue-soft)}
 footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:14px;text-align:center}
+/* --- Đặt hàng --- */
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.pkg{border:2px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;line-height:1.5;color:var(--ink);width:100%}
+.pkg:hover{border-color:var(--blue)}
+.pkg.selected{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 2px var(--blue) inset}
+.pkg h3{margin:0 0 4px;font-size:17px}
+.pkg .price{font-size:22px;margin:4px 0}
+.pkg .desc{font-size:14px;color:var(--muted);margin:0}
+.pkg .tick{display:none;font-weight:700;color:var(--blue);font-size:14px}
+.pkg.selected .tick{display:block}
+form.order{margin-top:20px}
+form.order label{display:block;font-weight:700;margin:14px 0 4px}
+form.order label span{font-weight:400;color:var(--muted);font-size:14px}
+form.order input,form.order textarea{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:16px}
+form.order input:focus,form.order textarea:focus{outline:none;border-color:var(--blue)}
+form.order textarea{min-height:84px;resize:vertical}
+.btn{display:inline-block;background:var(--blue);color:#fff;border:none;border-radius:999px;padding:13px 26px;font:inherit;font-weight:700;font-size:17px;cursor:pointer;margin-top:18px;text-decoration:none}
+.btn:hover{background:var(--blue-dark)}
+.btn-green{background:var(--green)}
+.btn-green:hover{background:#156a29}
+.btn-ghost{background:#fff;border:2px solid var(--blue);color:var(--blue)}
+.btn-ghost:hover{background:var(--blue-soft)}
+.error{color:#c62828;font-size:15px;margin-top:8px;display:none}
+.total-line{margin-top:18px;padding:14px 16px;background:var(--blue-soft);border-radius:10px;font-size:17px}
+.total-line b{color:var(--blue)}
+#order-result{display:none;margin-top:24px;border:2px solid var(--green);border-radius:14px;padding:20px;background:var(--green-soft)}
+#order-result h3{color:var(--green);margin-top:0}
+#order-result table{width:100%;border-collapse:collapse;font-size:15px}
+#order-result td{padding:6px 4px;border-bottom:1px solid #c8e6c9;vertical-align:top}
+#order-result td:first-child{font-weight:700;width:130px}
+.pay-box{margin-top:16px;background:#fff;border:1.5px dashed var(--green);border-radius:10px;padding:14px 16px;font-size:15px}
+.pay-box .amount{font-size:22px;font-weight:800;color:var(--green)}
+.saved-note{margin-top:14px;font-size:14px;color:var(--green);font-weight:700;display:none}
+@media (max-width:560px){
+  h1{font-size:28px}
+  .cta,.cta-ghost,.btn{display:block;text-align:center;margin-left:0;margin-right:0}
+  .cta-ghost{margin-top:10px}
+}
 </style>
 </head>
 <body>
@@ -47,7 +91,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h1>VideoShop AI</h1>
 <p class="tagline">Video ngắn bán hàng cho shop nhỏ — làm đều mỗi ngày, không cần quay, không cần người mẫu</p>
 <p>Bạn chỉ cần gửi ảnh sản phẩm. Chúng tôi lo từ nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề tới hướng dẫn đăng.</p>
-<p><a class="cta" href="#lien-he">Nhận 1 video miễn phí</a> <a class="cta-ghost" href="#bang-gia">Xem bảng giá</a></p>
+<p><a class="cta" href="#dat-hang">Đặt hàng ngay</a> <a class="cta-ghost" href="#bang-gia">Xem bảng giá</a></p>
 <p style="color:var(--muted);font-size:14px">5 shop đầu tiên được tặng 1 video miễn phí — để bạn xem chất lượng trước khi quyết định.</p>
 </header>
 
@@ -112,15 +156,117 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <p style="font-size:15px;color:var(--muted)">Mỗi video được chỉnh sửa tối đa 2 lần (sửa chữ phụ đề, đổi câu hook). Sửa quá 2 lần hoặc đổi ý tưởng tính thêm 50% giá video. Giá trên chưa bao gồm quay thật tại shop, người mẫu thật và chạy quảng cáo — quảng cáo tính riêng theo ngân sách bạn duyệt.</p>
 </section>
 
+<section id="dat-hang">
+<h2>Đặt hàng</h2>
+<p>Chọn gói bên dưới, điền thông tin, rồi chuyển khoản đặt cọc theo điều khoản gói. Chúng tôi xác nhận đơn qua Zalo trong ngày làm việc.</p>
+
+<h3>Bước 1 — Chọn gói</h3>
+<div class="pkg-grid" id="pkg-grid">
+<button type="button" class="pkg" data-pkg="thu" data-name="Gói Thử — 3 video" data-total="990000" data-deposit="990000" data-deposit-note="100% trước khi làm">
+<h3>Gói Thử</h3>
+<p class="price">990.000đ <small>/ 3 video</small></p>
+<p class="desc">Dùng thử 3 video — trả 100% trước khi làm.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+<button type="button" class="pkg" data-pkg="coban" data-name="Gói Cơ bản — 12 video/tháng" data-total="3000000" data-deposit="1500000" data-deposit-note="50% đợt 1 (đầu tháng), 50% còn lại ngày 15">
+<h3>Gói Cơ bản</h3>
+<p class="price">3.000.000đ <small>/ tháng — 12 video</small></p>
+<p class="desc">12 video/tháng — trả 50% đầu tháng + 50% ngày 15.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+<button type="button" class="pkg" data-pkg="tangtruong" data-name="Gói Tăng trưởng — 20 video/tháng" data-total="4500000" data-deposit="2250000" data-deposit-note="50% đợt 1 (đầu tháng), 50% còn lại ngày 15">
+<h3>Gói Tăng trưởng</h3>
+<p class="price">4.500.000đ <small>/ tháng — 20 video</small></p>
+<p class="desc">20 video/tháng — trả 50% đầu tháng + 50% ngày 15.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+<button type="button" class="pkg" data-pkg="le" data-name="Video lẻ — 1 video" data-total="390000" data-deposit="390000" data-deposit-note="100% trước khi làm">
+<h3>Video lẻ</h3>
+<p class="price">390.000đ <small>/ video</small></p>
+<p class="desc">1 video — trả 100% trước khi làm.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+</div>
+
+<div class="total-line" id="total-line" style="display:none">Gói đã chọn: <b id="total-pkg-name">—</b><br>Tổng tiền: <b id="total-amount">—</b> &nbsp;·&nbsp; Cần chuyển đợt 1: <b id="total-deposit">—</b></div>
+
+<h3>Bước 2 — Thông tin đặt hàng</h3>
+<form class="order" id="order-form" novalidate>
+<label for="f-name">Họ tên <span style="color:#c62828">*</span></label>
+<input id="f-name" type="text" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="name">
+<label for="f-phone">Số Zalo / điện thoại <span style="color:#c62828">*</span></label>
+<input id="f-phone" type="tel" placeholder="Ví dụ: 0901234567" autocomplete="tel">
+<label for="f-shop">Link shop TikTok / Shopee <span>(không bắt buộc)</span></label>
+<input id="f-shop" type="url" placeholder="Ví dụ: https://www.tiktok.com/@shopcuaban">
+<label for="f-product">Sản phẩm muốn làm video <span>(không bắt buộc)</span></label>
+<textarea id="f-product" placeholder="Ví dụ: áo sơ mi trắng nữ, giá 189.000đ, bán chạy nhất shop"></textarea>
+<label for="f-note">Ghi chú <span>(không bắt buộc)</span></label>
+<textarea id="f-note" placeholder="Phong cách muốn làm, ngày cần video, yêu cầu khác..."></textarea>
+<p class="error" id="form-error">Bạn vui lòng chọn gói và điền họ tên + số Zalo/điện thoại trước khi gửi đơn.</p>
+<button type="submit" class="btn">Xem lại đơn &amp; thanh toán →</button>
+</form>
+
+<div id="order-result">
+<h3>✓ Đơn hàng của bạn đã được ghi nhận</h3>
+<table>
+<tr><td>Mã đơn</td><td id="r-code">—</td></tr>
+<tr><td>Gói đã chọn</td><td id="r-pkg">—</td></tr>
+<tr><td>Tổng tiền</td><td id="r-total">—</td></tr>
+<tr><td>Họ tên</td><td id="r-name">—</td></tr>
+<tr><td>Zalo / điện thoại</td><td id="r-phone">—</td></tr>
+<tr><td>Link shop</td><td id="r-shop">—</td></tr>
+<tr><td>Sản phẩm</td><td id="r-product">—</td></tr>
+<tr><td>Ghi chú</td><td id="r-note">—</td></tr>
+</table>
+<div class="pay-box">
+<strong>Thanh toán — chuyển khoản ngân hàng</strong><br>
+Số tiền cần chuyển đợt 1: <span class="amount" id="r-deposit">—</span><br>
+<span id="r-deposit-note">—</span><br><br>
+<strong>Số tài khoản:</strong> Số tài khoản sẽ được gửi qua Zalo sau khi bạn gửi đơn — hoặc liên hệ Zalo <a href="https://zalo.me/0327659686" target="_blank" rel="noopener">0327 659 686</a> để nhận số tài khoản.<br>
+Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
+</div>
+<p>
+<button type="button" class="btn btn-green" id="btn-zalo">Gửi đơn qua Zalo</button>
+<button type="button" class="btn btn-ghost" id="btn-copy">Sao chép nội dung đơn</button>
+</p>
+<p class="saved-note" id="saved-note">✓ Đã lưu đơn vào máy của bạn. Chúng tôi sẽ liên hệ xác nhận qua Zalo trong ngày làm việc.</p>
+<p style="font-size:14px;color:var(--muted)">Sau khi chuyển khoản, bạn nhắn Zalo kèm ảnh bill để chúng tôi xác nhận và bắt đầu làm video cho bạn.</p>
+</div>
+</section>
+
 <section>
-<h2>Quy trình làm việc — 5 bước</h2>
+<h2>Quy trình làm việc — 6 bước</h2>
 <ol class="steps">
 <li><strong>Tiếp nhận:</strong> Bạn nhắn qua Zalo hoặc Fanpage, gửi link shop, sản phẩm chủ lực và phong cách muốn làm. Chúng tôi gửi bảng giá và video mẫu.</li>
 <li><strong>Chốt gói:</strong> Bạn chọn gói, ký thỏa thuận dịch vụ và chuyển khoản đặt cọc theo điều khoản gói.</li>
+<li><strong>Thanh toán đặt cọc:</strong> Bạn chuyển khoản theo điều khoản gói — Gói Thử và video lẻ trả 100% trước khi làm; gói tháng trả 50% đợt 1 (đầu tháng), 50% còn lại ngày 15. Chúng tôi xác nhận đã nhận tiền qua Zalo trong ngày làm việc.</li>
 <li><strong>Sản xuất:</strong> Chúng tôi nghiên cứu trend, viết kịch bản, thu giọng AI, dựng video và kiểm tra chất lượng từng khung hình, rồi gửi bạn duyệt bản nháp.</li>
 <li><strong>Bàn giao:</strong> Bạn duyệt xong, chúng tôi giao file MP4, file phụ đề, caption gợi ý và giờ đăng gợi ý.</li>
 <li><strong>Báo cáo và chăm sóc:</strong> Cuối tháng gửi báo cáo — video nào view cao, trend tuần sau là gì. Hỏi bạn có gia hạn không trước 5 ngày hết tháng.</li>
 </ol>
+</section>
+
+<section>
+<h2>Video mẫu — VideoShop AI</h2>
+<p>3 video mẫu làm sẵn theo từng ngành hàng — xem thử chất lượng video chúng tôi làm cho shop:</p>
+<div class="video-grid">
+<div class="video-card">
+<video controls preload="metadata" playsinline src="mau/videoshop-mau-thoi-trang.mp4"></video>
+<h3>👗 Thời trang</h3>
+<p>Sơ mi xanh + chân váy xếp ly be</p>
+</div>
+<div class="video-card">
+<video controls preload="metadata" playsinline src="mau/videoshop-mau-lam-dep.mp4"></video>
+<h3>💄 Làm đẹp</h3>
+<p>Dầu dưỡng tóc</p>
+</div>
+<div class="video-card">
+<video controls preload="metadata" playsinline src="mau/videoshop-mau-gia-dung.mp4"></video>
+<h3>🏠 Gia dụng</h3>
+<p>Đèn dây LED trang trí phòng ngủ</p>
+</div>
+</div>
+<p style="font-size:14px;color:var(--muted)">Video mẫu dùng clip có sẵn để minh họa format và chất lượng. Video làm cho shop của bạn sẽ quay/dựng riêng theo đúng sản phẩm của bạn.</p>
 </section>
 
 <section>
@@ -166,13 +312,87 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <div class="zalo-box">
 <p style="margin:0 0 6px"><strong>Nhắn Zalo để nhận video miễn phí đầu tiên</strong></p>
 <p class="number"><a href="tel:0327659686" style="color:inherit;text-decoration:none">0327 659 686</a></p>
+<p style="margin:8px 0 0"><a href="https://zalo.me/0327659686" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700">Nhắn Zalo ngay →</a></p>
 </div>
 <p style="margin-top:16px">Khi nhắn tin, bạn gửi kèm giúp chúng tôi: link shop TikTok/Shopee của bạn, 1–2 sản phẩm muốn làm video trước, và gói bạn quan tâm. Chúng tôi trả lời trong ngày làm việc.</p>
 </section>
 
 <footer>
 <p>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ.<br>
-Portfolio: Lisa Style — Mặc đẹp mỗi ngày (nhân vật AI Lisa).</p>
+Portfolio: Lisa Style — Mặc đẹp mỗi ngày (nhân vật AI Lisa).<br>
+Website: videoshopai.vn</p>
 </footer>
+
+<script>
+(function(){
+  var selected=null;
+  var fmt=function(n){return n.toLocaleString('vi-VN')+'đ';};
+  var pkgs=document.querySelectorAll('#pkg-grid .pkg');
+  var totalLine=document.getElementById('total-line');
+  pkgs.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      pkgs.forEach(function(b){b.classList.remove('selected');});
+      btn.classList.add('selected');
+      selected=btn;
+      document.getElementById('total-pkg-name').textContent=btn.getAttribute('data-name');
+      document.getElementById('total-amount').textContent=fmt(parseInt(btn.getAttribute('data-total'),10));
+      document.getElementById('total-deposit').textContent=fmt(parseInt(btn.getAttribute('data-deposit'),10));
+      totalLine.style.display='block';
+      document.getElementById('form-error').style.display='none';
+    });
+  });
+  var orderText='';
+  document.getElementById('order-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('f-name').value.trim();
+    var phone=document.getElementById('f-phone').value.trim();
+    var shop=document.getElementById('f-shop').value.trim();
+    var product=document.getElementById('f-product').value.trim();
+    var note=document.getElementById('f-note').value.trim();
+    var err=document.getElementById('form-error');
+    var phoneOk=/[0-9]{9,}/.test(phone.replace(/[^0-9]/g,''));
+    if(!selected||!name||!phoneOk){err.style.display='block';return;}
+    err.style.display='none';
+    var code='VS-1211-'+String(Math.floor(100+Math.random()*900));
+    var total=parseInt(selected.getAttribute('data-total'),10);
+    var deposit=parseInt(selected.getAttribute('data-deposit'),10);
+    var pkgName=selected.getAttribute('data-name');
+    document.getElementById('r-code').textContent=code;
+    document.getElementById('r-pkg').textContent=pkgName;
+    document.getElementById('r-total').textContent=fmt(total);
+    document.getElementById('r-name').textContent=name;
+    document.getElementById('r-phone').textContent=phone;
+    document.getElementById('r-shop').textContent=shop||'—';
+    document.getElementById('r-product').textContent=product||'—';
+    document.getElementById('r-note').textContent=note||'—';
+    document.getElementById('r-deposit').textContent=fmt(deposit);
+    document.getElementById('r-deposit-note').textContent='Điều khoản: '+selected.getAttribute('data-deposit-note')+'.';
+    document.getElementById('r-transfer-note').textContent=code+' '+name;
+    orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nNội dung CK: '+code+' '+name;
+    try{
+      var orders=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
+      orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,shop:shop,product:product,note:note,at:new Date().toISOString()});
+      localStorage.setItem('videoshopai_orders',JSON.stringify(orders));
+    }catch(_){/* localStorage không khả dụng thì vẫn hiện đơn */}
+    document.getElementById('saved-note').style.display='block';
+    var res=document.getElementById('order-result');
+    res.style.display='block';
+    res.scrollIntoView({behavior:'smooth'});
+  });
+  document.getElementById('btn-copy').addEventListener('click',function(){
+    var done=function(){var b=document.getElementById('btn-copy');b.textContent='Đã sao chép ✓';setTimeout(function(){b.textContent='Sao chép nội dung đơn';},2500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(orderText).then(done).catch(function(){fallbackCopy();});}
+    else{fallbackCopy();}
+    function fallbackCopy(){
+      var ta=document.createElement('textarea');ta.value=orderText;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(_){}
+      document.body.removeChild(ta);
+    }
+  });
+  document.getElementById('btn-zalo').addEventListener('click',function(){
+    window.open('https://zalo.me/0327659686','_blank');
+  });
+})();
+</script>
 </body>
 </html>
