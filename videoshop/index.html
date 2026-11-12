@@ -115,6 +115,12 @@ form.order textarea{min-height:84px;resize:vertical}
 #chat-form input[type=text]:focus{outline:none;border-color:var(--blue)}
 #chat-send{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
 #chat-send:hover{background:var(--blue-dark)}
+#chat-quick{display:flex;gap:6px;padding:8px 10px 0;flex-wrap:wrap}
+#chat-quick button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+#chat-quick button:hover{border-color:var(--blue);color:var(--blue)}
+#chat-quick button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+#chat-mode{padding:8px 12px;font-size:13px;background:#fff3cd;color:#7a5b00;border-top:1px solid #ffe08a}
+#chat-mode button{background:none;border:none;color:#7a5b00;font:inherit;font-weight:700;cursor:pointer;text-decoration:underline}
 #chat-first{display:flex;gap:8px}
 #chat-first input{flex:1;min-width:0}
 @media (max-width:560px){
@@ -315,6 +321,9 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <p class="saved-note" id="revise-ok">✓ Đã gửi yêu cầu sửa. Chúng tôi xem và trả lời bạn trong ngày làm việc.</p>
 <button type="submit" class="btn">Gửi yêu cầu sửa</button>
 </form>
+<h3>Không hài lòng với video?</h3>
+<p style="font-size:15px">Bấm nút dưới đây để nhắn riêng cho Pip — tin khiếu nại được ưu tiên xử lý ngay, thường có trả lời trong 5–10 phút.</p>
+<button type="button" class="btn btn-ghost" id="btn-complaint" onclick="openChatComplaint(document.getElementById('lk-r-code').textContent)">⚠️ Gửi khiếu nại về đơn này</button>
 <h3>Tải thêm ảnh tham chiếu</h3>
 <p style="font-size:14px;color:var(--muted)">Ảnh sản phẩm, ảnh mẫu bạn muốn video làm theo. Chỉ nhận jpg, png, webp — mỗi ảnh tối đa 5MB, tối đa 5 ảnh/đơn.</p>
 <div id="lk-uploads"></div>
@@ -611,8 +620,10 @@ Website: videoshopai.vn</p>
 </script>
 <button id="chat-fab" type="button" aria-label="Chat với VideoShop AI">💬</button>
 <div id="chat-panel" role="dialog" aria-label="Chat với VideoShop AI">
-<div id="chat-head"><button class="close" type="button" id="chat-close" aria-label="Đóng">×</button><b>Chat với VideoShop AI</b><p>Pip (trợ lý AI) trả lời trực tiếp tại đây, thường trong 15–30 phút.</p></div>
+<div id="chat-head"><button class="close" type="button" id="chat-close" aria-label="Đóng">×</button><b>Chat với VideoShop AI</b><p>Pip (trợ lý AI) trả lời trực tiếp tại đây, thường trong 5–10 phút.</p></div>
 <div id="chat-msgs"></div>
+<div id="chat-quick"><button type="button" data-type="normal" data-prefill="">💬 Tư vấn dịch vụ</button><button type="button" data-type="complaint" data-prefill="Khiếu nại: ">⚠️ Khiếu nại</button><button type="button" data-type="normal" data-prefill="Hỏi về đơn hàng: ">📦 Hỏi về đơn</button></div>
+<div id="chat-mode" style="display:none">⚠️ Bạn đang gửi khiếu nại — Pip sẽ ưu tiên xử lý ngay. <button type="button" id="chat-mode-cancel">Hủy</button></div>
 <form id="chat-form">
 <div id="chat-first"><input type="text" id="chat-name" placeholder="Tên bạn" maxlength="60"><input type="text" id="chat-contact" placeholder="Zalo / SĐT (để liên hệ lại)" maxlength="60"></div>
 <div class="row"><input type="text" id="chat-input" placeholder="Bạn cần video cho sản phẩm nào?" maxlength="1000" autocomplete="off"><button type="submit" id="chat-send">Gửi</button></div>
@@ -624,7 +635,12 @@ var fab=document.getElementById('chat-fab'),panel=document.getElementById('chat-
 msgs=document.getElementById('chat-msgs'),form=document.getElementById('chat-form'),input=document.getElementById('chat-input'),
 nameEl=document.getElementById('chat-name'),contactEl=document.getElementById('chat-contact'),firstRow=document.getElementById('chat-first');
 var session=null;try{session=localStorage.getItem('vs-chat-session');if(!session){session='vs-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);localStorage.setItem('vs-chat-session',session);}var sn=localStorage.getItem('vs-chat-name');if(sn)nameEl.value=sn;var sc=localStorage.getItem('vs-chat-contact');if(sc)contactEl.value=sc;}catch(_){session='vs-'+Date.now().toString(36);}
-var lastCount=0,pollTimer=null;
+var lastCount=0,pollTimer=null,chatType='normal';
+var modeEl=document.getElementById('chat-mode');
+function setChatType(t,prefill){chatType=t;var btns=document.querySelectorAll('#chat-quick button');btns.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-type')===t&&b.getAttribute('data-prefill')===prefill);});if(t==='complaint'){modeEl.style.display='block';}else{modeEl.style.display='none';}if(prefill&&input.value.indexOf(prefill)!==0){input.value=prefill+input.value;}input.focus();}
+document.querySelectorAll('#chat-quick button').forEach(function(b){b.addEventListener('click',function(){setChatType(b.getAttribute('data-type'),b.getAttribute('data-prefill'));});});
+document.getElementById('chat-mode-cancel').addEventListener('click',function(){setChatType('normal','');input.value='';});
+window.openChatComplaint=function(code){panel.classList.add('open');if(!pollTimer)pollTimer=setInterval(poll,20000);poll();setChatType('complaint','Khiếu nại về đơn '+code+': ');window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});};
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function render(list){msgs.innerHTML='';if(!list.length){msgs.innerHTML='<div class="chat-msg pip"><span class="who">Pip — VideoShop AI</span>Chào bạn! Bạn cần làm video cho sản phẩm nào? Cho mình biết tên sản phẩm với link shop (nếu có) nhé. Gói Thử 3 video 990.000đ, 5 shop đầu tiên được tặng 1 video miễn phí.</div>';return;}
 list.forEach(function(m){var d=document.createElement('div');d.className='chat-msg '+(m.from==='pip'?'pip':'me');d.innerHTML='<span class="who">'+esc(m.from==='pip'?'Pip — VideoShop AI':'Bạn')+'</span>'+esc(m.message);msgs.appendChild(d);});msgs.scrollTop=msgs.scrollHeight;}
@@ -632,9 +648,9 @@ function poll(){fetch('chat.php?action=poll&session='+encodeURIComponent(session
 fab.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open')){poll();if(!pollTimer)pollTimer=setInterval(poll,20000);input.focus();}});
 closeBtn.addEventListener('click',function(){panel.classList.remove('open');});
 form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;
-var fd=new FormData();fd.append('action','send');fd.append('session',session);fd.append('name',nameEl.value.trim());fd.append('contact',contactEl.value.trim());fd.append('message',text);
+var fd=new FormData();fd.append('action','send');fd.append('session',session);fd.append('name',nameEl.value.trim());fd.append('contact',contactEl.value.trim());fd.append('message',text);fd.append('type',chatType);
 try{localStorage.setItem('vs-chat-name',nameEl.value.trim());localStorage.setItem('vs-chat-contact',contactEl.value.trim());}catch(_){}
-input.value='';
+input.value='';setChatType('normal','');
 fetch('chat.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(j.ok){poll();}else{render([{from:'pip',message:'Gửi tin chưa được, bạn thử lại sau vài giây nhé. Hoặc nhắn Zalo 0327 659 686 cho nhanh.'}]);}}).catch(function(){});
 });
 poll();
