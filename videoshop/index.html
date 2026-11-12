@@ -270,7 +270,9 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 </div>
 <p>
 <button type="button" class="btn btn-green" id="btn-zalo">Gửi đơn qua Zalo</button>
+<button type="button" class="btn btn-ghost" id="btn-email">Gửi đơn qua Email</button>
 <button type="button" class="btn btn-ghost" id="btn-copy">Sao chép nội dung đơn</button>
+<p style="font-size:14px;color:var(--muted);margin-top:10px">Đơn gửi qua Zalo hoặc email donhang@videoshopai.vn đều được ghi nhận.</p>
 </p>
 <p class="saved-note" id="saved-note">✓ Đã lưu đơn vào máy của bạn. Chúng tôi sẽ liên hệ xác nhận qua Zalo trong ngày làm việc.</p>
 <p style="font-size:14px;color:var(--muted)">Giữ mã đơn để tra cứu tiến độ tại mục Tra cứu đơn hàng bên dưới.</p>
@@ -518,6 +520,11 @@ Website: videoshopai.vn</p>
   });
   document.getElementById('btn-zalo').addEventListener('click',function(){
     window.open('https://zalo.me/0327659686','_blank');
+  });
+  document.getElementById('btn-email').addEventListener('click',function(){
+    var code=document.getElementById('r-code').textContent;
+    var subject='Đơn hàng VideoShop AI '+code;
+    window.location.href='mailto:donhang@videoshopai.vn?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(orderText);
   });
 })();
 </script>
