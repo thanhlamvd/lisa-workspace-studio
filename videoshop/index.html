@@ -87,6 +87,14 @@ form.order textarea{min-height:84px;resize:vertical}
 .pay-box{margin-top:16px;background:#fff;border:1.5px dashed var(--green);border-radius:10px;padding:14px 16px;font-size:15px}
 .pay-box .amount{font-size:22px;font-weight:800;color:var(--green)}
 .saved-note{margin-top:14px;font-size:14px;color:var(--green);font-weight:700;display:none}
+/* --- Tra cứu đơn hàng --- */
+#lookup-result{display:none;margin-top:24px;border:2px solid var(--blue);border-radius:14px;padding:20px;background:var(--blue-soft)}
+#lookup-result h3{margin-top:18px}
+#lookup-result h3:first-child{margin-top:0;color:var(--blue)}
+#lookup-result table{width:100%;border-collapse:collapse;font-size:15px;background:#fff;border-radius:10px}
+#lookup-result td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+#lookup-result td:first-child{font-weight:700;width:130px}
+#lk-r-status{color:var(--blue)}
 /* --- Chat với Pip --- */
 #chat-fab{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;background:var(--blue);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:999}
 #chat-fab:hover{background:var(--blue-dark)}
@@ -265,7 +273,55 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <button type="button" class="btn btn-ghost" id="btn-copy">Sao chép nội dung đơn</button>
 </p>
 <p class="saved-note" id="saved-note">✓ Đã lưu đơn vào máy của bạn. Chúng tôi sẽ liên hệ xác nhận qua Zalo trong ngày làm việc.</p>
+<p style="font-size:14px;color:var(--muted)">Giữ mã đơn để tra cứu tiến độ tại mục Tra cứu đơn hàng bên dưới.</p>
 <p style="font-size:14px;color:var(--muted)">Sau khi chuyển khoản, bạn nhắn Zalo kèm ảnh bill để chúng tôi xác nhận và bắt đầu làm video cho bạn.</p>
+</div>
+</section>
+
+<section id="tra-cuu">
+<h2>Tra cứu đơn hàng</h2>
+<p>Nhập mã đơn và số điện thoại bạn đã dùng khi đặt hàng để xem tiến độ, tải video đã giao, gửi yêu cầu sửa và tải thêm ảnh tham chiếu.</p>
+<form class="order" id="lookup-form" novalidate>
+<label for="lk-code">Mã đơn</label>
+<input id="lk-code" type="text" placeholder="Ví dụ: VS-1211-123" autocomplete="off">
+<label for="lk-phone">Số Zalo / điện thoại đã đặt hàng</label>
+<input id="lk-phone" type="tel" placeholder="Ví dụ: 0901234567" autocomplete="tel">
+<p class="error" id="lookup-error">Không tìm thấy đơn nào khớp mã đơn và số điện thoại. Bạn kiểm tra lại nhé.</p>
+<button type="submit" class="btn">Tra cứu đơn →</button>
+<button type="button" class="btn btn-ghost" id="btn-last-order" style="display:none">Dùng đơn gần nhất của bạn</button>
+</form>
+
+<div id="lookup-result">
+<h3>Đơn hàng <span id="lk-r-code">—</span></h3>
+<table>
+<tr><td>Gói đã chọn</td><td id="lk-r-pkg">—</td></tr>
+<tr><td>Trạng thái</td><td><b id="lk-r-status">—</b></td></tr>
+<tr><td>Ngày đặt</td><td id="lk-r-date">—</td></tr>
+<tr><td>Tổng tiền</td><td id="lk-r-total">—</td></tr>
+<tr><td>Cọc đợt 1</td><td id="lk-r-deposit">—</td></tr>
+</table>
+<div id="lk-delivered-wrap" style="display:none">
+<h3>🎬 Video đã giao</h3>
+<div id="lk-delivered"></div>
+</div>
+<h3>Yêu cầu sửa đã gửi</h3>
+<div id="lk-revisions"><p style="color:var(--muted);font-size:15px">Chưa có yêu cầu sửa nào.</p></div>
+<h3>Gửi yêu cầu sửa video</h3>
+<form class="order" id="revise-form" novalidate>
+<textarea id="rv-message" placeholder="Ví dụ: video 1 đổi cảnh mở đầu sang ngoài trời, chữ phụ đề nhỏ lại một chút..." maxlength="1000"></textarea>
+<p class="error" id="revise-error">Chưa gửi được, bạn thử lại sau vài giây nhé.</p>
+<p class="saved-note" id="revise-ok">✓ Đã gửi yêu cầu sửa. Chúng tôi xem và trả lời bạn trong ngày làm việc.</p>
+<button type="submit" class="btn">Gửi yêu cầu sửa</button>
+</form>
+<h3>Tải thêm ảnh tham chiếu</h3>
+<p style="font-size:14px;color:var(--muted)">Ảnh sản phẩm, ảnh mẫu bạn muốn video làm theo. Chỉ nhận jpg, png, webp — mỗi ảnh tối đa 5MB, tối đa 5 ảnh/đơn.</p>
+<div id="lk-uploads"></div>
+<form class="order" id="upload-form" novalidate>
+<input id="up-file" type="file" accept=".jpg,.jpeg,.png,.webp">
+<p class="error" id="upload-error">Chưa tải ảnh lên được, bạn kiểm tra lại định dạng (jpg/png/webp) và dung lượng (tối đa 5MB) nhé.</p>
+<p class="saved-note" id="upload-ok">✓ Đã tải ảnh lên.</p>
+<button type="submit" class="btn">Tải ảnh lên</button>
+</form>
 </div>
 </section>
 
@@ -422,6 +478,29 @@ Website: videoshopai.vn</p>
       orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,shop:shop,product:product,note:note,at:new Date().toISOString()});
       localStorage.setItem('videoshopai_orders',JSON.stringify(orders));
     }catch(_){/* localStorage không khả dụng thì vẫn hiện đơn */}
+    // Lưu đơn lên máy chủ để khách tra cứu được (không chặn luồng Zalo nếu lỗi)
+    var saveTries=0;
+    var saveOrder=function(codeToSave){
+      var fd=new FormData();
+      fd.append('action','create');fd.append('code',codeToSave);fd.append('pkg',pkgName);
+      fd.append('name',name);fd.append('phone',phone);fd.append('shop',shop);
+      fd.append('product',product);fd.append('note',note);
+      fd.append('total',String(total));fd.append('deposit',String(deposit));
+      fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+        if(!j.ok&&j.error==='duplicate'&&saveTries<1){
+          saveTries++;
+          var code2='VS-1211-'+String(Math.floor(100+Math.random()*900));
+          if(code2!==codeToSave){
+            document.getElementById('r-code').textContent=code2;
+            document.getElementById('r-transfer-note').textContent=code2+' '+name;
+            orderText=orderText.split(codeToSave).join(code2);
+            try{var os=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');if(os.length)os[os.length-1].code=code2;localStorage.setItem('videoshopai_orders',JSON.stringify(os));}catch(_){}
+            saveOrder(code2);
+          }
+        }
+      }).catch(function(){});
+    };
+    saveOrder(code);
     document.getElementById('saved-note').style.display='block';
     var res=document.getElementById('order-result');
     res.style.display='block';
@@ -439,6 +518,87 @@ Website: videoshopai.vn</p>
   });
   document.getElementById('btn-zalo').addEventListener('click',function(){
     window.open('https://zalo.me/0327659686','_blank');
+  });
+})();
+</script>
+<script>
+(function(){
+  var fmt=function(n){return n.toLocaleString('vi-VN')+'đ';};
+  var curCode='',curPhone='';
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function fmtDate(iso){try{var d=new Date(iso);return d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});}catch(_){return iso;}}
+  function fmtTs(ts){return fmtDate(new Date(ts*1000).toISOString());}
+  function renderOrder(o){
+    document.getElementById('lk-r-code').textContent=o.code;
+    document.getElementById('lk-r-pkg').textContent=o.pkg;
+    document.getElementById('lk-r-status').textContent=o.status;
+    document.getElementById('lk-r-date').textContent=fmtDate(o.created_at);
+    document.getElementById('lk-r-total').textContent=fmt(o.total);
+    document.getElementById('lk-r-deposit').textContent=fmt(o.deposit);
+    var dw=document.getElementById('lk-delivered-wrap');
+    if(o.delivered&&o.delivered.length){dw.style.display='block';document.getElementById('lk-delivered').innerHTML=o.delivered.map(function(d){return '<p>🎬 <a href="'+esc(d.url)+'" target="_blank" rel="noopener">'+esc(d.label)+'</a></p>';}).join('');}
+    else{dw.style.display='none';document.getElementById('lk-delivered').innerHTML='';}
+    var rv=document.getElementById('lk-revisions');
+    if(o.revisions&&o.revisions.length){rv.innerHTML=o.revisions.map(function(r){return '<p>• '+esc(r.message)+' <span style="color:var(--muted);font-size:13px">('+(r.status==='new'?'Đang chờ xử lý':'Đã xử lý')+' — '+fmtTs(r.ts)+')</span></p>';}).join('');}
+    else{rv.innerHTML='<p style="color:var(--muted);font-size:15px">Chưa có yêu cầu sửa nào.</p>';}
+    var up=document.getElementById('lk-uploads');
+    if(o.uploads&&o.uploads.length){up.innerHTML=o.uploads.map(function(u){return '<a href="'+esc(u.url)+'" target="_blank" rel="noopener" style="display:inline-block;margin:0 8px 8px 0"><img src="'+esc(u.url)+'" alt="'+esc(u.name)+'" style="max-width:110px;max-height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--line)"></a>';}).join('');}
+    else{up.innerHTML='<p style="color:var(--muted);font-size:15px">Chưa có ảnh tham chiếu nào.</p>';}
+    document.getElementById('lookup-result').style.display='block';
+  }
+  function lookup(code,phone){
+    var err=document.getElementById('lookup-error');err.style.display='none';
+    return fetch('orders.php?action=lookup&code='+encodeURIComponent(code)+'&phone='+encodeURIComponent(phone))
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(!j.ok){err.style.display='block';document.getElementById('lookup-result').style.display='none';return false;}
+        curCode=j.order.code;curPhone=phone;renderOrder(j.order);return true;
+      }).catch(function(){err.style.display='block';return false;});
+  }
+  document.getElementById('lookup-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var code=document.getElementById('lk-code').value.trim().toUpperCase();
+    var phone=document.getElementById('lk-phone').value.trim();
+    if(!code||!phone)return;
+    lookup(code,phone);
+  });
+  // Dùng đơn gần nhất đã lưu trên máy này
+  try{
+    var saved=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
+    if(saved.length){
+      var last=saved[saved.length-1];
+      var btn=document.getElementById('btn-last-order');
+      btn.style.display='inline-block';
+      btn.addEventListener('click',function(){
+        document.getElementById('lk-code').value=last.code;
+        document.getElementById('lk-phone').value=last.phone;
+        lookup(last.code,last.phone);
+      });
+    }
+  }catch(_){}
+  document.getElementById('revise-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var msg=document.getElementById('rv-message').value.trim();
+    var err=document.getElementById('revise-error'),ok=document.getElementById('revise-ok');
+    err.style.display='none';ok.style.display='none';
+    if(!msg||!curCode)return;
+    var fd=new FormData();fd.append('action','revise');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('message',msg);
+    fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ok.style.display='block';document.getElementById('rv-message').value='';lookup(curCode,curPhone);}
+      else{err.style.display='block';}
+    }).catch(function(){err.style.display='block';});
+  });
+  document.getElementById('upload-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var input=document.getElementById('up-file');
+    var err=document.getElementById('upload-error'),ok=document.getElementById('upload-ok');
+    err.style.display='none';ok.style.display='none';
+    if(!input.files.length||!curCode)return;
+    var fd=new FormData();fd.append('action','upload');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('file',input.files[0]);
+    fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ok.style.display='block';input.value='';lookup(curCode,curPhone);}
+      else{err.style.display='block';}
+    }).catch(function(){err.style.display='block';});
   });
 })();
 </script>
