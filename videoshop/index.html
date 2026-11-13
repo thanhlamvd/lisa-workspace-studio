@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="vi">
-<!-- v14 (13/11/2026): mã VietQR động theo từng đơn (img.vietqr.io: số tiền đợt 1 + nội dung = mã đơn không gạch + SĐT, tối đa 25 ký tự); dòng "Nội dung chuyển khoản" hiển thị đầy đủ mã đơn + tên + SĐT; v13 báo lỗi khi lưu đơn thất bại; giới hạn file 5MB (v12) -->
+<!-- v15 (13/11/2026): nội dung chuyển khoản = mã đơn + tên khách (không SĐT, theo ý Vo); mã QR tự cắt tên không dấu còn tối đa 25 ký tự; footer đổi email liên hệ sang hotro@videoshopai.vn; v14 mã VietQR động + báo lỗi khi lưu đơn thất bại; giới hạn file 5MB (v12) -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -506,7 +506,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <footer>
 <p>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ.<br>
 Portfolio: Lisa Style — Mặc đẹp mỗi ngày (nhân vật AI Lisa).<br>
-Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href="mailto:donhang@videoshopai.vn">donhang@videoshopai.vn</a> · Zalo: 0327 659 686</p>
+Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ trợ: <a href="mailto:hotro@videoshopai.vn">hotro@videoshopai.vn</a> · Zalo: 0327 659 686</p>
 </footer>
 
 <script>
@@ -606,17 +606,17 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href=
     document.getElementById('r-voice').textContent=voiceText;
     document.getElementById('r-deposit').textContent=fmt(deposit);
     document.getElementById('r-deposit-note').textContent='Điều khoản: '+selected.getAttribute('data-deposit-note')+'.';
-    var normPhone=phone.replace(/\s+/g,'').replace(/^\+84/,'0').replace(/^84(\d{9})$/,'0$1');
     var updatePayment=function(c){
-      document.getElementById('r-transfer-note').textContent=c+' '+name+' '+phone;
+      document.getElementById('r-transfer-note').textContent=c+' '+name;
       var qr=document.getElementById('qr-img');
       if(qr){
-        var qrInfo=c.replace(/-/g,'')+' '+normPhone;
+        var qrName=name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^A-Za-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
+        var qrInfo=(c.replace(/-/g,'')+' '+qrName).substring(0,25).replace(/\s+$/,'');
         qr.src='https://img.vietqr.io/image/BIDV-8812103302-compact2.png?amount='+encodeURIComponent(String(deposit))+'&addInfo='+encodeURIComponent(qrInfo)+'&accountName=TRUONG%20QUOC%20THUY';
       }
     };
     updatePayment(code);
-    orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nEmail: '+(email||'—')+'\nTelegram: '+(telegram||'—')+'\nNhận video qua: '+deliveryLabels[delivery]+'\nẢnh tham chiếu: '+(refFiles.length?refFiles.length+' ảnh':'—')+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nGiọng đọc: '+voiceText+'\nNội dung CK: '+code+' '+name+' '+phone;
+    orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nEmail: '+(email||'—')+'\nTelegram: '+(telegram||'—')+'\nNhận video qua: '+deliveryLabels[delivery]+'\nẢnh tham chiếu: '+(refFiles.length?refFiles.length+' ảnh':'—')+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nGiọng đọc: '+voiceText+'\nNội dung CK: '+code+' '+name;
     try{
       var orders=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
       orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,email:email,telegram:telegram,delivery:delivery,shop:shop,product:product,note:note,at:new Date().toISOString()});
