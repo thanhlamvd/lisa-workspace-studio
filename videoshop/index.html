@@ -309,7 +309,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 </form>
 
 <div id="order-result">
-<h3>✓ Đơn hàng của bạn đã được ghi nhận</h3>
+<h3 id="result-title">Xem lại đơn của bạn</h3>
 <table>
 <tr><td>Mã đơn</td><td id="r-code">—</td></tr>
 <tr><td>Gói đã chọn</td><td id="r-pkg">—</td></tr>
@@ -336,6 +336,12 @@ Số tiền cần chuyển đợt 1: <span class="amount" id="r-deposit">—</sp
 <img id="qr-img" src="images/vietqr-bidv.svg" alt="Mã VietQR thanh toán BIDV 8812103302" style="max-width:220px;display:block;margin:12px 0 4px" onerror="this.onerror=null;this.src='images/vietqr-bidv.svg';">
 <span style="font-size:14px;color:var(--muted)">Quét mã VietQR bằng app ngân hàng — số tiền và nội dung đã điền sẵn theo đơn của bạn.</span><br>
 Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
+</div>
+<p id="submit-row" style="margin-top:16px"><button type="button" class="btn" id="btn-submit-order" style="font-size:17px;padding:12px 26px">Gửi đơn ✓</button><br><span style="font-size:14px;color:var(--muted)">Bấm "Gửi đơn" thì đơn mới được tạo và gửi tới VideoShop AI. Trước lúc đó, bạn vẫn sửa lại thông tin ở trên được.</span></p>
+<div id="order-status" style="display:none;margin-top:14px;border:1px solid #c8e6c9;border-radius:10px;padding:12px 14px;background:#fff">
+<b>Trạng thái đơn: Đang xác minh thanh toán</b>
+<p style="margin:6px 0 0;font-size:14px">Đơn của bạn đã được ghi nhận và có hiệu lực. Chúng tôi đang xác minh thanh toán — sau khi xác nhận đã nhận tiền, chúng tôi sẽ bắt đầu làm video và báo lại cho bạn thời gian hoàn thành dự kiến qua <b id="order-status-channel">Zalo</b>.</p>
+<p style="margin:6px 0 0;font-size:14px;display:none" id="order-status-email">Email xác nhận kèm mã đơn đã được gửi tới <b id="order-status-email-addr"></b> (nếu không thấy, bạn kiểm tra mục Spam nhé).</p>
 </div>
 <p>
 <button type="button" class="btn btn-green" id="btn-zalo">Gửi đơn qua Zalo</button>
@@ -367,7 +373,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <h3>Đơn hàng <span id="lk-r-code">—</span></h3>
 <table>
 <tr><td>Gói đã chọn</td><td id="lk-r-pkg">—</td></tr>
-<tr><td>Trạng thái</td><td><b id="lk-r-status">—</b></td></tr>
+<tr><td>Trạng thái</td><td><b id="lk-r-status">—</b><br><span id="lk-r-status-note" style="font-size:14px;color:var(--muted);font-weight:400"></span></td></tr>
 <tr><td>Ngày đặt</td><td id="lk-r-date">—</td></tr>
 <tr><td>Tổng tiền</td><td id="lk-r-total">—</td></tr>
 <tr><td>Cọc đợt 1</td><td id="lk-r-deposit">—</td></tr>
@@ -637,11 +643,16 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
     };
     updatePayment(code);
     orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nEmail: '+(email||'—')+'\nTelegram: '+(telegram||'—')+'\nNhận video qua: '+deliveryLabels[delivery]+'\nẢnh tham chiếu: '+(refFiles.length?refFiles.length+' ảnh':'—')+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nGiọng đọc: '+voiceText+'\nNội dung CK: '+code+' '+name;
-    try{
-      var orders=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
-      orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,email:email,telegram:telegram,delivery:delivery,shop:shop,product:product,note:note,at:new Date().toISOString()});
-      localStorage.setItem('videoshopai_orders',JSON.stringify(orders));
-    }catch(_){/* localStorage không khả dụng thì vẫn hiện đơn */}
+    // Chế độ xem lại: CHƯA tạo đơn, CHƯA gửi gì lên máy chủ.
+    // Đơn chỉ được tạo khi khách bấm nút "Gửi đơn" ở bên dưới.
+    document.getElementById('result-title').textContent='Xem lại đơn của bạn';
+    document.getElementById('submit-row').style.display='block';
+    document.getElementById('order-status').style.display='none';
+    document.getElementById('order-status-email').style.display='none';
+    document.getElementById('saved-note').style.display='none';
+    document.getElementById('save-error').style.display='none';
+    var submitBtn=document.getElementById('btn-submit-order');
+    submitBtn.disabled=false;submitBtn.textContent='Gửi đơn ✓';
     // Lưu đơn lên máy chủ để khách tra cứu được (không chặn luồng Zalo nếu lỗi)
     var showSaveError=function(){
       var se=document.getElementById('save-error');
@@ -665,6 +676,7 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
       fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
         if(j.ok){
           if(j.voice_file_ok===false){document.getElementById('voice-file-warn').style.display='block';}
+          onSubmitted(j);
           return;
         }
         if(j.error==='duplicate'&&saveTries<1){
@@ -680,10 +692,31 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
           }
         }
         showSaveError();
-      }).catch(function(){showSaveError();});
+        var sb=document.getElementById('btn-submit-order');if(sb){sb.disabled=false;sb.textContent='Gửi đơn ✓';}
+      }).catch(function(){showSaveError();var sb2=document.getElementById('btn-submit-order');if(sb2){sb2.disabled=false;sb2.textContent='Gửi đơn ✓';}});
     };
-    saveOrder(code);
-    document.getElementById('saved-note').style.display='block';
+    // Khách bấm "Gửi đơn" thì mới tạo đơn trên máy chủ + lưu vào máy khách.
+    var onSubmitted=function(j){
+      document.getElementById('result-title').textContent='✓ Đơn hàng của bạn đã được ghi nhận';
+      document.getElementById('submit-row').style.display='none';
+      document.getElementById('order-status-channel').textContent=deliveryLabels[delivery];
+      if(j.email_sent&&email){document.getElementById('order-status-email-addr').textContent=email;document.getElementById('order-status-email').style.display='block';}
+      document.getElementById('order-status').style.display='block';
+      var sn=document.getElementById('saved-note');
+      sn.textContent='✓ Đơn đã gửi thành công — mã đơn của bạn là '+document.getElementById('r-code').textContent+'. Giữ mã này để tra cứu tiến độ đơn hàng.';
+      sn.style.display='block';
+      var sb=document.getElementById('btn-submit-order');if(sb){sb.textContent='Đã gửi ✓';}
+    };
+    submitBtn.onclick=function(){
+      submitBtn.disabled=true;submitBtn.textContent='Đang gửi đơn...';
+      document.getElementById('save-error').style.display='none';
+      try{
+        var orders=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
+        orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,email:email,telegram:telegram,delivery:delivery,shop:shop,product:product,note:note,at:new Date().toISOString()});
+        localStorage.setItem('videoshopai_orders',JSON.stringify(orders));
+      }catch(_){/* localStorage không khả dụng thì vẫn tạo đơn */}
+      saveOrder(code);
+    };
     var res=document.getElementById('order-result');
     res.style.display='block';
     res.scrollIntoView({behavior:'smooth'});
@@ -719,6 +752,8 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
     document.getElementById('lk-r-code').textContent=o.code;
     document.getElementById('lk-r-pkg').textContent=o.pkg;
     document.getElementById('lk-r-status').textContent=o.status;
+    var statusNotes={'Mới nhận':'Đơn đã được ghi nhận và có hiệu lực — chúng tôi đang xác minh thanh toán. Sau khi xác nhận đã nhận tiền, chúng tôi sẽ bắt đầu làm video.','Đã nhận cọc':'Đã xác nhận thanh toán — chúng tôi đang làm video cho bạn.','Đang làm':'Chúng tôi đang làm video cho bạn — bản xem trước sẽ gửi bạn duyệt trước khi làm bản đầy đủ.','Đang sửa theo yêu cầu':'Chúng tôi đang sửa video theo yêu cầu của bạn.','Đã giao':'Video đã được giao — bạn kiểm tra mục "Video đã giao" bên dưới.','Đã hủy':'Đơn này đã bị hủy.'};
+    document.getElementById('lk-r-status-note').textContent=statusNotes[o.status]||'';
     document.getElementById('lk-r-date').textContent=fmtDate(o.created_at);
     document.getElementById('lk-r-total').textContent=fmt(o.total);
     document.getElementById('lk-r-deposit').textContent=fmt(o.deposit);
