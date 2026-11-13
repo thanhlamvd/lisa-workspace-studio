@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Quản lý đơn hàng — VideoShop AI</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: #f4f6f8; color: #1c2733; font-size: 15px; line-height: 1.5; }
+  header { background: #111827; color: #fff; padding: 14px 16px; position: sticky; top: 0; z-index: 10; }
+  header h1 { font-size: 18px; margin: 0 0 2px; }
+  header p { margin: 0; font-size: 13px; color: #9ca3af; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 12px 12px 40px; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 12px 0; }
+  .stat { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; }
+  .stat b { display: block; font-size: 22px; }
+  .stat span { font-size: 13px; color: #6b7280; }
+  .stat small { display: block; font-size: 12px; color: #6b7280; margin-top: 2px; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+  .tab { border: 1px solid #d1d5db; background: #fff; border-radius: 999px; padding: 7px 13px; font-size: 14px; cursor: pointer; }
+  .tab.on { background: #111827; color: #fff; border-color: #111827; }
+  .tools { display: flex; gap: 8px; margin: 10px 0; }
+  .tools input[type=search] { flex: 1; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 15px; }
+  .btn { border: 0; border-radius: 10px; padding: 10px 14px; font-size: 15px; cursor: pointer; background: #e5e7eb; }
+  .btn.primary { background: #059669; color: #fff; font-weight: 700; }
+  .btn.blue { background: #2563eb; color: #fff; }
+  .btn.danger { background: #fee2e2; color: #b91c1c; }
+  .btn.small { padding: 7px 10px; font-size: 14px; border-radius: 8px; }
+  .btn:disabled { opacity: .5; cursor: wait; }
+  .card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 14px; margin: 12px 0; }
+  .card h2 { font-size: 17px; margin: 0 0 4px; }
+  .card h2 .code { color: #2563eb; }
+  .muted { color: #6b7280; font-size: 13px; }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+  .st-Mới-nhận { background: #fef3c7; color: #92400e; }
+  .st-Đã-nhận-cọc { background: #dbeafe; color: #1e40af; }
+  .st-Đang-làm { background: #ede9fe; color: #5b21b6; }
+  .st-Đang-sửa-theo-yêu-cầu { background: #ffedd5; color: #9a3412; }
+  .st-Đã-giao { background: #d1fae5; color: #065f46; }
+  .st-Đã-hủy { background: #e5e7eb; color: #4b5563; }
+  .money { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; background: #f9fafb; border-radius: 10px; padding: 10px; margin: 10px 0; }
+  .money b { display: block; font-size: 16px; }
+  .money span { font-size: 12px; color: #6b7280; }
+  .thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+  .thumbs img { width: 84px; height: 84px; object-fit: cover; border-radius: 8px; border: 1px solid #e5e7eb; }
+  .thumbs a { line-height: 0; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .note { width: 100%; padding: 9px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; margin-top: 8px; }
+  .deliver-form { display: none; background: #f9fafb; border: 1px dashed #d1d5db; border-radius: 10px; padding: 10px; margin-top: 10px; }
+  .deliver-form input { width: 100%; padding: 9px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; margin: 4px 0; }
+  .rev { background: #fff7ed; border-left: 3px solid #f97316; padding: 8px 10px; border-radius: 6px; margin: 6px 0; font-size: 14px; }
+  .rev .newtag { background: #dc2626; color: #fff; font-size: 11px; border-radius: 4px; padding: 1px 6px; font-weight: 700; }
+  .hist { font-size: 13px; color: #6b7280; margin: 6px 0 0; padding-left: 18px; }
+  #err { display: none; background: #fee2e2; color: #991b1b; border-radius: 10px; padding: 10px 12px; margin: 10px 0; }
+  #tokenBox { max-width: 480px; margin: 60px auto; background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 20px; }
+  #tokenBox input { width: 100%; padding: 11px 12px; border: 1px solid #d1d5db; border-radius: 10px; font-size: 15px; margin: 8px 0; }
+  #tokenBox label { font-size: 14px; }
+  details.create { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 14px; margin: 16px 0; }
+  details.create summary { font-weight: 700; cursor: pointer; font-size: 16px; }
+  details.create label { display: block; font-size: 13px; color: #4b5563; margin: 10px 0 2px; }
+  details.create input, details.create select, details.create textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 15px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (min-width: 640px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎬 VideoShop AI — Quản lý đơn hàng</h1>
+  <p>Tick “Đã nhận cọc” là Pip tự bắt đầu làm video cho khách. Link này có mã quản trị — đừng chia sẻ cho ai.</p>
+</header>
+<div class="wrap">
+
+  <div id="tokenBox" hidden>
+    <h2 style="margin:0 0 6px">Nhập mã quản trị</h2>
+    <p class="muted" style="margin:0">Dán mã quản trị của VideoShop AI vào đây (chỉ nhập 1 lần, trình duyệt sẽ nhớ trên thiết bị này).</p>
+    <input id="tokenInput" type="password" placeholder="Mã quản trị" autocomplete="off">
+    <label><input id="tokenRemember" type="checkbox" checked> Nhớ trên thiết bị này</label>
+    <div style="margin-top:12px"><button class="btn primary" id="tokenSave" style="width:100%">Vào dashboard</button></div>
+    <p class="muted" id="tokenErr" hidden style="color:#b91c1c">Mã không đúng hoặc không tải được đơn. Kiểm tra lại mã rồi thử lại.</p>
+  </div>
+
+  <div id="app" hidden>
+    <div id="err"></div>
+    <div class="stats">
+      <div class="stat"><b id="stNew">0</b><span>Đơn mới</span><small>chưa xác nhận cọc</small></div>
+      <div class="stat"><b id="stDoing">0</b><span>Đang làm</span><small>đã cọc / đang làm / đang sửa</small></div>
+      <div class="stat"><b id="stDone">0</b><span>Hoàn thành</span><small>đã giao video</small></div>
+      <div class="stat"><b id="stMoney">0đ</b><span>Doanh thu (chưa hủy)</span><small id="stMoneySub"></small></div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="tools">
+      <input type="search" id="q" placeholder="Tìm mã đơn, tên khách, SĐT, tên shop…">
+      <button class="btn" id="refreshBtn">↻ Làm mới</button>
+      <button class="btn" id="logoutBtn" title="Xóa mã quản trị khỏi thiết bị này">Đăng xuất</button>
+    </div>
+    <p class="muted" id="updatedAt"></p>
+    <div id="orders"></div>
+
+    <details class="create" id="createBox">
+      <summary>＋ Tạo đơn tay (khách đặt qua Zalo / chat)</summary>
+      <form id="createForm">
+        <div class="row2">
+          <div><label>Mã đơn (VS-DDMM-XXX) *</label><input name="code" required placeholder="VS-1411-001" pattern="VS-[0-9]{4}-[0-9]{3}"></div>
+          <div><label>SĐT khách *</label><input name="phone" required inputmode="tel" placeholder="0327..."></div>
+        </div>
+        <label>Tên khách *</label><input name="name" required>
+        <div class="row2">
+          <div><label>Gói *</label><input name="pkg" required placeholder="VD: Cơ bản 12 video/tháng"></div>
+          <div><label>Link shop / tên shop</label><input name="shop"></div>
+        </div>
+        <label>Sản phẩm cần làm video</label><textarea name="product" rows="2"></textarea>
+        <label>Ghi chú</label><textarea name="note" rows="2"></textarea>
+        <div class="row2">
+          <div><label>Tổng tiền (đ) *</label><input name="total" required inputmode="numeric" type="number" min="0" value="390000"></div>
+          <div><label>Cọc đợt 1 (đ) *</label><input name="deposit" required inputmode="numeric" type="number" min="0" value="390000"></div>
+        </div>
+        <div class="row2">
+          <div><label>Kênh nhận video</label>
+            <select name="delivery"><option value="zalo">Zalo</option><option value="telegram">Telegram</option><option value="email">Email</option><option value="direct">Tải trực tiếp</option></select>
+          </div>
+          <div><label>Trạng thái ban đầu</label>
+            <select name="status"><option>Mới nhận</option><option>Đã nhận cọc</option></select>
+          </div>
+        </div>
+        <div class="row2">
+          <div><label>Email khách</label><input name="email" type="email"></div>
+          <div><label>Telegram khách (@...)</label><input name="telegram" placeholder="@username"></div>
+        </div>
+        <div style="margin-top:14px"><button class="btn primary" type="submit" style="width:100%">Tạo đơn</button></div>
+        <p class="muted" id="createMsg"></p>
+      </form>
+    </details>
+  </div>
+</div>
+<script>
+'use strict';
+const API = 'orders.php';
+const STATUSES = ['Mới nhận', 'Đã nhận cọc', 'Đang làm', 'Đang sửa theo yêu cầu', 'Đã giao', 'Đã hủy'];
+const GROUPS = {
+  all: { label: 'Tất cả', test: function () { return true; } },
+  'new': { label: 'Đơn mới', test: function (o) { return o.status === 'Mới nhận'; } },
+  doing: { label: 'Đang làm', test: function (o) { return ['Đã nhận cọc', 'Đang làm', 'Đang sửa theo yêu cầu'].indexOf(o.status) >= 0; } },
+  done: { label: 'Hoàn thành', test: function (o) { return o.status === 'Đã giao'; } },
+  cancelled: { label: 'Đã hủy', test: function (o) { return o.status === 'Đã hủy'; } }
+};
+const NEXT = {
+  'Mới nhận': ['Đã nhận cọc', 'Đã hủy'],
+  'Đã nhận cọc': ['Đang làm', 'Đã hủy'],
+  'Đang làm': ['Đã giao', 'Đang sửa theo yêu cầu', 'Đã hủy'],
+  'Đang sửa theo yêu cầu': ['Đang làm', 'Đã giao', 'Đã hủy'],
+  'Đã giao': [],
+  'Đã hủy': []
+};
+const VOICE_LABELS = { 'nu-tre': 'Nữ trẻ trung', 'nu-tram': 'Nữ trầm ấm', 'nam-tre': 'Nam trẻ' };
+let TOKEN = '';
+let ORDERS = [];
+let curTab = 'all';
+let timer = null;
+
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function fmt(n) { return (Number(n) || 0).toLocaleString('vi-VN') + 'đ'; }
+function fmtDate(iso) { try { var d = new Date(iso); return d.toLocaleString('vi-VN', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); } catch (e) { return iso || ''; } }
+function stClass(s) { return 'st-' + s.replace(/ /g, '-'); }
+function dlUrl(o, stored) { return API + '?action=download&code=' + encodeURIComponent(o.code) + '&phone=' + encodeURIComponent(o.phone_digits || '') + '&file=' + encodeURIComponent(stored); }
+function showErr(msg) { var e = document.getElementById('err'); if (msg) { e.textContent = msg; e.style.display = 'block'; } else { e.style.display = 'none'; } }
+function apiGet(action) {
+  return fetch(API + '?action=' + action + '&token=' + encodeURIComponent(TOKEN)).then(function (r) { return r.json(); });
+}
+function apiPost(action, data) {
+  var p = new URLSearchParams(data || {});
+  p.set('action', action); p.set('token', TOKEN);
+  return fetch(API, { method: 'POST', body: p }).then(function (r) { return r.json(); });
+}
+</script>
+
+<script>
+'use strict';
+function loadOrders() {
+  showErr('');
+  return apiGet('admin_list').then(function (res) {
+    if (!res || !res.ok) throw new Error('bad_token');
+    ORDERS = res.orders || [];
+    render();
+    document.getElementById('updatedAt').textContent = 'Cập nhật lúc ' + new Date().toLocaleTimeString('vi-VN') + ' — tự làm mới mỗi 60 giây.';
+  }).catch(function (e) {
+    if (e && e.message === 'bad_token') {
+      showErr('Không tải được đơn — mã quản trị sai hoặc đã hết hạn. Nhập lại mã bên dưới.');
+      document.getElementById('tokenBox').hidden = false;
+      document.getElementById('tokenErr').hidden = false;
+    } else {
+      showErr('Không kết nối được máy chủ. Kiểm tra mạng rồi bấm “Làm mới”.');
+    }
+  });
+}
+function render() {
+  var counts = { all: ORDERS.length, 'new': 0, doing: 0, done: 0, cancelled: 0 };
+  var revenue = 0, collected = 0, outstanding = 0;
+  ORDERS.forEach(function (o) {
+    if (o.status === 'Mới nhận') counts['new']++;
+    else if (['Đã nhận cọc', 'Đang làm', 'Đang sửa theo yêu cầu'].indexOf(o.status) >= 0) counts.doing++;
+    else if (o.status === 'Đã giao') counts.done++;
+    else if (o.status === 'Đã hủy') counts.cancelled++;
+    if (o.status !== 'Đã hủy') {
+      revenue += Number(o.total) || 0;
+      if (o.status !== 'Mới nhận') collected += Number(o.deposit) || 0;
+      if (o.status !== 'Đã giao') outstanding += (Number(o.total) || 0) - (Number(o.deposit) || 0);
+    }
+  });
+  document.getElementById('stNew').textContent = counts['new'];
+  document.getElementById('stDoing').textContent = counts.doing;
+  document.getElementById('stDone').textContent = counts.done;
+  document.getElementById('stMoney').textContent = fmt(revenue);
+  document.getElementById('stMoneySub').textContent = 'Đã thu cọc ' + fmt(collected) + ' · Còn phải thu ' + fmt(Math.max(outstanding, 0));
+
+  var tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  Object.keys(GROUPS).forEach(function (k) {
+    var b = document.createElement('button');
+    b.className = 'tab' + (k === curTab ? ' on' : '');
+    b.textContent = GROUPS[k].label + ' (' + counts[k] + ')';
+    b.onclick = function () { curTab = k; render(); };
+    tabsEl.appendChild(b);
+  });
+
+  var q = (document.getElementById('q').value || '').toLowerCase();
+  var list = ORDERS.filter(function (o) { return GROUPS[curTab].test(o); });
+  if (q) {
+    list = list.filter(function (o) {
+      return [o.code, o.name, o.phone, o.shop, o.product].join(' ').toLowerCase().indexOf(q) >= 0;
+    });
+  }
+  var box = document.getElementById('orders');
+  if (!list.length) {
+    box.innerHTML = '<p class="muted" style="text-align:center;padding:24px 0">Chưa có đơn nào ở mục này.</p>';
+    return;
+  }
+  box.innerHTML = list.map(cardHtml).join('');
+  list.forEach(bindCard);
+}
+function cardHtml(o) {
+  var total = Number(o.total) || 0, dep = Number(o.deposit) || 0;
+  var remain = Math.max(total - dep, 0);
+  var deliveryLabel = { zalo: 'Zalo', telegram: 'Telegram', email: 'Email', direct: 'Tải trực tiếp' }[o.delivery] || o.delivery;
+  var voice = o.voice || {};
+  var voiceTxt = voice.mode === 'own'
+    ? 'Giọng khách gửi' + (o.has_voice_file ? ' (đã có file)' : ' (chưa có file)')
+    : 'Giọng AI: ' + (VOICE_LABELS[voice.ai_voice] || 'Nữ trẻ trung');
+  var html = '<article class="card" data-code="' + esc(o.code) + '">';
+  html += '<h2><span class="code">' + esc(o.code) + '</span> · ' + esc(o.name) + ' <span class="badge ' + stClass(o.status) + '">' + esc(o.status) + '</span></h2>';
+  html += '<p class="muted" style="margin:0">Tạo ' + fmtDate(o.created_at) + ' · Gói: ' + esc(o.pkg) + '</p>';
+  html += '<p style="margin:8px 0 0">📞 <a href="tel:' + esc(o.phone_digits || '') + '">' + esc(o.phone || '') + '</a>'
+    + ' · <a href="https://zalo.me/' + esc(o.phone_digits || '') + '" target="_blank" rel="noopener">Nhắn Zalo</a>'
+    + (o.shop ? ' · 🏪 <a href="' + esc(o.shop) + '" target="_blank" rel="noopener">Shop</a>' : '')
+    + (o.email ? ' · ✉️ ' + esc(o.email) : '')
+    + (o.telegram ? ' · 💬 ' + esc(o.telegram) : '')
+    + ' · Nhận video qua: <b>' + esc(deliveryLabel) + '</b></p>';
+  if (o.product) html += '<p style="margin:8px 0 0"><b>Sản phẩm:</b> ' + esc(o.product) + '</p>';
+  if (o.note) html += '<p style="margin:4px 0 0"><b>Ghi chú:</b> ' + esc(o.note) + '</p>';
+  html += '<div class="money"><div><span>Tổng tiền</span><b>' + fmt(total) + '</b></div>'
+    + '<div><span>Cọc đợt 1</span><b>' + fmt(dep) + '</b></div>'
+    + '<div><span>Còn lại</span><b>' + fmt(remain) + '</b></div></div>';
+  html += '<p style="margin:0">🎙️ ' + esc(voiceTxt) + '</p>';
+  if (o.has_voice_file && voice.file) {
+    html += '<p style="margin:6px 0 0"><audio controls preload="none" src="' + esc(dlUrl(o, voice.file.stored)) + '" style="width:100%"></audio></p>';
+  }
+  if ((o.uploads || []).length) {
+    html += '<p style="margin:10px 0 0"><b>Ảnh tham chiếu (' + o.uploads.length + '):</b></p><div class="thumbs">'
+      + o.uploads.map(function (u) {
+          var u2 = dlUrl(o, u.stored);
+          return '<a href="' + esc(u2) + '" target="_blank" rel="noopener"><img src="' + esc(u2) + '" alt="' + esc(u.name) + '" loading="lazy"></a>';
+        }).join('') + '</div>';
+  }
+  var revs = o.revisions || [];
+  if (revs.length) {
+    html += '<p style="margin:10px 0 0"><b>Yêu cầu sửa (' + revs.length + ', còn mới: ' + (o.new_revisions || 0) + '):</b></p>'
+      + revs.map(function (r) {
+          return '<div class="rev">' + (r.status === 'new' ? '<span class="newtag">MỚI</span> ' : '') + esc(r.message)
+            + '<br><span class="muted">' + fmtDate(new Date((r.ts || 0) * 1000).toISOString()) + '</span></div>';
+        }).join('');
+  }
+  var del = o.delivered || [];
+  if (del.length) {
+    html += '<p style="margin:10px 0 0"><b>Video đã giao:</b></p><ul style="margin:4px 0">' + del.map(function (d) {
+      return '<li><a href="' + esc(d.url) + '" target="_blank" rel="noopener">' + esc(d.label) + '</a></li>';
+    }).join('') + '</ul>';
+  }
+  var hist = o.history || [];
+  if (hist.length) {
+    html += '<ul class="hist">' + hist.slice(-4).map(function (h) {
+      return '<li>' + fmtDate(new Date((h.ts || 0) * 1000).toISOString()) + ' → ' + esc(h.status) + (h.note ? ' — ' + esc(h.note) : '') + '</li>';
+    }).join('') + '</ul>';
+  }
+  html += '<div class="actions" data-actions></div>';
+  html += '<div class="deliver-form" data-deliver-form>'
+    + '<input data-deliver-label placeholder="Tên video (VD: Video 1 — váy hoa)">'
+    + '<input data-deliver-url placeholder="Link video đã giao (https://…)" inputmode="url">'
+    + '<button class="btn primary small" data-deliver-submit>✓ Gắn video &amp; chuyển Đã giao</button> '
+    + '<button class="btn small" data-deliver-cancel>Hủy</button></div>';
+  html += '</article>';
+  return html;
+}
+function bindCard(o) {
+  var card = document.querySelector('.card[data-code="' + CSS.escape(o.code) + '"]');
+  if (!card) return;
+  var box = card.querySelector('[data-actions]');
+  var nexts = NEXT[o.status] || [];
+  nexts.forEach(function (st) {
+    var b = document.createElement('button');
+    if (st === 'Đã nhận cọc') { b.className = 'btn primary'; b.textContent = '✓ Đã nhận cọc — khách đã chuyển tiền'; }
+    else if (st === 'Đã giao') { b.className = 'btn primary'; b.textContent = '✓ Đã giao video'; }
+    else if (st === 'Đang làm') { b.className = 'btn blue'; b.textContent = '▶ Bắt đầu làm'; }
+    else if (st === 'Đang sửa theo yêu cầu') { b.className = 'btn'; b.textContent = '↩ Cần sửa lại'; }
+    else if (st === 'Đã hủy') { b.className = 'btn danger'; b.textContent = '✕ Hủy đơn'; }
+    else { b.className = 'btn'; b.textContent = st; }
+    b.onclick = function () { onStatusClick(o, st, card, b); };
+    box.appendChild(b);
+  });
+  if (o.status === 'Đã giao') {
+    var b2 = document.createElement('button');
+    b2.className = 'btn'; b2.textContent = '＋ Gắn thêm video';
+    b2.onclick = function () { openDeliverForm(card, o, false); };
+    box.appendChild(b2);
+  }
+  var del = document.createElement('button');
+  del.className = 'btn danger'; del.textContent = '🗑 Xóa đơn';
+  del.onclick = function () {
+    if (!confirm('Xóa hẳn đơn ' + o.code + ' (' + o.name + ')? Ảnh tham chiếu của đơn cũng bị xóa. Không khôi phục được.')) return;
+    del.disabled = true;
+    apiPost('admin_delete', { code: o.code }).then(function (r) {
+      if (r && r.ok) loadOrders(); else { showErr('Không xóa được đơn. Thử lại.'); del.disabled = false; }
+    }).catch(function () { showErr('Không kết nối được máy chủ.'); del.disabled = false; });
+  };
+  box.appendChild(del);
+  var form = card.querySelector('[data-deliver-form]');
+  form.querySelector('[data-deliver-cancel]').onclick = function () { form.style.display = 'none'; };
+  form.querySelector('[data-deliver-submit]').onclick = function () {
+    var label = form.querySelector('[data-deliver-label]').value.trim();
+    var url = form.querySelector('[data-deliver-url]').value.trim();
+    if (!label || !url) { alert('Nhập đủ tên video và link video đã giao.'); return; }
+    var submitBtn = form.querySelector('[data-deliver-submit]');
+    submitBtn.disabled = true;
+    var doStatus = form.getAttribute('data-do-status') === '1';
+    apiPost('admin_attach', { code: o.code, label: label, url: url }).then(function (r) {
+      if (!r || !r.ok) throw new Error('attach');
+      if (doStatus) return apiPost('admin_set_status', { code: o.code, status: 'Đã giao', note: 'Đã giao: ' + label });
+      return { ok: true };
+    }).then(function (r2) {
+      if (!r2 || !r2.ok) throw new Error('status');
+      loadOrders();
+    }).catch(function () {
+      showErr('Không gắn được video. Thử lại.');
+      submitBtn.disabled = false;
+    });
+  };
+}
+function openDeliverForm(card, o, doStatus) {
+  var form = card.querySelector('[data-deliver-form]');
+  form.setAttribute('data-do-status', doStatus ? '1' : '0');
+  form.querySelector('[data-deliver-submit]').textContent = doStatus ? '✓ Gắn video & chuyển Đã giao' : '＋ Gắn thêm video';
+  form.style.display = 'block';
+  form.querySelector('[data-deliver-label]').focus();
+}
+function onStatusClick(o, st, card, btn) {
+  if (st === 'Đã giao') { openDeliverForm(card, o, true); return; }
+  var note = '';
+  if (st === 'Đã hủy') {
+    if (!confirm('Hủy đơn ' + o.code + ' (' + o.name + ')?')) return;
+    note = prompt('Lý do hủy (ghi vào lịch sử đơn):', '') || '';
+  }
+  if (st === 'Đã nhận cọc') {
+    if (!confirm('Xác nhận đã nhận cọc ' + fmt(o.deposit) + ' cho đơn ' + o.code + '?\n\nPip sẽ tự bắt đầu làm bản xem trước cho khách trong vòng 5 phút.')) return;
+  }
+  btn.disabled = true;
+  apiPost('admin_set_status', { code: o.code, status: st, note: note }).then(function (r) {
+    if (r && r.ok) loadOrders();
+    else { showErr('Không đổi được trạng thái. Thử lại.'); btn.disabled = false; }
+  }).catch(function () { showErr('Không kết nối được máy chủ.'); btn.disabled = false; });
+}
+document.getElementById('refreshBtn').onclick = loadOrders;
+document.getElementById('logoutBtn').onclick = function () {
+  localStorage.removeItem('vs_admin_token');
+  TOKEN = '';
+  document.getElementById('app').hidden = true;
+  document.getElementById('tokenBox').hidden = false;
+};
+document.getElementById('q').addEventListener('input', render);
+document.getElementById('tokenSave').onclick = function () {
+  var v = document.getElementById('tokenInput').value.trim();
+  if (!v) return;
+  TOKEN = v;
+  if (document.getElementById('tokenRemember').checked) localStorage.setItem('vs_admin_token', v);
+  document.getElementById('tokenBox').hidden = true;
+  document.getElementById('tokenErr').hidden = true;
+  document.getElementById('app').hidden = false;
+  loadOrders();
+};
+document.getElementById('createForm').addEventListener('submit', function (ev) {
+  ev.preventDefault();
+  var f = ev.target;
+  var msg = document.getElementById('createMsg');
+  msg.textContent = 'Đang tạo đơn…';
+  var data = {
+    code: f.code.value.trim().toUpperCase(),
+    phone: f.phone.value.trim(),
+    name: f.name.value.trim(),
+    pkg: f.pkg.value.trim(),
+    shop: f.shop.value.trim(),
+    product: f.product.value.trim(),
+    note: f.note.value.trim(),
+    total: f.total.value, deposit: f.deposit.value,
+    delivery: f.delivery.value, status: f.status.value,
+    email: f.email.value.trim(), telegram: f.telegram.value.trim()
+  };
+  apiPost('admin_create', data).then(function (r) {
+    if (r && r.ok) { msg.textContent = 'Đã tạo đơn ' + r.code + '.'; f.reset(); f.total.value = 390000; f.deposit.value = 390000; loadOrders(); }
+    else { msg.textContent = 'Không tạo được đơn: ' + (r && r.error ? r.error : 'lỗi không rõ') + '. Kiểm tra mã đơn đã tồn tại chưa.'; }
+  }).catch(function () { msg.textContent = 'Không kết nối được máy chủ.'; });
+});
+(function init() {
+  var params = new URLSearchParams(location.search);
+  var t = params.get('token') || localStorage.getItem('vs_admin_token') || '';
+  if (t) {
+    TOKEN = t;
+    if (params.get('token')) localStorage.setItem('vs_admin_token', t);
+    document.getElementById('app').hidden = false;
+    loadOrders();
+  } else {
+    document.getElementById('tokenBox').hidden = false;
+  }
+  timer = setInterval(function () { if (!document.hidden) loadOrders(); }, 60000);
+})();
+</script>
+</body>
+</html>
