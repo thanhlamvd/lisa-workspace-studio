@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="vi">
+<!-- v14 (13/11/2026): mã VietQR động theo từng đơn (img.vietqr.io: số tiền đợt 1 + nội dung = mã đơn không gạch + SĐT, tối đa 25 ký tự); dòng "Nội dung chuyển khoản" hiển thị đầy đủ mã đơn + tên + SĐT; v13 báo lỗi khi lưu đơn thất bại; giới hạn file 5MB (v12) -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -128,6 +129,13 @@ form.order textarea{min-height:84px;resize:vertical}
   .cta,.cta-ghost,.btn{display:block;text-align:center;margin-left:0;margin-right:0}
   .cta-ghost{margin-top:10px}
 }
+/* --- Giọng đọc --- */
+form.order .voice-box{border:1.5px solid var(--line);border-radius:10px;padding:6px 16px 14px;margin-top:8px}
+form.order .voice-box label{display:flex;gap:8px;align-items:flex-start;font-weight:400;margin:10px 0;cursor:pointer}
+form.order .voice-box input[type=radio]{width:auto;margin-top:4px;flex:none}
+form.order .voice-box select{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:16px;margin-top:6px}
+form.order .voice-box input[type=file]{width:100%;margin-top:6px;font-size:15px}
+form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0 0}
 </style>
 </head>
 <body>
@@ -144,7 +152,7 @@ form.order textarea{min-height:84px;resize:vertical}
 <h2>Video của chúng tôi gồm những gì?</h2>
 <div class="grid">
 <div class="card"><h3>🎯 Kịch bản bán hàng</h3><p>Nghiên cứu trend đang lên trong ngành của bạn, viết hook 3 giây đầu giữ người xem, và 1 câu hỏi gợi bình luận ở cuối video.</p></div>
-<div class="card"><h3>🎙️ Giọng đọc AI</h3><p>Giọng đọc tiếng Việt tự nhiên, rõ ràng, phù hợp từng ngành hàng — không cần bạn tự thu âm.</p></div>
+<div class="card"><h3>🎙️ Giọng đọc AI</h3><p>Giọng đọc tiếng Việt tự nhiên, rõ ràng, phù hợp từng ngành hàng — không cần bạn tự thu âm. Bạn có thể chọn giọng mẫu của chúng tôi hoặc gửi giọng của chính bạn.</p></div>
 <div class="card"><h3>🎬 Dựng video dọc 9:16</h3><p>Video 8–16 giây, chuẩn TikTok Shop, Shopee Video, Facebook Reels và Instagram — đăng đâu cũng vừa khung.</p></div>
 <div class="card"><h3>💬 Phụ đề + caption</h3><p>Phụ đề tiếng Việt có dấu, caption gợi ý sẵn, giờ đăng gợi ý theo giờ vàng của ngành.</p></div>
 </div>
@@ -241,12 +249,52 @@ form.order textarea{min-height:84px;resize:vertical}
 <input id="f-name" type="text" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="name">
 <label for="f-phone">Số Zalo / điện thoại <span style="color:#c62828">*</span></label>
 <input id="f-phone" type="tel" placeholder="Ví dụ: 0901234567" autocomplete="tel">
+<label for="f-email">Email <span>(không bắt buộc — để nhận video và liên lạc)</span></label>
+<input id="f-email" type="email" placeholder="Ví dụ: shopcuaban@gmail.com" autocomplete="email">
+<label for="f-telegram">Telegram <span>(không bắt buộc — @username để nhận video)</span></label>
+<input id="f-telegram" type="text" placeholder="Ví dụ: @tenshop" autocomplete="off">
 <label for="f-shop">Link shop TikTok / Shopee <span>(không bắt buộc)</span></label>
 <input id="f-shop" type="url" placeholder="Ví dụ: https://www.tiktok.com/@shopcuaban">
 <label for="f-product">Sản phẩm muốn làm video <span>(không bắt buộc)</span></label>
 <textarea id="f-product" placeholder="Ví dụ: áo sơ mi trắng nữ, giá 189.000đ, bán chạy nhất shop"></textarea>
 <label for="f-note">Ghi chú <span>(không bắt buộc)</span></label>
 <textarea id="f-note" placeholder="Phong cách muốn làm, ngày cần video, yêu cầu khác..."></textarea>
+<h3>Ảnh tham chiếu <span style="font-weight:400;color:var(--muted);font-size:14px">(không bắt buộc)</span></h3>
+<p style="font-size:15px">Ảnh sản phẩm hoặc ảnh mẫu bạn muốn video làm theo — tối đa 3 ảnh, mỗi ảnh jpg/png/webp tối đa 5MB. Gửi thêm ảnh sau ở mục Tra cứu đơn hàng (tối đa 5 ảnh/đơn).</p>
+<input id="f-ref-images" type="file" accept=".jpg,.jpeg,.png,.webp" multiple style="width:100%;font-size:15px">
+<p class="error" id="ref-error">Ảnh tham chiếu chưa đúng — chỉ nhận jpg/png/webp, mỗi ảnh tối đa 5MB, tối đa 3 ảnh lúc đặt hàng.</p>
+<p id="ref-note" style="font-size:14px;color:var(--muted);display:none"></p>
+<div class="note" style="margin-top:12px"><strong>Những hình ảnh / nhân vật chúng tôi không làm được:</strong>
+<ul style="margin:8px 0 0;padding-left:20px;font-size:15px">
+<li>Ảnh có nội dung nhạy cảm, 18+, bạo lực.</li>
+<li>Ảnh trẻ em (dưới 18 tuổi) làm nhân vật trong video.</li>
+<li>Người thật khác: người nổi tiếng, hoặc người khác khi không có sự đồng ý của họ — chỉ dùng ảnh của chính bạn và sản phẩm của bạn.</li>
+<li>Nhân vật có bản quyền: nhân vật hoạt hình, game, phim (ví dụ: Disney, Marvel, anime) — không làm video nhái nhân vật có bản quyền.</li>
+<li>Logo / thương hiệu của shop khác để làm giả quảng cáo.</li>
+<li>Ảnh mờ, quá tối hoặc độ phân giải quá thấp — không đủ rõ để dựng video.</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px">Nếu ảnh bạn gửi thuộc nhóm trên, chúng tôi sẽ báo lại và đề xuất phương án khác (dùng người mẫu AI của chúng tôi, hoặc đổi ảnh).</p></div>
+<h3>Bước 3 — Giọng đọc</h3>
+<div class="voice-box" id="voice-box">
+  <label><input type="radio" name="voice-mode" value="ai" checked> <span><b>Dùng giọng mẫu của VideoShop AI</b><br><span style="color:var(--muted);font-size:14px">Giọng đọc AI tiếng Việt, bên mình lồng tiếng theo kịch bản.</span></span></label>
+  <select id="f-voice-ai">
+    <option value="nu-tre">Nữ trẻ trung (mặc định)</option>
+    <option value="nu-tram">Nữ trầm ấm</option>
+    <option value="nam-tre">Nam trẻ</option>
+  </select>
+  <label><input type="radio" name="voice-mode" value="own"> <span><b>Tôi tự gửi giọng mẫu</b><br><span style="color:var(--muted);font-size:14px">Gửi file thu giọng của chính bạn (mp3/wav/m4a/webm, tối đa 5MB, 1 file). Chỉ gửi giọng của chính mình, không gửi giọng người khác hay người nổi tiếng. Bản v1 chưa nhân bản giọng tự động — nếu muốn đọc đúng kịch bản thì gửi bản thu đầy đủ lời đọc, bên mình sẽ dùng trực tiếp.</span></span></label>
+  <input id="f-voice-file" type="file" accept=".mp3,.wav,.m4a,.webm,audio/*" style="display:none">
+  <p class="voice-note" id="voice-file-note" style="display:none"></p>
+</div>
+<p class="error" id="voice-error">File giọng chưa đúng — chỉ nhận mp3/wav/m4a/webm, tối đa 5MB.</p>
+<h3>Bước 4 — Nhận video qua đâu?</h3>
+<div class="voice-box" id="delivery-box">
+  <label><input type="radio" name="delivery" value="zalo" checked> <span><b>Zalo</b> <span style="color:var(--muted);font-size:14px">— theo số Zalo / điện thoại đã nhập ở trên.</span></span></label>
+  <label><input type="radio" name="delivery" value="telegram"> <span><b>Telegram</b> <span style="color:var(--muted);font-size:14px">— theo @username Telegram đã nhập ở trên.</span></span></label>
+  <label><input type="radio" name="delivery" value="email"> <span><b>Email</b> <span style="color:var(--muted);font-size:14px">— theo email đã nhập ở trên.</span></span></label>
+  <label><input type="radio" name="delivery" value="direct"> <span><b>Tải trực tiếp từ mã đơn</b> <span style="color:var(--muted);font-size:14px">— video giao xong sẽ có ở mục Tra cứu đơn hàng, bạn tự tải về bằng mã đơn + số điện thoại.</span></span></label>
+</div>
+<p class="error" id="delivery-error">Bạn chọn nhận qua Telegram thì nhập @username Telegram ở trên nhé; chọn nhận qua Email thì nhập email ở trên nhé.</p>
 <p class="error" id="form-error">Bạn vui lòng chọn gói và điền họ tên + số Zalo/điện thoại trước khi gửi đơn.</p>
 <button type="submit" class="btn">Xem lại đơn &amp; thanh toán →</button>
 </form>
@@ -259,10 +307,16 @@ form.order textarea{min-height:84px;resize:vertical}
 <tr><td>Tổng tiền</td><td id="r-total">—</td></tr>
 <tr><td>Họ tên</td><td id="r-name">—</td></tr>
 <tr><td>Zalo / điện thoại</td><td id="r-phone">—</td></tr>
+<tr><td>Email</td><td id="r-email">—</td></tr>
+<tr><td>Telegram</td><td id="r-telegram">—</td></tr>
+<tr><td>Nhận video qua</td><td id="r-delivery">—</td></tr>
+<tr><td>Ảnh tham chiếu</td><td id="r-ref">—</td></tr>
 <tr><td>Link shop</td><td id="r-shop">—</td></tr>
 <tr><td>Sản phẩm</td><td id="r-product">—</td></tr>
 <tr><td>Ghi chú</td><td id="r-note">—</td></tr>
+<tr><td>Giọng đọc</td><td id="r-voice">—</td></tr>
 </table>
+<p class="error" id="voice-file-warn" style="display:none">File giọng chưa tải lên được (sai định dạng hoặc quá 5MB) — đơn vẫn ghi nhận, bạn tải lại file giọng ở mục Tra cứu đơn hàng nhé.</p>
 <div class="pay-box">
 <strong>Thanh toán — chuyển khoản ngân hàng</strong><br>
 Số tiền cần chuyển đợt 1: <span class="amount" id="r-deposit">—</span><br>
@@ -270,8 +324,8 @@ Số tiền cần chuyển đợt 1: <span class="amount" id="r-deposit">—</sp
 <strong>Ngân hàng:</strong> BIDV<br>
 <strong>Số tài khoản:</strong> 8812103302<br>
 <strong>Chủ tài khoản:</strong> Trương Quốc Thùy<br>
-<img src="images/vietqr-bidv.svg" alt="Mã VietQR thanh toán BIDV 8812103302" style="max-width:220px;display:block;margin:12px 0 4px">
-<span style="font-size:14px;color:var(--muted)">Quét mã VietQR bằng app ngân hàng để chuyển khoản nhanh.</span><br>
+<img id="qr-img" src="images/vietqr-bidv.svg" alt="Mã VietQR thanh toán BIDV 8812103302" style="max-width:220px;display:block;margin:12px 0 4px" onerror="this.onerror=null;this.src='images/vietqr-bidv.svg';">
+<span style="font-size:14px;color:var(--muted)">Quét mã VietQR bằng app ngân hàng — số tiền và nội dung đã điền sẵn theo đơn của bạn.</span><br>
 Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 </div>
 <p>
@@ -281,6 +335,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <p style="font-size:14px;color:var(--muted);margin-top:10px">Đơn gửi qua Zalo hoặc email donhang@videoshopai.vn đều được ghi nhận.</p>
 </p>
 <p class="saved-note" id="saved-note">✓ Đã lưu đơn vào máy của bạn. Chúng tôi sẽ liên hệ xác nhận qua Zalo trong ngày làm việc.</p>
+<p class="error" id="save-error" style="display:none">Đơn chưa lưu được lên hệ thống (lỗi mạng hoặc thông tin chưa đúng) — bạn nhắn Zalo cho shop kèm mã đơn <b id="save-error-code"></b> để shop ghi nhận, hoặc tải lại trang và đặt lại nhé.</p>
 <p style="font-size:14px;color:var(--muted)">Giữ mã đơn để tra cứu tiến độ tại mục Tra cứu đơn hàng bên dưới.</p>
 <p style="font-size:14px;color:var(--muted)">Sau khi chuyển khoản, bạn nhắn Zalo kèm ảnh bill để chúng tôi xác nhận và bắt đầu làm video cho bạn.</p>
 </div>
@@ -291,7 +346,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <p>Nhập mã đơn và số điện thoại bạn đã dùng khi đặt hàng để xem tiến độ, tải video đã giao, gửi yêu cầu sửa và tải thêm ảnh tham chiếu.</p>
 <form class="order" id="lookup-form" novalidate>
 <label for="lk-code">Mã đơn</label>
-<input id="lk-code" type="text" placeholder="Ví dụ: VS-1211-123" autocomplete="off">
+<input id="lk-code" type="text" placeholder="Ví dụ: VS-1311-123" autocomplete="off">
 <label for="lk-phone">Số Zalo / điện thoại đã đặt hàng</label>
 <input id="lk-phone" type="tel" placeholder="Ví dụ: 0901234567" autocomplete="tel">
 <p class="error" id="lookup-error">Không tìm thấy đơn nào khớp mã đơn và số điện thoại. Bạn kiểm tra lại nhé.</p>
@@ -307,6 +362,9 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <tr><td>Ngày đặt</td><td id="lk-r-date">—</td></tr>
 <tr><td>Tổng tiền</td><td id="lk-r-total">—</td></tr>
 <tr><td>Cọc đợt 1</td><td id="lk-r-deposit">—</td></tr>
+<tr><td>Email</td><td id="lk-r-email">—</td></tr>
+<tr><td>Telegram</td><td id="lk-r-telegram">—</td></tr>
+<tr><td>Nhận video qua</td><td id="lk-r-delivery">—</td></tr>
 </table>
 <div id="lk-delivered-wrap" style="display:none">
 <h3>🎬 Video đã giao</h3>
@@ -325,13 +383,21 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <p style="font-size:15px">Bấm nút dưới đây để nhắn riêng cho Pip — tin khiếu nại được ưu tiên xử lý ngay, thường có trả lời trong 5–10 phút.</p>
 <button type="button" class="btn btn-ghost" id="btn-complaint" onclick="openChatComplaint(document.getElementById('lk-r-code').textContent)">⚠️ Gửi khiếu nại về đơn này</button>
 <h3>Tải thêm ảnh tham chiếu</h3>
-<p style="font-size:14px;color:var(--muted)">Ảnh sản phẩm, ảnh mẫu bạn muốn video làm theo. Chỉ nhận jpg, png, webp — mỗi ảnh tối đa 5MB, tối đa 5 ảnh/đơn.</p>
+<p style="font-size:14px;color:var(--muted)">Ảnh sản phẩm, ảnh mẫu bạn muốn video làm theo. Chỉ nhận jpg, png, webp — mỗi ảnh tối đa 5MB, tối đa 5 ảnh/đơn (tính cả ảnh đã gửi lúc đặt hàng).</p>
 <div id="lk-uploads"></div>
 <form class="order" id="upload-form" novalidate>
 <input id="up-file" type="file" accept=".jpg,.jpeg,.png,.webp">
 <p class="error" id="upload-error">Chưa tải ảnh lên được, bạn kiểm tra lại định dạng (jpg/png/webp) và dung lượng (tối đa 5MB) nhé.</p>
 <p class="saved-note" id="upload-ok">✓ Đã tải ảnh lên.</p>
 <button type="submit" class="btn">Tải ảnh lên</button>
+</form>
+<h3>🎙️ Giọng đọc</h3>
+<div id="lk-voice"></div>
+<form class="order" id="voice-form" novalidate>
+<input id="voice-file2" type="file" accept=".mp3,.wav,.m4a,.webm,audio/*">
+<p class="error" id="voice-error2">Chưa tải file giọng lên được, bạn kiểm tra lại định dạng (mp3/wav/m4a/webm) và dung lượng (tối đa 5MB) nhé.</p>
+<p class="saved-note" id="voice-ok2">✓ Đã tải file giọng lên.</p>
+<button type="submit" class="btn">Tải file giọng lên</button>
 </form>
 </div>
 </section>
@@ -342,7 +408,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <li><strong>Tiếp nhận:</strong> Bạn nhắn qua Zalo hoặc Fanpage, gửi link shop, sản phẩm chủ lực và phong cách muốn làm. Chúng tôi gửi bảng giá và video mẫu.</li>
 <li><strong>Chốt gói:</strong> Bạn chọn gói, ký thỏa thuận dịch vụ và chuyển khoản đặt cọc theo điều khoản gói.</li>
 <li><strong>Thanh toán đặt cọc:</strong> Bạn chuyển khoản theo điều khoản gói — Gói Thử và video lẻ trả 100% trước khi làm; gói tháng trả 50% đợt 1 (đầu tháng), 50% còn lại ngày 15. Chúng tôi xác nhận đã nhận tiền qua Zalo trong ngày làm việc.</li>
-<li><strong>Sản xuất:</strong> Chúng tôi nghiên cứu trend, viết kịch bản, thu giọng AI, dựng video và kiểm tra chất lượng từng khung hình, rồi gửi bạn duyệt bản nháp.</li>
+<li><strong>Sản xuất:</strong> Chúng tôi nghiên cứu trend, viết kịch bản, thu giọng AI (hoặc dùng giọng mẫu của bạn), dựng video và kiểm tra chất lượng từng khung hình, rồi gửi bạn duyệt bản nháp.</li>
 <li><strong>Bàn giao:</strong> Bạn duyệt xong, chúng tôi giao file MP4, file phụ đề, caption gợi ý và giờ đăng gợi ý.</li>
 <li><strong>Báo cáo và chăm sóc:</strong> Cuối tháng gửi báo cáo — video nào view cao, trend tuần sau là gì. Hỏi bạn có gia hạn không trước 5 ngày hết tháng.</li>
 </ol>
@@ -350,7 +416,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 
 <section>
 <h2>Video mẫu — VideoShop AI</h2>
-<p>3 video mẫu làm sẵn theo từng ngành hàng — xem thử chất lượng video chúng tôi làm cho shop:</p>
+<p>4 video mẫu làm sẵn theo từng ngành hàng — xem thử chất lượng video chúng tôi làm cho shop:</p>
 <div class="video-grid">
 <div class="video-card">
 <video controls preload="metadata" playsinline poster="images/poster-thoi-trang.jpg" src="mau/videoshop-mau-thoi-trang.mp4"></video>
@@ -366,6 +432,11 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <video controls preload="metadata" playsinline poster="images/poster-gia-dung.jpg" src="mau/videoshop-mau-gia-dung.mp4"></video>
 <h3>🏠 Gia dụng</h3>
 <p>Đèn dây LED trang trí phòng ngủ</p>
+</div>
+<div class="video-card">
+<video controls preload="metadata" playsinline poster="images/poster-me-be.jpg" src="mau/videoshop-mau-me-be.mp4"></video>
+<h3>👶 Mẹ &amp; bé</h3>
+<p>Set mũ, bao tay, bao chân sơ sinh</p>
 </div>
 </div>
 <p style="font-size:14px;color:var(--muted)">Video mẫu dùng clip có sẵn để minh họa format và chất lượng. Video làm cho shop của bạn sẽ quay/dựng riêng theo đúng sản phẩm của bạn.</p>
@@ -456,19 +527,67 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href=
       document.getElementById('form-error').style.display='none';
     });
   });
+  var voiceAiLabels={'nu-tre':'Nữ trẻ trung','nu-tram':'Nữ trầm ấm','nam-tre':'Nam trẻ'};
+  document.querySelectorAll('input[name="voice-mode"]').forEach(function(r){
+    r.addEventListener('change',function(){
+      var own=this.value==='own';
+      document.getElementById('f-voice-ai').style.display=own?'none':'block';
+      document.getElementById('f-voice-file').style.display=own?'block':'none';
+      document.getElementById('voice-error').style.display='none';
+    });
+  });
+  document.getElementById('f-voice-file').addEventListener('change',function(){
+    var f=this.files[0],n=document.getElementById('voice-file-note');
+    if(f){n.style.display='block';n.textContent='Đã chọn: '+f.name+' ('+Math.round(f.size/1024)+' KB)';}
+    else{n.style.display='none';}
+  });
+  document.getElementById('f-ref-images').addEventListener('change',function(){
+    var n=document.getElementById('ref-note');
+    if(this.files.length){n.style.display='block';n.textContent='Đã chọn '+this.files.length+' ảnh: '+Array.prototype.map.call(this.files,function(f){return f.name;}).join(', ');}
+    else{n.style.display='none';}
+    document.getElementById('ref-error').style.display='none';
+  });
+  var deliveryLabels={zalo:'Zalo',telegram:'Telegram',email:'Email',direct:'Tải trực tiếp từ mã đơn'};
+  function genCode(){var d=new Date();return 'VS-'+String(d.getDate()).padStart(2,'0')+String(d.getMonth()+1).padStart(2,'0')+'-'+String(Math.floor(100+Math.random()*900));}
   var orderText='';
   document.getElementById('order-form').addEventListener('submit',function(e){
     e.preventDefault();
     var name=document.getElementById('f-name').value.trim();
     var phone=document.getElementById('f-phone').value.trim();
+    var email=document.getElementById('f-email').value.trim();
+    var telegram=document.getElementById('f-telegram').value.trim();
+    var delivery=(document.querySelector('input[name="delivery"]:checked')||{}).value||'zalo';
+    var refFiles=document.getElementById('f-ref-images').files;
     var shop=document.getElementById('f-shop').value.trim();
     var product=document.getElementById('f-product').value.trim();
     var note=document.getElementById('f-note').value.trim();
+    var voiceMode=(document.querySelector('input[name="voice-mode"]:checked')||{}).value||'ai';
+    var voiceAi=document.getElementById('f-voice-ai').value;
+    var voiceFile=document.getElementById('f-voice-file').files[0]||null;
+    var voiceText=voiceMode==='ai'
+      ?('Giọng mẫu VideoShop AI — '+voiceAiLabels[voiceAi])
+      :('Giọng mẫu của khách'+(voiceFile?' — file: '+voiceFile.name:' — chưa đính kèm file, sẽ gửi sau'));
+    var verr=document.getElementById('voice-error');verr.style.display='none';
+    if(voiceMode==='own'&&voiceFile){
+      var okExt=/\.(mp3|wav|m4a|webm)$/i.test(voiceFile.name);
+      if(!okExt||voiceFile.size>5*1024*1024){verr.style.display='block';return;}
+    }
+    var rerr=document.getElementById('ref-error');rerr.style.display='none';
+    if(refFiles.length>3){rerr.style.display='block';return;}
+    for(var ri=0;ri<refFiles.length;ri++){
+      var rf=refFiles[ri];
+      if(!/\.(jpg|jpeg|png|webp)$/i.test(rf.name)||rf.size>5*1024*1024){rerr.style.display='block';return;}
+    }
+    var derr=document.getElementById('delivery-error');derr.style.display='none';
+    if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){derr.textContent='Email chưa đúng định dạng — bạn kiểm tra lại nhé.';derr.style.display='block';return;}
+    if(telegram&&!/^@?[A-Za-z0-9_]{5,32}$/.test(telegram)){derr.textContent='Telegram chưa đúng — nhập @username (5–32 ký tự, chữ/số/gạch dưới).';derr.style.display='block';return;}
+    if(delivery==='telegram'&&!telegram){derr.textContent='Bạn chọn nhận qua Telegram thì nhập @username Telegram ở trên nhé.';derr.style.display='block';return;}
+    if(delivery==='email'&&!email){derr.textContent='Bạn chọn nhận qua Email thì nhập email ở trên nhé.';derr.style.display='block';return;}
     var err=document.getElementById('form-error');
     var phoneOk=/[0-9]{9,}/.test(phone.replace(/[^0-9]/g,''));
     if(!selected||!name||!phoneOk){err.style.display='block';return;}
     err.style.display='none';
-    var code='VS-1211-'+String(Math.floor(100+Math.random()*900));
+    var code=genCode();
     var total=parseInt(selected.getAttribute('data-total'),10);
     var deposit=parseInt(selected.getAttribute('data-deposit'),10);
     var pkgName=selected.getAttribute('data-name');
@@ -477,39 +596,71 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href=
     document.getElementById('r-total').textContent=fmt(total);
     document.getElementById('r-name').textContent=name;
     document.getElementById('r-phone').textContent=phone;
+    document.getElementById('r-email').textContent=email||'—';
+    document.getElementById('r-telegram').textContent=telegram||'—';
+    document.getElementById('r-delivery').textContent=deliveryLabels[delivery];
+    document.getElementById('r-ref').textContent=refFiles.length?refFiles.length+' ảnh: '+Array.prototype.map.call(refFiles,function(f){return f.name;}).join(', '):'—';
     document.getElementById('r-shop').textContent=shop||'—';
     document.getElementById('r-product').textContent=product||'—';
     document.getElementById('r-note').textContent=note||'—';
+    document.getElementById('r-voice').textContent=voiceText;
     document.getElementById('r-deposit').textContent=fmt(deposit);
     document.getElementById('r-deposit-note').textContent='Điều khoản: '+selected.getAttribute('data-deposit-note')+'.';
-    document.getElementById('r-transfer-note').textContent=code+' '+name;
-    orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nNội dung CK: '+code+' '+name;
+    var normPhone=phone.replace(/\s+/g,'').replace(/^\+84/,'0').replace(/^84(\d{9})$/,'0$1');
+    var updatePayment=function(c){
+      document.getElementById('r-transfer-note').textContent=c+' '+name+' '+phone;
+      var qr=document.getElementById('qr-img');
+      if(qr){
+        var qrInfo=c.replace(/-/g,'')+' '+normPhone;
+        qr.src='https://img.vietqr.io/image/BIDV-8812103302-compact2.png?amount='+encodeURIComponent(String(deposit))+'&addInfo='+encodeURIComponent(qrInfo)+'&accountName=TRUONG%20QUOC%20THUY';
+      }
+    };
+    updatePayment(code);
+    orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nEmail: '+(email||'—')+'\nTelegram: '+(telegram||'—')+'\nNhận video qua: '+deliveryLabels[delivery]+'\nẢnh tham chiếu: '+(refFiles.length?refFiles.length+' ảnh':'—')+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nGiọng đọc: '+voiceText+'\nNội dung CK: '+code+' '+name+' '+phone;
     try{
       var orders=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
-      orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,shop:shop,product:product,note:note,at:new Date().toISOString()});
+      orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,email:email,telegram:telegram,delivery:delivery,shop:shop,product:product,note:note,at:new Date().toISOString()});
       localStorage.setItem('videoshopai_orders',JSON.stringify(orders));
     }catch(_){/* localStorage không khả dụng thì vẫn hiện đơn */}
     // Lưu đơn lên máy chủ để khách tra cứu được (không chặn luồng Zalo nếu lỗi)
+    var showSaveError=function(){
+      var se=document.getElementById('save-error');
+      if(se){
+        var rc=document.getElementById('r-code');
+        if(rc)document.getElementById('save-error-code').textContent=rc.textContent;
+        se.style.display='block';
+      }
+    };
     var saveTries=0;
     var saveOrder=function(codeToSave){
       var fd=new FormData();
       fd.append('action','create');fd.append('code',codeToSave);fd.append('pkg',pkgName);
       fd.append('name',name);fd.append('phone',phone);fd.append('shop',shop);
       fd.append('product',product);fd.append('note',note);
+      fd.append('email',email);fd.append('telegram',telegram);fd.append('delivery',delivery);
       fd.append('total',String(total));fd.append('deposit',String(deposit));
+      fd.append('voice',voiceMode);fd.append('voice_ai',voiceAi);
+      if(voiceFile)fd.append('voice_file',voiceFile);
+      for(var fi=0;fi<refFiles.length;fi++){fd.append('ref_images[]',refFiles[fi]);}
       fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
-        if(!j.ok&&j.error==='duplicate'&&saveTries<1){
+        if(j.ok){
+          if(j.voice_file_ok===false){document.getElementById('voice-file-warn').style.display='block';}
+          return;
+        }
+        if(j.error==='duplicate'&&saveTries<1){
           saveTries++;
-          var code2='VS-1211-'+String(Math.floor(100+Math.random()*900));
+          var code2=genCode();
           if(code2!==codeToSave){
             document.getElementById('r-code').textContent=code2;
-            document.getElementById('r-transfer-note').textContent=code2+' '+name;
+            updatePayment(code2);
             orderText=orderText.split(codeToSave).join(code2);
             try{var os=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');if(os.length)os[os.length-1].code=code2;localStorage.setItem('videoshopai_orders',JSON.stringify(os));}catch(_){}
             saveOrder(code2);
+            return;
           }
         }
-      }).catch(function(){});
+        showSaveError();
+      }).catch(function(){showSaveError();});
     };
     saveOrder(code);
     document.getElementById('saved-note').style.display='block';
@@ -551,6 +702,9 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href=
     document.getElementById('lk-r-date').textContent=fmtDate(o.created_at);
     document.getElementById('lk-r-total').textContent=fmt(o.total);
     document.getElementById('lk-r-deposit').textContent=fmt(o.deposit);
+    document.getElementById('lk-r-email').textContent=o.email||'—';
+    document.getElementById('lk-r-telegram').textContent=o.telegram||'—';
+    document.getElementById('lk-r-delivery').textContent=({zalo:'Zalo',telegram:'Telegram',email:'Email',direct:'Tải trực tiếp từ mã đơn'})[o.delivery]||'Zalo';
     var dw=document.getElementById('lk-delivered-wrap');
     if(o.delivered&&o.delivered.length){dw.style.display='block';document.getElementById('lk-delivered').innerHTML=o.delivered.map(function(d){return '<p>🎬 <a href="'+esc(d.url)+'" target="_blank" rel="noopener">'+esc(d.label)+'</a></p>';}).join('');}
     else{dw.style.display='none';document.getElementById('lk-delivered').innerHTML='';}
@@ -560,6 +714,13 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href=
     var up=document.getElementById('lk-uploads');
     if(o.uploads&&o.uploads.length){up.innerHTML=o.uploads.map(function(u){return '<a href="'+esc(u.url)+'" target="_blank" rel="noopener" style="display:inline-block;margin:0 8px 8px 0"><img src="'+esc(u.url)+'" alt="'+esc(u.name)+'" style="max-width:110px;max-height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--line)"></a>';}).join('');}
     else{up.innerHTML='<p style="color:var(--muted);font-size:15px">Chưa có ảnh tham chiếu nào.</p>';}
+    var vv=document.getElementById('lk-voice');
+    var v=o.voice||{mode:'ai',ai_voice:'nu-tre',file:null};
+    var aiLabels={'nu-tre':'Nữ trẻ trung','nu-tram':'Nữ trầm ấm','nam-tre':'Nam trẻ'};
+    if(v.mode==='ai'){vv.innerHTML='<p>Giọng mẫu VideoShop AI — '+esc(aiLabels[v.ai_voice]||'Nữ trẻ trung')+'</p>';}
+    else if(v.file){vv.innerHTML='<p>Giọng mẫu của bạn: '+esc(v.file.name)+'</p><audio controls preload="none" src="'+esc(v.file.url)+'" style="width:100%"></audio><p><a href="'+esc(v.file.url)+'" target="_blank" rel="noopener">Tải file giọng xuống</a></p>';}
+    else{vv.innerHTML='<p>Bạn chọn tự gửi giọng mẫu nhưng chưa đính kèm file. Tải file lên ở dưới nhé.</p>';}
+    document.getElementById('voice-form').style.display=(v.mode==='own')?'block':'none';
     document.getElementById('lookup-result').style.display='block';
   }
   function lookup(code,phone){
@@ -611,6 +772,18 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email: <a href=
     err.style.display='none';ok.style.display='none';
     if(!input.files.length||!curCode)return;
     var fd=new FormData();fd.append('action','upload');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('file',input.files[0]);
+    fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ok.style.display='block';input.value='';lookup(curCode,curPhone);}
+      else{err.style.display='block';}
+    }).catch(function(){err.style.display='block';});
+  });
+  document.getElementById('voice-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var input=document.getElementById('voice-file2');
+    var err=document.getElementById('voice-error2'),ok=document.getElementById('voice-ok2');
+    err.style.display='none';ok.style.display='none';
+    if(!input.files.length||!curCode)return;
+    var fd=new FormData();fd.append('action','upload_voice');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('voice_file',input.files[0]);
     fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
       if(j.ok){ok.style.display='block';input.value='';lookup(curCode,curPhone);}
       else{err.style.display='block';}
