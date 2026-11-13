@@ -30,7 +30,7 @@ h3{margin:18px 0 6px}
 .card{border:1px solid var(--line);border-radius:12px;padding:18px}
 .card h3{margin-top:0}
 .price{font-size:26px;font-weight:800;color:var(--blue);margin:6px 0}
-.price small{font-size:14px;color:var(--muted);font-weight:400}
+.price small{font-size:14px;color:var(--muted);font-weight:400;white-space:nowrap}
 .card ul{margin:10px 0 0;padding-left:20px}
 .card li{margin:4px 0}
 .highlight{border:2px solid var(--blue);background:var(--blue-soft)}
@@ -217,6 +217,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 </ul>
 </div>
 </div>
+<p style="font-size:15px;color:var(--muted)">Thời lượng tùy chọn khi đặt hàng: video 8s được nhiều video hơn, video dài hơn được ít video hơn — số video tự tính theo gói, tổng tiền gói không đổi. Video lẻ tính theo đơn giá từng thời lượng (xem bảng trên).</p>
 <p style="font-size:15px;color:var(--muted)">Mỗi video được chỉnh sửa tối đa 2 lần (sửa chữ phụ đề, đổi câu hook). Sửa quá 2 lần hoặc đổi ý tưởng tính thêm 50% giá video. Giá trên chưa bao gồm quay thật tại shop, người mẫu thật và chạy quảng cáo — quảng cáo tính riêng theo ngân sách bạn duyệt.</p>
 </section>
 
@@ -253,16 +254,19 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 </div>
 
 <div id="duration-row" style="display:none;margin-top:14px">
-<p style="margin:0 0 6px"><b>Thời lượng video lẻ:</b> <span style="color:var(--muted);font-size:14px">mỗi 8 giây là 1 cảnh quay — dài hơn thì giá tăng 100.000đ mỗi 8 giây.</span></p>
+<p style="margin:0 0 6px"><b>Thời lượng video:</b> <span style="color:var(--muted);font-size:14px">mỗi 8 giây là 1 cảnh quay.</span></p>
 <div class="dur-grid" id="dur-grid">
-<button type="button" class="dur" data-dur="8" data-price="290000">8 giây — 290.000đ</button>
-<button type="button" class="dur selected" data-dur="16" data-price="390000">16 giây — 390.000đ</button>
-<button type="button" class="dur" data-dur="24" data-price="490000">24 giây — 490.000đ</button>
-<button type="button" class="dur" data-dur="32" data-price="590000">32 giây — 590.000đ</button>
-<button type="button" class="dur" data-dur="40" data-price="690000">40 giây — 690.000đ</button>
+<button type="button" class="dur" data-dur="8" data-price="290000">8 giây</button>
+<button type="button" class="dur selected" data-dur="16" data-price="390000">16 giây</button>
+<button type="button" class="dur" data-dur="24" data-price="490000">24 giây</button>
+<button type="button" class="dur" data-dur="32" data-price="590000">32 giây</button>
+<button type="button" class="dur" data-dur="40" data-price="690000">40 giây</button>
 </div>
-<p style="color:var(--muted);font-size:14px;margin:8px 0 0">Gói tháng mặc định video 16s; muốn video dài hơn, cộng thêm theo bậc lẻ trên.</p>
-<p style="margin:12px 0 6px"><b>Số lượng video:</b></p>
+<p id="dur-note" style="color:var(--muted);font-size:14px;margin:8px 0 0"></p>
+</div>
+
+<div id="qty-row" style="display:none;margin-top:14px">
+<p style="margin:0 0 6px"><b>Số lượng video:</b></p>
 <div style="display:flex;align-items:center;gap:8px">
 <button type="button" class="dur" id="qty-minus" aria-label="Giảm số lượng">−</button>
 <input id="qty-input" type="number" min="1" max="20" value="1" style="width:64px;padding:8px;border:1.5px solid var(--line);border-radius:8px;font:inherit;font-size:15px;text-align:center">
@@ -558,27 +562,45 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
       pkgs.forEach(function(b){b.classList.remove('selected');});
       btn.classList.add('selected');
       selected=btn;
-      document.getElementById('total-pkg-name').textContent=btn.getAttribute('data-name');
-      document.getElementById('total-amount').textContent=fmt(parseInt(btn.getAttribute('data-total'),10));
-      document.getElementById('total-deposit').textContent=fmt(parseInt(btn.getAttribute('data-deposit'),10));
       totalLine.style.display='block';
-      document.getElementById('duration-row').style.display=(btn.getAttribute('data-pkg')==='le')?'block':'none';
+      document.getElementById('duration-row').style.display='block';
+      document.getElementById('qty-row').style.display=(btn.getAttribute('data-pkg')==='le')?'block':'none';
+      updateSelection();
       document.getElementById('form-error').style.display='none';
     });
   });
   var leBtn=document.querySelector('#pkg-grid .pkg[data-pkg="le"]');
   var durBtns=document.querySelectorAll('#dur-grid .dur');
   var qtyInput=document.getElementById('qty-input');
+  var durNote=document.getElementById('dur-note');
   var curDur='16', curUnit=390000, curQty=1;
-  function updateLePrice(){
-    var total=curQty*curUnit;
-    leBtn.setAttribute('data-total',String(total));
-    leBtn.setAttribute('data-deposit',String(total));
-    leBtn.setAttribute('data-name','Video lẻ — '+curQty+' video '+curDur+'s');
-    if(selected===leBtn){
+  // Số cảnh quay mỗi gói có (tính theo video chuẩn 16s = 2 cảnh): Thử 3 video = 6,
+  // Cơ bản 12 video = 24, Tăng trưởng 20 video = 40. Chọn thời lượng khác thì
+  // số video = số cảnh của gói / số cảnh mỗi video (làm tròn xuống).
+  var pkgClips={'thu':6,'coban':24,'tangtruong':40};
+  var pkgBaseName={'thu':'Gói Thử','coban':'Gói Cơ bản','tangtruong':'Gói Tăng trưởng'};
+  var durClips={'8':1,'16':2,'24':3,'32':4,'40':5};
+  function pkgCount(pkg,dur){return Math.floor(pkgClips[pkg]/durClips[dur]);}
+  function updateSelection(){
+    var pkg=selected.getAttribute('data-pkg');
+    if(pkg==='le'){
+      var total=curQty*curUnit;
+      leBtn.setAttribute('data-total',String(total));
+      leBtn.setAttribute('data-deposit',String(total));
+      leBtn.setAttribute('data-name','Video lẻ — '+curQty+' video '+curDur+'s');
       document.getElementById('total-pkg-name').textContent=leBtn.getAttribute('data-name');
       document.getElementById('total-amount').textContent=fmt(total);
       document.getElementById('total-deposit').textContent=fmt(total);
+      durNote.textContent='Video lẻ: giá mặc định theo video 16s — chọn 8s thì rẻ hơn, chọn dài hơn thì đắt hơn (xem bảng giá).';
+    }else{
+      var n=pkgCount(pkg,curDur);
+      var suffix=(pkg==='thu')?'':'/tháng';
+      var name=pkgBaseName[pkg]+' — '+n+' video '+curDur+'s'+suffix;
+      selected.setAttribute('data-name',name);
+      document.getElementById('total-pkg-name').textContent=name;
+      document.getElementById('total-amount').textContent=fmt(parseInt(selected.getAttribute('data-total'),10));
+      document.getElementById('total-deposit').textContent=fmt(parseInt(selected.getAttribute('data-deposit'),10));
+      durNote.textContent='Gói cố định theo số cảnh quay: chọn 8s được '+pkgCount(pkg,'8')+' video, chọn 24s được '+pkgCount(pkg,'24')+' video, chọn 40s được '+pkgCount(pkg,'40')+' video — tổng tiền gói không đổi.';
     }
   }
   function applyDuration(btn){
@@ -586,12 +608,13 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
     btn.classList.add('selected');
     curUnit=parseInt(btn.getAttribute('data-price'),10);
     curDur=btn.getAttribute('data-dur');
-    updateLePrice();
+    if(selected) updateSelection();
   }
   durBtns.forEach(function(b){b.addEventListener('click',function(){applyDuration(b);});});
   function setQty(n){
     n=Math.max(1,Math.min(20,parseInt(n,10)||1));
-    curQty=n; qtyInput.value=n; updateLePrice();
+    curQty=n; qtyInput.value=n;
+    if(selected) updateSelection();
   }
   document.getElementById('qty-minus').addEventListener('click',function(){setQty(curQty-1);});
   document.getElementById('qty-plus').addEventListener('click',function(){setQty(curQty+1);});
