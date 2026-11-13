@@ -210,6 +210,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <p class="price">390.000đ <small>/ video</small></p>
 <ul>
 <li>Thời lượng tùy chọn: 8s — 290.000đ · 16s — 390.000đ · 24s — 490.000đ · 32s — 590.000đ · 40s — 690.000đ</li>
+<li>Số lượng tùy chọn (tối đa 20 video) — tổng tiền tự tính: số video × đơn giá theo thời lượng.</li>
 <li>Kịch bản + giọng đọc AI + phụ đề</li>
 <li>Hướng dẫn đăng</li>
 <li>Trả 100% trước khi làm</li>
@@ -261,6 +262,13 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <button type="button" class="dur" data-dur="40" data-price="690000">40 giây — 690.000đ</button>
 </div>
 <p style="color:var(--muted);font-size:14px;margin:8px 0 0">Gói tháng mặc định video 16s; muốn video dài hơn, cộng thêm theo bậc lẻ trên.</p>
+<p style="margin:12px 0 6px"><b>Số lượng video:</b></p>
+<div style="display:flex;align-items:center;gap:8px">
+<button type="button" class="dur" id="qty-minus" aria-label="Giảm số lượng">−</button>
+<input id="qty-input" type="number" min="1" max="20" value="1" style="width:64px;padding:8px;border:1.5px solid var(--line);border-radius:8px;font:inherit;font-size:15px;text-align:center">
+<button type="button" class="dur" id="qty-plus" aria-label="Tăng số lượng">+</button>
+<span style="color:var(--muted);font-size:14px">video (tối đa 20)</span>
+</div>
 </div>
 
 <div class="total-line" id="total-line" style="display:none">Gói đã chọn: <b id="total-pkg-name">—</b><br>Tổng tiền: <b id="total-amount">—</b> &nbsp;·&nbsp; Cần chuyển đợt 1: <b id="total-deposit">—</b></div>
@@ -560,21 +568,34 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
   });
   var leBtn=document.querySelector('#pkg-grid .pkg[data-pkg="le"]');
   var durBtns=document.querySelectorAll('#dur-grid .dur');
+  var qtyInput=document.getElementById('qty-input');
+  var curDur='16', curUnit=390000, curQty=1;
+  function updateLePrice(){
+    var total=curQty*curUnit;
+    leBtn.setAttribute('data-total',String(total));
+    leBtn.setAttribute('data-deposit',String(total));
+    leBtn.setAttribute('data-name','Video lẻ — '+curQty+' video '+curDur+'s');
+    if(selected===leBtn){
+      document.getElementById('total-pkg-name').textContent=leBtn.getAttribute('data-name');
+      document.getElementById('total-amount').textContent=fmt(total);
+      document.getElementById('total-deposit').textContent=fmt(total);
+    }
+  }
   function applyDuration(btn){
     durBtns.forEach(function(b){b.classList.remove('selected');});
     btn.classList.add('selected');
-    var price=parseInt(btn.getAttribute('data-price'),10);
-    var dur=btn.getAttribute('data-dur');
-    leBtn.setAttribute('data-total',String(price));
-    leBtn.setAttribute('data-deposit',String(price));
-    leBtn.setAttribute('data-name','Video lẻ — 1 video '+dur+'s');
-    if(selected===leBtn){
-      document.getElementById('total-pkg-name').textContent=leBtn.getAttribute('data-name');
-      document.getElementById('total-amount').textContent=fmt(price);
-      document.getElementById('total-deposit').textContent=fmt(price);
-    }
+    curUnit=parseInt(btn.getAttribute('data-price'),10);
+    curDur=btn.getAttribute('data-dur');
+    updateLePrice();
   }
   durBtns.forEach(function(b){b.addEventListener('click',function(){applyDuration(b);});});
+  function setQty(n){
+    n=Math.max(1,Math.min(20,parseInt(n,10)||1));
+    curQty=n; qtyInput.value=n; updateLePrice();
+  }
+  document.getElementById('qty-minus').addEventListener('click',function(){setQty(curQty-1);});
+  document.getElementById('qty-plus').addEventListener('click',function(){setQty(curQty+1);});
+  qtyInput.addEventListener('change',function(){setQty(qtyInput.value);});
   var voiceAiLabels={'nu-tre':'Nữ trẻ trung','nu-tram':'Nữ trầm ấm','nam-tre':'Nam trẻ'};
   document.querySelectorAll('input[name="voice-mode"]').forEach(function(r){
     r.addEventListener('change',function(){
