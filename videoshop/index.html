@@ -1,11 +1,18 @@
 <!doctype html>
 <html lang="vi">
-<!-- v15 (13/11/2026): nội dung chuyển khoản = mã đơn + tên khách (không SĐT, theo ý Vo); mã QR tự cắt tên không dấu còn tối đa 25 ký tự; footer đổi email liên hệ sang hotro@videoshopai.vn; v14 mã VietQR động + báo lỗi khi lưu đơn thất bại; giới hạn file 5MB (v12) -->
+<!-- v16 (13/11/2026): SEO cơ bản (OG tags + favicon + robots.txt + sitemap.xml) và nút nghe thử 3 giọng AI mẫu (mau/giong-*.mp3); v15 nội dung CK = mã đơn + tên khách, footer hotro@; giới hạn file 5MB (v12) -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ | Đặt hàng online</title>
 <meta name="description" content="VideoShop AI làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu. Đặt hàng và thanh toán chuyển khoản ngay trên website.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ">
+<meta property="og:description" content="Video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: chỉ cần gửi ảnh sản phẩm, chúng tôi lo kịch bản, giọng đọc AI, dựng video và phụ đề. Gói Thử 3 video 990.000đ. Tặng 1 video miễn phí cho 5 shop đầu tiên.">
+<meta property="og:url" content="https://videoshopai.vn/">
+<meta property="og:image" content="https://videoshopai.vn/images/cover.jpg">
+<meta property="og:locale" content="vi_VN">
+<link rel="icon" type="image/png" href="images/favicon.png">
 <style>
 :root{--blue:#0b6fa4;--blue-dark:#095a85;--blue-soft:#eef7fc;--ink:#222;--muted:#666;--line:#e5e5e5;--green:#1e7d32;--green-soft:#e8f5e9}
 *{box-sizing:border-box}
@@ -282,6 +289,8 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
     <option value="nu-tram">Nữ trầm ấm</option>
     <option value="nam-tre">Nam trẻ</option>
   </select>
+  <p id="voice-preview-row" style="margin:8px 0 0"><button type="button" class="btn btn-ghost" id="btn-voice-preview" style="padding:8px 14px;font-size:15px">▶ Nghe thử giọng đã chọn</button> <span id="voice-preview-note" style="font-size:14px;color:var(--muted)"></span></p>
+  <audio id="voice-preview" preload="none" style="display:none"></audio>
   <label><input type="radio" name="voice-mode" value="own"> <span><b>Tôi tự gửi giọng mẫu</b><br><span style="color:var(--muted);font-size:14px">Gửi file thu giọng của chính bạn (mp3/wav/m4a/webm, tối đa 5MB, 1 file). Chỉ gửi giọng của chính mình, không gửi giọng người khác hay người nổi tiếng. Bản v1 chưa nhân bản giọng tự động — nếu muốn đọc đúng kịch bản thì gửi bản thu đầy đủ lời đọc, bên mình sẽ dùng trực tiếp.</span></span></label>
   <input id="f-voice-file" type="file" accept=".mp3,.wav,.m4a,.webm,audio/*" style="display:none">
   <p class="voice-note" id="voice-file-note" style="display:none"></p>
@@ -532,6 +541,7 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
     r.addEventListener('change',function(){
       var own=this.value==='own';
       document.getElementById('f-voice-ai').style.display=own?'none':'block';
+      document.getElementById('voice-preview-row').style.display=own?'none':'block';
       document.getElementById('f-voice-file').style.display=own?'block':'none';
       document.getElementById('voice-error').style.display='none';
     });
@@ -540,6 +550,16 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
     var f=this.files[0],n=document.getElementById('voice-file-note');
     if(f){n.style.display='block';n.textContent='Đã chọn: '+f.name+' ('+Math.round(f.size/1024)+' KB)';}
     else{n.style.display='none';}
+  });
+  var voiceSamples={'nu-tre':'mau/giong-nu-tre.mp3','nu-tram':'mau/giong-nu-tram.mp3','nam-tre':'mau/giong-nam-tre.mp3'};
+  document.getElementById('btn-voice-preview').addEventListener('click',function(){
+    var a=document.getElementById('voice-preview');
+    var v=document.getElementById('f-voice-ai').value;
+    var note=document.getElementById('voice-preview-note');
+    a.src=voiceSamples[v]||voiceSamples['nu-tre'];
+    a.play();
+    if(note)note.textContent='Đang phát giọng mẫu...';
+    a.onended=function(){if(note)note.textContent='';};
   });
   document.getElementById('f-ref-images').addEventListener('change',function(){
     var n=document.getElementById('ref-note');
