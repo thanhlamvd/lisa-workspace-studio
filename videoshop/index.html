@@ -65,6 +65,9 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 /* --- Đặt hàng --- */
 .pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
 .pkg{border:2px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;line-height:1.5;color:var(--ink);width:100%}
+.dur-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.dur{padding:8px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-size:15px;color:var(--ink)}
+.dur.selected{border-color:var(--blue);background:var(--blue-soft);font-weight:700}
 .pkg:hover{border-color:var(--blue)}
 .pkg.selected{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 2px var(--blue) inset}
 .pkg h3{margin:0 0 4px;font-size:17px}
@@ -173,7 +176,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <h3>Gói Thử</h3>
 <p class="price">990.000đ <small>/ 3 video</small></p>
 <ul>
-<li>3 video (8–16 giây)</li>
+<li>3 video chuẩn 16 giây</li>
 <li>Kịch bản + giọng đọc AI + phụ đề</li>
 <li>Hướng dẫn đăng</li>
 <li>Trả 100% trước khi làm</li>
@@ -184,7 +187,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <h3>Gói Cơ bản</h3>
 <p class="price">3.000.000đ <small>/ tháng — 12 video</small></p>
 <ul>
-<li>12 video/tháng (3 video/tuần)</li>
+<li>12 video/tháng (3 video/tuần, chuẩn 16 giây)</li>
 <li>Kịch bản theo trend tuần</li>
 <li>Giọng đọc AI + phụ đề + lịch đăng gợi ý</li>
 <li>Báo cáo cuối tháng</li>
@@ -195,7 +198,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <h3>Gói Tăng trưởng</h3>
 <p class="price">4.500.000đ <small>/ tháng — 20 video</small></p>
 <ul>
-<li>20 video/tháng (5 video/tuần)</li>
+<li>20 video/tháng (5 video/tuần, chuẩn 16 giây)</li>
 <li>Mọi quyền lợi gói Cơ bản</li>
 <li>Thêm 2 kịch bản livestream/tháng</li>
 <li>Báo cáo tuần + tư vấn trend riêng</li>
@@ -206,7 +209,7 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <h3>Video lẻ</h3>
 <p class="price">390.000đ <small>/ video</small></p>
 <ul>
-<li>1 video (8–16 giây)</li>
+<li>Thời lượng tùy chọn: 8s — 290.000đ · 16s — 390.000đ · 24s — 490.000đ · 32s — 590.000đ · 40s — 690.000đ</li>
 <li>Kịch bản + giọng đọc AI + phụ đề</li>
 <li>Hướng dẫn đăng</li>
 <li>Trả 100% trước khi làm</li>
@@ -243,9 +246,21 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 <button type="button" class="pkg" data-pkg="le" data-name="Video lẻ — 1 video" data-total="390000" data-deposit="390000" data-deposit-note="100% trước khi làm">
 <h3>Video lẻ</h3>
 <p class="price">390.000đ <small>/ video</small></p>
-<p class="desc">1 video — trả 100% trước khi làm.</p>
+<p class="desc">1 video 16s (chuẩn) — trả 100% trước khi làm.</p>
 <p class="tick">✓ Đã chọn</p>
 </button>
+</div>
+
+<div id="duration-row" style="display:none;margin-top:14px">
+<p style="margin:0 0 6px"><b>Thời lượng video lẻ:</b> <span style="color:var(--muted);font-size:14px">mỗi 8 giây là 1 cảnh quay — dài hơn thì giá tăng 100.000đ mỗi 8 giây.</span></p>
+<div class="dur-grid" id="dur-grid">
+<button type="button" class="dur" data-dur="8" data-price="290000">8 giây — 290.000đ</button>
+<button type="button" class="dur selected" data-dur="16" data-price="390000">16 giây — 390.000đ</button>
+<button type="button" class="dur" data-dur="24" data-price="490000">24 giây — 490.000đ</button>
+<button type="button" class="dur" data-dur="32" data-price="590000">32 giây — 590.000đ</button>
+<button type="button" class="dur" data-dur="40" data-price="690000">40 giây — 690.000đ</button>
+</div>
+<p style="color:var(--muted);font-size:14px;margin:8px 0 0">Gói tháng mặc định video 16s; muốn video dài hơn, cộng thêm theo bậc lẻ trên.</p>
 </div>
 
 <div class="total-line" id="total-line" style="display:none">Gói đã chọn: <b id="total-pkg-name">—</b><br>Tổng tiền: <b id="total-amount">—</b> &nbsp;·&nbsp; Cần chuyển đợt 1: <b id="total-deposit">—</b></div>
@@ -539,9 +554,27 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
       document.getElementById('total-amount').textContent=fmt(parseInt(btn.getAttribute('data-total'),10));
       document.getElementById('total-deposit').textContent=fmt(parseInt(btn.getAttribute('data-deposit'),10));
       totalLine.style.display='block';
+      document.getElementById('duration-row').style.display=(btn.getAttribute('data-pkg')==='le')?'block':'none';
       document.getElementById('form-error').style.display='none';
     });
   });
+  var leBtn=document.querySelector('#pkg-grid .pkg[data-pkg="le"]');
+  var durBtns=document.querySelectorAll('#dur-grid .dur');
+  function applyDuration(btn){
+    durBtns.forEach(function(b){b.classList.remove('selected');});
+    btn.classList.add('selected');
+    var price=parseInt(btn.getAttribute('data-price'),10);
+    var dur=btn.getAttribute('data-dur');
+    leBtn.setAttribute('data-total',String(price));
+    leBtn.setAttribute('data-deposit',String(price));
+    leBtn.setAttribute('data-name','Video lẻ — 1 video '+dur+'s');
+    if(selected===leBtn){
+      document.getElementById('total-pkg-name').textContent=leBtn.getAttribute('data-name');
+      document.getElementById('total-amount').textContent=fmt(price);
+      document.getElementById('total-deposit').textContent=fmt(price);
+    }
+  }
+  durBtns.forEach(function(b){b.addEventListener('click',function(){applyDuration(b);});});
   var voiceAiLabels={'nu-tre':'Nữ trẻ trung','nu-tram':'Nữ trầm ấm','nam-tre':'Nam trẻ'};
   document.querySelectorAll('input[name="voice-mode"]').forEach(function(r){
     r.addEventListener('change',function(){
@@ -751,7 +784,8 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
   function renderOrder(o){
     document.getElementById('lk-r-code').textContent=o.code;
     document.getElementById('lk-r-pkg').textContent=o.pkg;
-    document.getElementById('lk-r-status').textContent=o.status;
+    var statusLabels={'Mới nhận':'Đang xác minh thanh toán','Đã nhận cọc':'Đã nhận cọc','Đang làm':'Đang làm video','Đang sửa theo yêu cầu':'Đang sửa theo yêu cầu','Đã giao':'Đã giao','Đã hủy':'Đã hủy'};
+    document.getElementById('lk-r-status').textContent=statusLabels[o.status]||o.status;
     var statusNotes={'Mới nhận':'Đơn đã được ghi nhận và có hiệu lực — chúng tôi đang xác minh thanh toán. Sau khi xác nhận đã nhận tiền, chúng tôi sẽ bắt đầu làm video.','Đã nhận cọc':'Đã xác nhận thanh toán — chúng tôi đang làm video cho bạn.','Đang làm':'Chúng tôi đang làm video cho bạn — bản xem trước sẽ gửi bạn duyệt trước khi làm bản đầy đủ.','Đang sửa theo yêu cầu':'Chúng tôi đang sửa video theo yêu cầu của bạn.','Đã giao':'Video đã được giao — bạn kiểm tra mục "Video đã giao" bên dưới.','Đã hủy':'Đơn này đã bị hủy.'};
     document.getElementById('lk-r-status-note').textContent=statusNotes[o.status]||'';
     document.getElementById('lk-r-date').textContent=fmtDate(o.created_at);
