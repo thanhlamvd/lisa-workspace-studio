@@ -639,7 +639,7 @@ $("genScript").addEventListener("click",function(){refreshAll();toast("Đã vi�
 /* ---------- 3 HOOK + CAPTION ---------- */
 function hookVariants(){var p=productData();var host=$("hostName").value.trim()||"Lisa";return[
  "Hook A (nỗi đau): “"+cap(p.pain||"Khách hay gặp đúng vấn đề này")+" — để "+host+" test thật cho xem.”",
- "Hook B (giá sốc / tò mò): “Chỉ "+priceShort()+" mà được vậy nè. Không tin thì xem hết video.”",
+ "Hook B (giá sốc / tò mò): “"+(priceParts().price?("Chỉ "+priceShort()+" mà được vậy nè."):("Đang ưu đãi mà được vậy nè."))+" Không tin thì xem hết video.”",
  "Hook C (câu hỏi chọn giúp): “"+host+" phân vân quá. Xem hết rồi chọn giúp "+host+" ở bình luận nha.”"]}
 function captions(){var p=productData();var host=$("hostName").value.trim()||"Lisa";var tags=makeTags();var fb=p.name+" — "+(p.benefit||"")+"\nGiá: "+(p.price||"đang ưu đãi")+(p.link?"\nMua tại: "+p.link:"")+"\nBạn chấm em này mấy điểm? Bình luận cho "+host+" biết nha!\n"+tags;
  var neutral=p.name+". "+cap(firstBenefit())+".\nBạn thấy sao, hợp với bạn không?\n"+tags;
