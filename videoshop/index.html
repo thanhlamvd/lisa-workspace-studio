@@ -857,7 +857,7 @@ Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ tr�
     document.getElementById('lk-r-delivery').textContent=({zalo:'Zalo',telegram:'Telegram',email:'Email',direct:'Tải trực tiếp từ mã đơn'})[o.delivery]||'Zalo';
     var dw=document.getElementById('lk-delivered-wrap');
     if(o.delivered&&o.delivered.length){dw.style.display='block';document.getElementById('lk-delivered').innerHTML=o.delivered.map(function(d){return '<p>🎬 <a href="'+esc(d.url)+'" target="_blank" rel="noopener">'+esc(d.label)+'</a></p>';}).join('');}
-    else{dw.style.display='none';document.getElementById('lk-delivered').innerHTML='';}
+    else{dw.style.display='none';document.getElementById('lk-delivered').replaceChildren();}
     var rv=document.getElementById('lk-revisions');
     if(o.revisions&&o.revisions.length){rv.innerHTML=o.revisions.map(function(r){return '<p>• '+esc(r.message)+' <span style="color:var(--muted);font-size:13px">('+(r.status==='new'?'Đang chờ xử lý':'Đã xử lý')+' — '+fmtTs(r.ts)+')</span></p>';}).join('');}
     else{rv.innerHTML='<p style="color:var(--muted);font-size:15px">Chưa có yêu cầu sửa nào.</p>';}
@@ -965,7 +965,7 @@ document.querySelectorAll('#chat-quick button').forEach(function(b){b.addEventLi
 document.getElementById('chat-mode-cancel').addEventListener('click',function(){setChatType('normal','');input.value='';});
 window.openChatComplaint=function(code){panel.classList.add('open');if(!pollTimer)pollTimer=setInterval(poll,20000);poll();setChatType('complaint','Khiếu nại về đơn '+code+': ');window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});};
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function render(list){msgs.innerHTML='';if(!list.length){msgs.innerHTML='<div class="chat-msg pip"><span class="who">Pip — VideoShop AI</span>Chào bạn! Bạn cần làm video cho sản phẩm nào? Cho mình biết tên sản phẩm với link shop (nếu có) nhé. Gói Thử 3 video 990.000đ, 5 shop đầu tiên được tặng 1 video miễn phí.</div>';return;}
+function render(list){msgs.replaceChildren();if(!list.length){msgs.innerHTML='<div class="chat-msg pip"><span class="who">Pip — VideoShop AI</span>Chào bạn! Bạn cần làm video cho sản phẩm nào? Cho mình biết tên sản phẩm với link shop (nếu có) nhé. Gói Thử 3 video 990.000đ, 5 shop đầu tiên được tặng 1 video miễn phí.</div>';return;}
 list.forEach(function(m){var d=document.createElement('div');d.className='chat-msg '+(m.from==='pip'?'pip':'me');d.innerHTML='<span class="who">'+esc(m.from==='pip'?'Pip — VideoShop AI':'Bạn')+'</span>'+esc(m.message);msgs.appendChild(d);});msgs.scrollTop=msgs.scrollHeight;}
 function poll(){fetch('chat.php?action=poll&session='+encodeURIComponent(session)).then(function(r){return r.json();}).then(function(j){if(j.ok&&j.messages){if(j.messages.length!==lastCount){lastCount=j.messages.length;render(j.messages);}}}).catch(function(){});}
 fab.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open')){poll();if(!pollTimer)pollTimer=setInterval(poll,20000);input.focus();}});
