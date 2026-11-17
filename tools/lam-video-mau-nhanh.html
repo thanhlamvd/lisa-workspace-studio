@@ -123,7 +123,7 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:8px}
 <section class="card" id="buoc1">
 <span class="step-tag">Bước 1 / 7</span>
 <h2>Chọn loại video, thời lượng và ngành hàng</h2>
-<p class="hint">Chọn xong, số cảnh và mẫu thoại ở các bước dưới tự đổi theo. Thời lượng quyết định số cảnh: mỗi cảnh 8 giây.</p>
+<p class="hint">Chọn xong, số cảnh và mẫu thoại ở các bước dưới tự đổi theo. Nguồn clip quyết định độ dài mỗi cảnh: Flow 8 giây/cảnh, Gemini Omni 10 giây/cảnh.</p>
 
 <label class="f">Dạng video</label>
 <div class="pills" id="formatPills" role="group" aria-label="Dạng video">
@@ -144,6 +144,12 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:8px}
 <button type="button" class="pill" data-genre="guide" aria-pressed="false">Hướng dẫn sử dụng<small>Sai lầm thường gặp → từng bước đúng → kết quả → lưu video</small></button>
 </div>
 
+<label class="f">Nguồn clip</label>
+<div class="pills" id="sourcePills" role="group" aria-label="Nguồn clip">
+<button type="button" class="pill" data-source="flow" aria-pressed="true">Flow<small>8 giây/cảnh · 10 credit/cảnh · hợp review sản phẩm cần độ chính xác cao</small></button>
+<button type="button" class="pill" data-source="omni" aria-pressed="false">Gemini Omni<small>10 giây/cảnh · không trừ credit Flow · hợp video thường ngày kiểu Lisa</small></button>
+</div>
+
 <label class="f">Thời lượng video</label>
 <div class="pills" id="durPills" role="group" aria-label="Thời lượng">
 <button type="button" class="pill" data-dur="8" aria-pressed="false">8 giây<small>1 cảnh · 10 credit · lẻ 290k</small></button>
@@ -154,8 +160,8 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:8px}
 </div>
 
 <div class="kpi" aria-live="polite">
-<div><b id="kpiScenes">5 cảnh</b><span>Số cảnh (mỗi cảnh 8 giây)</span></div>
-<div><b id="kpiCredit">50 / 70 credit</b><span>Tín dụng Flow ước tính · trần 70/video</span></div>
+<div><b id="kpiScenes">5 cảnh</b><span id="kpiSceneUnit">Số cảnh (mỗi cảnh 8 giây · Flow)</span></div>
+<div><b id="kpiCredit">50 / 70 credit</b><span id="kpiCreditUnit">Tín dụng Flow ước tính · trần 70/video</span></div>
 <div><b id="kpiPrice">690.000đ</b><span>Giá lẻ tương ứng để báo khách</span></div>
 <div><b id="kpiBalance">306 credit</b><span>Số dư Flow hiện tại (sửa ở Bước 7)</span></div>
 </div>
@@ -218,7 +224,7 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:8px}
 <select id="ctxDay"><option value="thuong" selected>Ngày thường</option><option value="cuoituan">Cuối tuần</option></select></div>
 <div><label class="f" for="ctxAct">Hoạt động</label>
 <select id="ctxAct">
-<option value="olai" selected>Ở nhà / bàn trang điểm</option><option value="dilam">Đi làm</option><option value="dichoi">Đi chơi</option><option value="daopho">Dạo phố</option><option value="muasam">Mua sắm</option><option value="naucom">Nấu cơm</option><option value="cafe">Đi café</option><option value="banbe">Tụ tập bạn bè</option><option value="ngu">Chuẩn bị đi ngủ</option>
+<option value="olai" selected>Ở nhà / bàn trang điểm</option><option value="phongkhach">Ở phòng khách</option><option value="dilam">Đi làm</option><option value="dichoi">Đi chơi</option><option value="daopho">Dạo phố</option><option value="muasam">Mua sắm</option><option value="naucom">Nấu cơm</option><option value="cafe">Đi café</option><option value="banbe">Tụ tập bạn bè</option><option value="ngu">Chuẩn bị đi ngủ</option>
 </select></div>
 </div>
 <div class="grid2">
@@ -231,10 +237,25 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:8px}
 <option value="O3">Ngoài trời · Camera tiến lại gần</option>
 </select></div>
 <div><label class="f" for="ctxRoom">Không gian (giữ nguyên cả video — khóa phòng)</label>
-<input type="text" id="ctxRoom" value="Bàn trang điểm trong phòng ngủ, tường trắng kem, đèn bàn vàng nhẹ, gương tròn phía sau">
+<select id="ctxRoom">
+<option value="Bàn trang điểm trong phòng ngủ, tường trắng kem, đèn bàn vàng nhẹ, gương tròn phía sau" data-short="phòng ngủ" selected>Phòng ngủ · bàn trang điểm</option>
+<option value="Phòng khách sáng, sofa vải be, bàn trà gỗ thấp, cửa sổ lớn rèm voan, cây xanh ở góc phòng" data-short="phòng khách">Phòng khách</option>
+<option value="Phòng thay đồ sáng, gương toàn thân, tủ quần áo trắng, thảm màu nhạt" data-short="phòng thay đồ">Phòng thay đồ · gương toàn thân</option>
+<option value="Bếp hiện đại sáng sủa, mặt đá trắng, tủ bếp gỗ sáng, đủ ánh sáng" data-short="bếp">Bếp</option>
+<option value="Vỉa hè phố sạch, hàng cây xanh, cửa hàng phía sau, người và xe qua lại" data-short="ngoài trời">Ngoài trời · phố</option>
+<option value="Quán café ấm cúng, bàn gỗ nhỏ, cửa kính lớn, ánh sáng tự nhiên" data-short="quán café">Quán café</option>
+<option value="Văn phòng sáng, bàn làm việc gọn gàng, cửa kính lớn, cây xanh nhỏ" data-short="văn phòng">Văn phòng</option>
+</select>
 </div>
 </div>
-<div class="btnrow"><button type="button" class="btn" id="genScript">Viết thoại tự động</button><span class="hint" style="margin:0">Thoại hiện ở Bước 5 cùng prompt. Muốn đổi ý, sửa 4 ô trên rồi bấm lại.</span></div>
+<label class="f" for="hookType">Kiểu hook mở đầu (0–2 giây đầu quyết định người xem có ở lại không)</label>
+<select id="hookType">
+<option value="giasoc" selected>Giá sốc — nêu giá + lượt bán ngay đầu</option>
+<option value="noidau">Nỗi đau — nêu vấn đề khách hay gặp</option>
+<option value="cauhoi">Câu hỏi — hỏi ý kiến / chấm điểm</option>
+<option value="tomo">Tò mò — kiểu “không tin được”</option>
+</select>
+<div class="btnrow"><button type="button" class="btn" id="genScript">Viết thoại tự động</button><span class="hint" style="margin:0">Thoại, hook và caption tự làm mới ngay khi bạn sửa ô nhập hoặc nạp mẫu — xem trước luôn ở Bước 5, không cần bấm lại nút này.</span></div>
 </section>
 
 <!-- ============ BƯỚC 3 ============ -->
@@ -334,6 +355,7 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;margin-top:8px}
 <span class="step-tag">Bước 5 / 7</span>
 <h2>Prompt từng cảnh + thoại + hook + caption</h2>
 <p class="hint">Prompt viết bằng tiếng Anh để Flow hiểu tốt nhất, thoại tiếng Việt nằm trong prompt. Sao chép từng cảnh dán vào Flow kèm ảnh tham chiếu ghi trong prompt. Cấu trúc thoại: hook 0–2 giây → reveal → mẹo → 1 câu hỏi → câu kêu follow ở cuối.</p>
+<div id="dialoguePreview"></div>
 <div id="hooksBox"></div>
 <div id="scenesOut"><div class="alert amber">Chưa có prompt. Quay lại Bước 4, tick đủ khóa rồi bấm “Tạo prompt”.</div></div>
 <div class="btnrow">
@@ -480,17 +502,19 @@ var INDUSTRIES={
 };
 var PRICES={8:290000,16:390000,24:490000,32:590000,40:690000};
 var PRESETS={
- colorkey:{format:"review",genre:"review",dur:40,industry:"mypham",name:"Son tint COLORKEY Water Tint 2.5g",price:"219.000đ · MUA 2 NHẬN 3 · đã bán 1tr+ · 4,9 sao",pain:"Son trôi nhanh sau khi ăn uống, phải dặm lại cả ngày",benefit:"Lên màu chuẩn từ lần thoa đầu, bám màu lâu, môi vẫn mềm không khô",detail:"Tuýp trụ nhỏ trong suốt, nắp vặn cùng tông màu son, chữ \"COLORKEY\" in dọc thân tuýp, đầu cọ dẹt mềm. Màu chính P307 hồng đào baby (MLBB). Đúng 1 tuýp trong khung.",outfit:"Áo thun ôm cổ tròn tay ngắn màu trắng kem, quần jeans cạp cao ống đứng xanh nhạt, không xẻ tà, chất liệu cotton co giãn. Đi dép quai mảnh màu nude.",link:"https://s.shopee.vn/9zzKaOwlEp"},
- dam:{format:"daily",genre:"intro",dur:16,industry:"thoitrang",name:"Đầm công sở D2985",price:"Giá đang ưu đãi trên Shopee (xem link)",pain:"Sáng đi làm mà chưa biết mặc gì cho gọn và hack dáng",benefit:"Cạp cao hack dáng nhỏ, xẻ giữa trước đi lại thoải mái, vải đứng form",detail:"Đầm liền, cổ V, tay ngắn, eo chiết, xẻ giữa phía trước, có dây đai và khóa, màu be, chất liệu vải công sở đứng form.",outfit:"Đầm D2985 màu be: cổ V, tay ngắn, eo chiết có dây đai + khóa kéo sau, xẻ tà giữa phía trước, không xếp ly, vải đứng form. Giày cao gót mũi nhọn màu nude.",link:""},
- vayngu:{format:"affiliate",genre:"intro",dur:16,industry:"thoitrang",name:"Váy ngủ lụa satin 2 dây phối ren trắng kem",price:"80.800đ sau voucher · 4,8 sao · 339 đánh giá · đã bán 2k+",pain:"Muốn váy ngủ nhìn đắt tiền mà giá phải thật mềm",benefit:"Lụa satin mát mềm, cổ V viền ren xinh, dáng suông thoải mái",detail:"Váy ngủ lụa satin 2 dây, màu trắng kem, cổ V viền ren, dáng suông, không xẻ tà, lưng kín.",outfit:"Váy ngủ lụa satin 2 dây màu trắng kem: cổ V viền ren trắng, dáng suông tới gối, không xẻ tà, không hở lưng, chất lụa satin bóng nhẹ. Đi chân trần trong phòng ngủ.",link:"https://s.shopee.vn/40i9qMWdZa"}
+ colorkey:{format:"review",genre:"review",dur:40,industry:"mypham",source:"flow",hook:"noidau",time:"toi",day:"thuong",act:"olai",move:"I2",space:"Bàn trang điểm trong phòng ngủ, tường trắng kem, đèn bàn vàng nhẹ, gương tròn phía sau",name:"Son tint COLORKEY Water Tint 2.5g",price:"219.000đ · MUA 2 NHẬN 3 · đã bán 1tr+ · 4,9 sao",pain:"Son trôi nhanh sau khi ăn uống, phải dặm lại cả ngày",benefit:"Lên màu chuẩn từ lần thoa đầu, bám màu lâu, môi vẫn mềm không khô",detail:"Tuýp trụ nhỏ trong suốt, nắp vặn cùng tông màu son, chữ \"COLORKEY\" in dọc thân tuýp, đầu cọ dẹt mềm. Màu chính P307 hồng đào baby (MLBB). Đúng 1 tuýp trong khung.",outfit:"Áo thun ôm cổ tròn tay ngắn màu trắng kem, quần jeans cạp cao ống đứng xanh nhạt, không xẻ tà, chất liệu cotton co giãn. Đi dép quai mảnh màu nude.",link:"https://s.shopee.vn/9zzKaOwlEp"},
+ dam:{format:"daily",genre:"intro",dur:16,industry:"thoitrang",source:"flow",hook:"noidau",time:"sang",day:"thuong",act:"dilam",move:"O1",space:"Văn phòng sáng, bàn làm việc gọn gàng, cửa kính lớn, cây xanh nhỏ",name:"Đầm công sở D2985",price:"Giá đang ưu đãi trên Shopee (xem link)",pain:"Sáng đi làm mà chưa biết mặc gì cho gọn và hack dáng",benefit:"Cạp cao hack dáng nhỏ, xẻ giữa trước đi lại thoải mái, vải đứng form",detail:"Đầm liền, cổ V, tay ngắn, eo chiết, xẻ giữa phía trước, có dây đai và khóa, màu be, chất liệu vải công sở đứng form.",outfit:"Đầm D2985 màu be: cổ V, tay ngắn, eo chiết có dây đai + khóa kéo sau, xẻ tà giữa phía trước, không xếp ly, vải đứng form. Giày cao gót mũi nhọn màu nude.",link:""},
+ vayngu:{format:"affiliate",genre:"intro",dur:16,industry:"thoitrang",source:"flow",hook:"giasoc",time:"toi",day:"thuong",act:"ngu",move:"I2",space:"Phòng khách sáng, sofa vải be, bàn trà gỗ thấp, cửa sổ lớn rèm voan, cây xanh ở góc phòng",name:"Váy ngủ lụa satin 2 dây phối ren trắng kem",price:"80.800đ sau voucher · 4,8 sao · 339 đánh giá · đã bán 2k+",pain:"Muốn váy ngủ nhìn đắt tiền mà giá phải thật mềm",benefit:"Lụa satin mát mềm, cổ V viền ren xinh, dáng suông thoải mái",detail:"Váy ngủ lụa satin 2 dây, màu trắng kem, cổ V viền ren, dáng suông, không xẻ tà, lưng kín.",outfit:"Váy ngủ lụa satin 2 dây màu trắng kem: cổ V viền ren trắng, dáng suông tới gối, không xẻ tà, không hở lưng, chất lụa satin bóng nhẹ. Đi chân trần trong phòng khách.",link:"https://s.shopee.vn/40i9qMWdZa"}
 };
 
 /* ---------- TRẠNG THÁI ---------- */
-var S={format:"review",genre:"review",dur:40,voice:"rumi",style:"natural",refs:{face:[],product:[],body:[]},voiceFile:null,scenes:[],clips:[],briefs:[],generated:false};
+var S={format:"review",genre:"review",dur:40,source:"flow",voice:"rumi",style:"natural",refs:{face:[],product:[],body:[]},voiceFile:null,scenes:[],clips:[],briefs:[],generated:false};
 function $(id){return document.getElementById(id)}
 function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},2600)}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-function scenesCount(){return Math.round(S.dur/8)}
+function sceneSec(){return S.source==="omni"?10:8}
+function scenesCount(){return Math.round(S.dur/sceneSec())}
+function priceFor(){return 190000+scenesCount()*100000}
 function fmtMoney(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")+"đ"}
 function download(name,content,type){var b=new Blob([content],{type:type||"text/plain;charset=utf-8"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},400)}
 function copyText(txt,msg){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){toast(msg||"Đã sao chép")},function(){fallbackCopy(txt,msg)})}else{fallbackCopy(txt,msg)}}
@@ -498,15 +522,19 @@ function fallbackCopy(txt,msg){var ta=document.createElement("textarea");ta.valu
 
 /* ---------- BƯỚC 1: PILLS ---------- */
 function pillGroup(elId,attr,cb){var box=$(elId);box.addEventListener("click",function(e){var b=e.target.closest("[data-"+attr+"]");if(!b)return;box.querySelectorAll(".pill").forEach(function(p){p.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true");cb(b.getAttribute("data-"+attr),b)})}
-pillGroup("formatPills","format",function(v){S.format=v;var map={review:40,daily:16,affiliate:16,haul:24,ugc:40,long:40};setDur(map[v]||40);if(v==="haul")setGenre("haul");if(v==="review")setGenre("review");syncKpi()});
-pillGroup("genrePills","genre",function(v){S.genre=v});
-pillGroup("durPills","dur",function(v){S.dur=parseInt(v,10);syncKpi()});
+pillGroup("formatPills","format",function(v){S.format=v;if(v==="ugc"){setSource("omni");setDur(40)}else if(v==="daily"){setSource("omni");setDur(20)}else{setSource("flow");var map={review:40,affiliate:16,haul:24,long:40};setDur(map[v]||40)}if(v==="haul")setGenre("haul");if(v==="review")setGenre("review");refreshAll()});
+pillGroup("genrePills","genre",function(v){S.genre=v;refreshAll()});
+pillGroup("durPills","dur",function(v){S.dur=parseInt(v,10);syncKpi();refreshAll()});
 pillGroup("stylePills","style",function(v){S.style=v});
-function setDur(d){S.dur=d;document.querySelectorAll("#durPills .pill").forEach(function(p){p.setAttribute("aria-pressed",p.getAttribute("data-dur")==String(d)?"true":"false")});syncKpi()}
+pillGroup("sourcePills","source",function(v){setSource(v);refreshAll();toast(v==="omni"?"Đã chọn Gemini Omni — mỗi cảnh 10 giây, không trừ credit Flow":"Đã chọn Flow — mỗi cảnh 8 giây, 10 credit/cảnh")});
+function renderSourcePills(){document.querySelectorAll("#sourcePills .pill").forEach(function(p){p.setAttribute("aria-pressed",p.getAttribute("data-source")===S.source?"true":"false")})}
+function setSource(src){var n=scenesCount();S.source=src;S.dur=n*sceneSec();renderSourcePills();renderDurPills();syncKpi()}
+function renderDurPills(){var sec=sceneSec();var durs=sec===10?[10,20,30,40,50]:[8,16,24,32,40];var box=$("durPills");box.innerHTML="";durs.forEach(function(d){var n=Math.round(d/sec);var b=document.createElement("button");b.type="button";b.className="pill";b.setAttribute("data-dur",String(d));b.setAttribute("aria-pressed",S.dur===d?"true":"false");b.innerHTML=d+" giây<small>"+n+" cảnh · "+(S.source==="omni"?"Omni — không trừ credit Flow":(n*10)+" credit")+" · lẻ "+fmtMoney(190000+n*100000)+"</small>";box.appendChild(b)})}
+function setDur(d){S.dur=d;renderDurPills();syncKpi()}
 function setGenre(g){S.genre=g;document.querySelectorAll("#genrePills .pill").forEach(function(p){p.setAttribute("aria-pressed",p.getAttribute("data-genre")===g?"true":"false")})}
 function setFormat(f){S.format=f;document.querySelectorAll("#formatPills .pill").forEach(function(p){p.setAttribute("aria-pressed",p.getAttribute("data-format")===f?"true":"false")})}
-function syncKpi(){var n=scenesCount();$("kpiScenes").textContent=n+" cảnh";$("kpiCredit").textContent=(n*10)+" / 70 credit";$("kpiPrice").textContent=fmtMoney(PRICES[S.dur]||690000);var bal=parseInt($("creditBalance").value||"0",10);$("kpiBalance").textContent=bal+" credit";creditCheck()}
-function creditCheck(){var bal=parseInt($("creditBalance").value||"0",10);var need=scenesCount()*10;var w=$("creditWarn");if(!w)return;if(bal<need){w.innerHTML='<div class="alert red">Số dư còn '+bal+' credit, video này cần '+need+' credit — chưa đủ. Giảm thời lượng hoặc chờ reset ngày 10/12.</div>'}else if(bal-need<50){w.innerHTML='<div class="alert amber">Sau video này còn '+(bal-need)+' credit — sắp cạn chu kỳ. Nhớ mốc reset 10/12 lúc 14:57, credit không cộng dồn.</div>'}else{w.innerHTML='<div class="alert green">Số dư ổn: làm video này tốn '+need+' credit, còn lại '+(bal-need)+' credit.</div>'}}
+function syncKpi(){var n=scenesCount();var sec=sceneSec();$("kpiScenes").textContent=n+" cảnh";$("kpiSceneUnit").textContent="Số cảnh (mỗi cảnh "+sec+" giây · "+(S.source==="omni"?"Gemini Omni":"Flow")+")";if(S.source==="omni"){$("kpiCredit").textContent="0 credit Flow";$("kpiCreditUnit").textContent="Gemini Omni — không trừ credit Flow"}else{$("kpiCredit").textContent=(n*10)+" / 70 credit";$("kpiCreditUnit").textContent="Tín dụng Flow ước tính · trần 70/video"}$("kpiPrice").textContent=fmtMoney(priceFor());var bal=parseInt($("creditBalance").value||"0",10);$("kpiBalance").textContent=bal+" credit";creditCheck()}
+function creditCheck(){var bal=parseInt($("creditBalance").value||"0",10);var need=scenesCount()*10;var w=$("creditWarn");if(!w)return;if(S.source==="omni"){w.innerHTML='<div class="alert green">Nguồn Gemini Omni: video này <b>không trừ credit Flow</b> — số dư Flow giữ nguyên cho các video làm bằng Flow.</div>';return}if(bal<need){w.innerHTML='<div class="alert red">Số dư còn '+bal+' credit, video này cần '+need+' credit — chưa đủ. Giảm thời lượng hoặc chờ reset ngày 10/12.</div>'}else if(bal-need<50){w.innerHTML='<div class="alert amber">Sau video này còn '+(bal-need)+' credit — sắp cạn chu kỳ. Nhớ mốc reset 10/12 lúc 14:57, credit không cộng dồn.</div>'}else{w.innerHTML='<div class="alert green">Số dư ổn: làm video này tốn '+need+' credit, còn lại '+(bal-need)+' credit.</div>'}}
 
 /* ---------- GIỌNG ---------- */
 function renderVoices(){var g=$("voiceGrid");g.innerHTML="";VOICES.forEach(function(v){var b=document.createElement("button");b.type="button";b.className="voice-card";b.setAttribute("aria-pressed",S.voice===v.id?"true":"false");b.innerHTML="<b>"+esc(v.name)+"</b><span class='tag "+v.clsG+"'>"+v.gender+"</span><span class='tag "+v.clsR+"'>Miền "+v.region+"</span><span class='tag'>"+esc(v.tone)+"</span><div class='hint' style='margin:4px 0 0'>"+esc(v.age)+" · Hợp: "+esc(v.best)+"</div>";b.addEventListener("click",function(){S.voice=v.id;renderVoices();toast("Đã chọn giọng: "+v.name)});g.appendChild(b)})}
@@ -519,43 +547,89 @@ $("voiceFile").addEventListener("change",function(){var f=$("voiceFile").files[0
 
 /* ---------- MẪU CÓ SẴN ---------- */
 $("applyPreset").addEventListener("click",function(){var key=$("preset").value;if(!key){toast("Hãy chọn một mẫu trong danh sách trước");return}loadPreset(key);toast("Đã nạp mẫu — sửa lại theo sản phẩm của bạn rồi đi tiếp")});
-function loadPreset(key){var p=PRESETS[key];if(!p)return;setFormat(p.format);setGenre(p.genre);setDur(p.dur);$("industry").value=p.industry;$("pName").value=p.name;$("pPrice").value=p.price;$("pPain").value=p.pain;$("pBenefit").value=p.benefit;$("pDetail").value=p.detail;$("pOutfit").value=p.outfit;$("pLink").value=p.link;syncKpi();window.scrollTo({top:$("buoc2").offsetTop-70,behavior:"smooth"})}
+$("preset").addEventListener("change",function(){var key=$("preset").value;if(!key)return;loadPreset(key);toast("Đã nạp mẫu — thoại, hook, caption ở Bước 5 đã làm mới ngay theo mẫu")});
+function syncSpaceOutfit(){var sp=$("ctxRoom");if(!sp||!sp.options||!sp.options.length)return;var opt=sp.options[sp.selectedIndex];var short=opt?opt.getAttribute("data-short"):"";var ta=$("pOutfit");var v=ta.value;if(short==="phòng khách"||short==="phòng ngủ"||short==="phòng thay đồ"||short==="bếp"){v=v.replace(/trong phòng (ngủ|khách|thay đồ)|trong bếp/g,"trong "+short)}else if(/chân trần/i.test(v)){v=v.replace(/Đi chân trần[^.]*\./i,"Đi dép quai mảnh màu nude.")}ta.value=v}
+$("ctxRoom").addEventListener("change",function(){syncSpaceOutfit();var opt=$("ctxRoom").options[$("ctxRoom").selectedIndex];toast("Đã đổi không gian sang "+(opt?opt.getAttribute("data-short"):"")+" — ô trang phục đã đồng bộ theo")});
+function loadPreset(key){var p=PRESETS[key];if(!p)return;setSource(p.source||"flow");setFormat(p.format);setGenre(p.genre);setDur(p.dur);$("industry").value=p.industry;$("pName").value=p.name;$("pPrice").value=p.price;$("pPain").value=p.pain;$("pBenefit").value=p.benefit;$("pDetail").value=p.detail;$("pOutfit").value=p.outfit;$("pLink").value=p.link;if(p.time)$("ctxTime").value=p.time;if(p.day)$("ctxDay").value=p.day;if(p.act)$("ctxAct").value=p.act;if(p.move)$("ctxMove").value=p.move;if(p.space)$("ctxRoom").value=p.space;if(p.hook)$("hookType").value=p.hook;syncSpaceOutfit();S.generated=false;$("scenesOut").innerHTML="<div class='alert amber'>Brief vừa nạp mẫu mới — thoại, hook và caption đã làm mới ngay ở trên. Tick đủ khóa ở Bước 4 rồi bấm “Tạo prompt” để sinh prompt theo mẫu này.</div>";refreshAll();syncKpi();window.scrollTo({top:$("buoc2").offsetTop-70,behavior:"smooth"})}
 
 /* ---------- HỒ SƠ ---------- */
 function profileData(){return{host:{name:$("hostName").value,desc:$("hostDesc").value,body:$("hostBody").value},voice:S.voice,voiceFile:S.voiceFile?S.voiceFile.name:null,brand:{name:$("brandName").value,tag:$("brandTag").value,color:$("brandColor").value},style:S.style,refs:{face:S.refs.face.map(function(r){return r.name}),product:S.refs.product.map(function(r){return r.name}),body:S.refs.body.map(function(r){return r.name})}}}
 $("saveProfile").addEventListener("click",function(){toast("Đã lưu hồ sơ trong phiên này — giọng "+curVoice().name+" sẽ vào mọi prompt")});
 $("exportProfile").addEventListener("click",function(){download("brief-ho-so.json",JSON.stringify({profile:profileData(),product:productData()},null,2),"application/json");toast("Đã tải brief JSON")});
-$("importProfile").addEventListener("change",function(){var f=$("importProfile").files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.profile){$("hostName").value=d.profile.host.name||$("hostName").value;$("hostDesc").value=d.profile.host.desc||$("hostDesc").value;$("hostBody").value=d.profile.host.body||$("hostBody").value;if(d.profile.voice){S.voice=d.profile.voice;renderVoices()}$("brandName").value=d.profile.brand.name||$("brandName").value;$("brandTag").value=d.profile.brand.tag||$("brandTag").value}if(d.product){$("pName").value=d.product.name||"";$("pPrice").value=d.product.price||"";$("pPain").value=d.product.pain||"";$("pBenefit").value=d.product.benefit||"";$("pDetail").value=d.product.detail||"";$("pOutfit").value=d.product.outfit||"";$("pLink").value=d.product.link||"";if(d.product.dur)setDur(d.product.dur);if(d.product.genre)setGenre(d.product.genre);if(d.product.format)setFormat(d.product.format)}toast("Đã nhập brief — kiểm tra lại các ô rồi tạo prompt")}catch(e){toast("File brief không đọc được, kiểm tra lại định dạng JSON")}};r.readAsText(f);$("importProfile").value=""});
-function productData(){return{name:$("pName").value.trim(),price:$("pPrice").value.trim(),pain:$("pPain").value.trim(),benefit:$("pBenefit").value.trim(),detail:$("pDetail").value.trim(),outfit:$("pOutfit").value.trim(),link:$("pLink").value.trim(),industry:$("industry").value,genre:S.genre,format:S.format,dur:S.dur}}
+$("importProfile").addEventListener("change",function(){var f=$("importProfile").files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.profile){$("hostName").value=d.profile.host.name||$("hostName").value;$("hostDesc").value=d.profile.host.desc||$("hostDesc").value;$("hostBody").value=d.profile.host.body||$("hostBody").value;if(d.profile.voice){S.voice=d.profile.voice;renderVoices()}$("brandName").value=d.profile.brand.name||$("brandName").value;$("brandTag").value=d.profile.brand.tag||$("brandTag").value}if(d.product){$("pName").value=d.product.name||"";$("pPrice").value=d.product.price||"";$("pPain").value=d.product.pain||"";$("pBenefit").value=d.product.benefit||"";$("pDetail").value=d.product.detail||"";$("pOutfit").value=d.product.outfit||"";$("pLink").value=d.product.link||"";if(d.product.dur)setDur(d.product.dur);if(d.product.genre)setGenre(d.product.genre);if(d.product.format)setFormat(d.product.format)}refreshAll();toast("Đã nhập brief — kiểm tra lại các ô rồi tạo prompt")}catch(e){toast("File brief không đọc được, kiểm tra lại định dạng JSON")}};r.readAsText(f);$("importProfile").value=""});
+function productData(){return{name:$("pName").value.trim(),price:$("pPrice").value.trim(),pain:$("pPain").value.trim(),benefit:$("pBenefit").value.trim(),detail:$("pDetail").value.trim(),outfit:$("pOutfit").value.trim(),link:$("pLink").value.trim(),industry:$("industry").value,genre:S.genre,format:S.format,dur:S.dur,source:S.source}}
 
 /* ---------- KỊCH BẢN TỰ ĐỘNG ---------- */
-function shortName(){var n=$("pName").value.trim();return n.length>42?n.slice(0,42)+"…":n}
-function buildScripts(){var p=productData();var g=GENRES[S.genre]||GENRES.review;var n=scenesCount();var host=$("hostName").value.trim()||"Lisa";var beats=[];for(var i=0;i<n;i++){beats.push(g.beats[Math.min(i,g.beats.length-1)])}
-var lines=beats.map(function(beat,i){var last=i===beats.length-1;
- if(/nỗi đau|Sai lầm|Vấn đề/.test(beat))return p.pain?cap(p.pain)+". Đúng nỗi khổ của mình luôn.":beat+".";
- if(/Demo|Bước 1/.test(beat))return "Để "+host+" dùng thử ngay đây. Nhìn kỹ nè.";
- if(/Khoe kết quả|Kết quả/.test(beat))return "Xong rồi nè. "+cap(firstBenefit())+".";
- if(/Chứng minh/.test(beat))return "Test thật luôn nha. Ăn uống xong, màu vẫn còn nguyên.";
- if(/Tính năng/.test(beat))return "Em này có "+lower(firstBenefit())+".";
- if(/Lợi ích/.test(beat))return "Dùng rồi mới thấy tiện. "+cap(firstBenefit())+".";
- if(/Cận cảnh/.test(beat))return "Nhìn cận cảnh nè. Chi tiết rõ từng chút một.";
- if(/set 1/.test(beat))return "Set một nè. Xoay một vòng cho mọi người xem.";
- if(/set 2/.test(beat))return "Set hai đây. Kiểu này hack dáng lắm.";
- if(/set 3/.test(beat))return "Set ba, set mình thích nhất nè.";
- if(/Mở đầu/.test(beat))return "Hôm nay "+host+" thử mấy set này. Xem hết rồi chọn giúp "+host+" nha.";
- if(/Sản phẩm xuất hiện/.test(beat))return "Giải pháp là em này đây. "+shortName()+".";
- if(/Bằng chứng/.test(beat))return "Không nói suông đâu. Nhìn kết quả thật nè.";
- if(/Chốt đơn/.test(beat))return "Giá chỉ "+priceShort()+". Thấy hợp thì chốt nhanh nha.";
- if(/Bước 2/.test(beat))return "Bước hai nè. Làm chậm thôi, dễ lắm.";
- if(/Mẹo/.test(beat))return "Nhớ lưu video lại. Lúc cần mở ra xem là làm được ngay.";
- if(last)return "Bạn thấy sao? Bình luận cho "+host+" biết nha. Kênh "+host+" mới xây, bạn follow "+host+" để mai lên đồ tiếp nha!";
- return beat+". "+cap(firstBenefit())+"."});
-return{beats:beats,lines:lines}}
+/* Thoại được ráp từ các đoạn nội dung có vai trò rõ ràng (hook → tên + giá → lượt bán/đánh giá
+   → demo → lợi ích → câu hỏi → kêu follow), KHÔNG bao giờ lấy tiêu đề cảnh làm lời thoại.
+   Mỗi cảnh bị giới hạn số từ theo đúng thời lượng cảnh (8 giây Flow / 10 giây Omni):
+   đoạn phụ bị cắt trước, đoạn bắt buộc (giá, lượt bán, câu hỏi, follow) không bao giờ bị cắt. */
+function priceParts(){var raw=$("pPrice").value||"";var segs=raw.split("·").map(function(s){return s.trim()}).filter(Boolean);var price=null,sales=null,rating=null,offer=null;
+ segs.forEach(function(s){var m=s.match(/[\d][\d.,]*\s*đ/);if(m&&!price)price=m[0].replace(/\s+/g,"");if(/đã bán/i.test(s)&&!sales)sales=s.replace(/^.*?đã bán/i,"đã bán");if(/sao/i.test(s)&&!rating){var r=s.match(/[\d][\d.,]*\s*sao/);if(r)rating=r[0].replace(/\s+/g," ")}if(/(MUA|TẶNG|GIẢM|FREESHIP)/i.test(s)&&!offer&&s!==segs[0])offer=s});
+ if(!price){var m2=raw.match(/[\d][\d.,]*\s*đ/);if(m2)price=m2[0].replace(/\s+/g,"")}
+ return{price:price,sales:sales,rating:rating,offer:offer}}
+function salesCore(sales){if(!sales)return null;var m=sales.match(/\d[\d.,]*\s*(?:k|tr)\+/i);return m?m[0].replace(/\s+/g,""):sales}
+function shortProdName(){var w=$("pName").value.trim().split(/\s+/);var out=[];for(var i=0;i<w.length;i++){if(i>=2&&/^\d/.test(w[i]))break;out.push(w[i]);if(out.length>=5)break}return out.join(" ")||"sản phẩm này"}
+function benefitsList(){return $("pBenefit").value.split(/[,;·]/).map(function(s){return s.trim()}).filter(Boolean)}
+function demoVerb(){return{mypham:"thoa thử",thoitrang:"mặc thử",giadung:"dùng thử",mebe:"dùng thử",thucpham:"ăn thử"}[$("industry").value]||"dùng thử"}
+function hookText(pp){var t=$("hookType")?$("hookType").value:"giasoc";var sp=shortProdName();
+ if(t==="noidau")return $("pPain").value.trim()?cap($("pPain").value.trim())+".":"Có một lỗi rất nhiều người mắc phải nè.";
+ if(t==="cauhoi")return "Theo bạn, "+lower(sp)+" này đáng mấy điểm?";
+ if(t==="tomo")return pp.price?("Không tin được. "+cap(sp)+" mà chỉ "+pp.price+"."):("Không tin được. Nhìn "+lower(sp)+" này nè.");
+ return pp.price?("Giá sốc nè! "+cap(sp)+" chỉ "+pp.price+(pp.sales?", "+pp.sales+" rồi":"")+"."):("Giá sốc nè! "+cap(sp)+" đang ưu đãi mạnh lắm.")}
+function buildScripts(){var g=GENRES[S.genre]||GENRES.review;var n=scenesCount();var sec=sceneSec();var budget=Math.max(20,Math.round(sec*4));
+ var host=$("hostName").value.trim()||"Lisa";var pp=priceParts();var bens=benefitsList();
+ var beats=[];for(var i=0;i<n;i++)beats.push(g.beats[Math.min(i,g.beats.length-1)]);
+ var scenes=[];for(var j=0;j<n;j++)scenes.push([]);
+ function push(i,t,req){if(i>=0&&i<n&&t)scenes[i].push({t:t,req:!!req})}
+ function wc(arr){return arr.map(function(s){return s.t}).join(" ").split(/\s+/).filter(Boolean).length}
+ var hook=hookText(pp);push(0,hook,true);
+ if(pp.price&&hook.indexOf(pp.price)<0)push(0,cap(shortProdName())+" giá chỉ "+pp.price+(pp.offer?", đang "+pp.offer:"")+".",true);
+ var proofParts=[];if(pp.sales&&hook.indexOf(salesCore(pp.sales))<0)proofParts.push(cap(pp.sales));if(pp.rating)proofParts.push("được "+pp.rating);
+ if(proofParts.length)push(n<=2?0:1,cap(proofParts.join(", "))+".",true);
+ if(pp.offer&&n>=3)push(1,"Đang "+pp.offer+" nữa đó.",false);
+ var demo="Để "+host+" "+demoVerb()+" ngay đây. Nhìn kỹ nè.";
+ if(n>=3){var midIdx=[];for(var k=1;k<n-1;k++)midIdx.push(k);
+  if(midIdx.length){push(midIdx[0],demo,false);bens.forEach(function(b,bi){push(midIdx[bi%midIdx.length],cap(b)+".",bi===0)});if(bens.length<2)push(midIdx[midIdx.length-1],"Nhìn cận cảnh nè, chi tiết rõ từng chút một.",false);
+   var fillers=["Test thật luôn nha, không nói suông đâu.","Càng dùng càng thấy đáng tiền nè.","Nhìn kỹ nè, chi tiết rõ từng chút một."];
+   midIdx.forEach(function(mi,fi){if(wc(scenes[mi])<10)push(mi,fillers[fi%fillers.length],false)})}
+ }else if(n===2){
+  if(bens.length)push(0,cap(bens[0])+".",true);
+  for(var b2=1;b2<bens.length;b2++)push(1,cap(bens[b2])+".",false);
+ }
+ var question=S.format==="haul"?"Set 1, 2 hay 3 đẹp nhất? Bình luận chọn giúp "+host+" nha.":"Bạn thấy sao? Bình luận cho "+host+" biết nha.";
+ var followFull="Kênh "+host+" mới xây, bạn follow "+host+" để mai lên đồ tiếp nha!";
+ var followShort="Bạn follow "+host+" để mai lên đồ tiếp nha!";
+ if(n===1){
+  if(bens.length)push(0,cap(bens[0])+".",true);
+  if(bens.length>1)push(0,cap(bens[1])+".",false);
+  push(0,"Bạn thấy sao?",true);
+  push(0,followFull,true);
+ }else{
+  push(n-1,question,true);
+  push(n-1,followFull,true);
+ }
+ var lines=scenes.map(function(arr){var a=arr.slice();
+  while(wc(a)>budget){var dropped=false;
+   for(var x=a.length-1;x>=0;x--){if(!a[x].req){a.splice(x,1);dropped=true;break}}
+   if(dropped)continue;
+   var fi=-1;for(var y=0;y<a.length;y++)if(a[y].t===followFull)fi=y;
+   if(fi>=0){a[fi]={t:followShort,req:true};continue}
+   break}
+  return a.map(function(s){return s.t}).join(" ")});
+ return{beats:beats,lines:lines,budget:budget,sec:sec}}
 function cap(s){s=String(s||"").trim();return s?s.charAt(0).toUpperCase()+s.slice(1):s}
 function lower(s){s=String(s||"").trim();return s?s.charAt(0).toLowerCase()+s.slice(1):s}
-function firstBenefit(){var b=$("pBenefit").value.split(/[,;·]/)[0];return b?b.trim():"hiệu quả rõ ràng"}
-function priceShort(){var p=$("pPrice").value.split("·")[0];return p?p.trim():"đang ưu đãi"}
-$("genScript").addEventListener("click",function(){var sc=buildScripts();S.scenes=sc;toast("Đã viết thoại "+sc.lines.length+" cảnh — xem ở Bước 5 sau khi tạo prompt, hoặc bấm Tạo prompt luôn nếu đã tick khóa");renderHooksAndCaptions()});
+function firstBenefit(){var b=benefitsList();return b.length?b[0]:"hiệu quả rõ ràng"}
+function priceShort(){var pp=priceParts();return pp.price||"đang ưu đãi"}
+function renderDialoguePreview(){var box=$("dialoguePreview");if(!box)return;var sc=(S.scenes&&S.scenes.lines&&S.scenes.lines.length)?S.scenes:buildScripts();S.scenes=sc;var sec=sceneSec();
+ var h="<h3>Thoại xem trước — "+sc.lines.length+" cảnh × "+sec+" giây ("+(S.source==="omni"?"Gemini Omni":"Flow")+")</h3><p class='hint'>Cấu trúc mỗi video: hook 0–2 giây → tên sản phẩm + giá + lượt bán → demo → lợi ích → 1 câu hỏi → kêu follow ở cảnh cuối. Tiêu đề cảnh không bao giờ nằm trong lời thoại.</p>";
+ sc.lines.forEach(function(l,i){var w=l.split(/\s+/).filter(Boolean).length;h+="<div class='alert "+(w>sc.budget?"red":"green")+"' style='margin:6px 0'><b>Cảnh "+(i+1)+" — "+esc(sc.beats[i])+":</b> “"+esc(l)+"”<br><span class='hint' style='margin:0'>"+w+"/"+sc.budget+" từ · vừa ~"+sec+" giây</span></div>"});
+ box.innerHTML=h}
+function refreshAll(){S.scenes=buildScripts();renderHooksAndCaptions();renderDialoguePreview();var sb=$("scanBox");if(sb)sb.innerHTML=""}
+$("hookType").addEventListener("change",refreshAll);
+["pName","pPrice","pPain","pBenefit","pDetail","pOutfit"].forEach(function(id){$(id).addEventListener("input",refreshAll)});
+$("genScript").addEventListener("click",function(){refreshAll();toast("Đã viết thoại "+S.scenes.lines.length+" cảnh — xem ngay phần thoại xem trước ở Bước 5");window.scrollTo({top:$("buoc5").offsetTop-70,behavior:"smooth"})});
 
 /* ---------- 3 HOOK + CAPTION ---------- */
 function hookVariants(){var p=productData();var host=$("hostName").value.trim()||"Lisa";return[
@@ -574,18 +648,42 @@ function renderHooksAndCaptions(){var h=hookVariants();var c=captions();$("hooks
 var lockInputs=document.querySelectorAll("#lockChecks input[type=checkbox]");
 lockInputs.forEach(function(cb){cb.addEventListener("change",gateCheck)});
 function gateCheck(){var all=true;lockInputs.forEach(function(cb){if(!cb.checked)all=false});$("genPrompts").disabled=!all;$("genGateHint").textContent=all?"Đủ 6 khóa rồi — bấm “Tạo prompt” thôi.":"Cần tick đủ 6 khóa ở trên thì nút “Tạo prompt” mới mở.";return all}
-function scanErrors(){var errs=[];var warns=[];var p=productData();if(!p.name)errs.push("Chưa nhập tên sản phẩm (Bước 2).");if(!p.detail)errs.push("Chưa có chi tiết khóa sản phẩm — Flow sẽ tự bịa hình dáng/chữ.");if(!/giày|dép|chân trần/i.test(p.outfit))errs.push("Trang phục chưa ghi giày dép — lỗi từng gặp: ngoài trời mà chân trần.");if(!/xẻ|không xẻ/i.test(p.outfit))warns.push("Trang phục chưa nói rõ có/không xẻ tà — nên ghi rõ để khỏi mất chi tiết như đầm D2985.");var sc=S.scenes.lines&&S.scenes.lines.length?S.scenes:S.scenes=buildScripts();sc.lines.forEach(function(l,i){var w=l.split(/\s+/).length;if(w>24)errs.push("Thoại cảnh "+(i+1)+" dài "+w+" từ — quá 8 giây sẽ nói không kịp. Rút xuống dưới 24 từ.")});var v=curVoice();if(S.format!=="daily"&&v.gender==="Nam"&&$("industry").value==="mypham")warns.push("Đang chọn giọng nam cho sản phẩm mỹ phẩm nữ — cân nhắc giọng nữ để hợp khách mục tiêu.");if(!S.refs.product.length)warns.push("Chưa tải ảnh sản phẩm trong phiên này — nhớ đính kèm ảnh sản phẩm thật khi vào Flow.");if(!S.refs.face.length)warns.push("Chưa tải ảnh mặt — nhớ đính kèm ảnh mặt chuẩn cho mọi cảnh.");return{errs:errs,warns:warns}}
-$("runScan").addEventListener("click",function(){var r=scanErrors();var h="";if(r.errs.length)h+="<div class='alert red'><b>Có "+r.errs.length+" lỗi cần sửa:</b><br>"+r.errs.map(esc).join("<br>")+"</div>";if(r.warns.length)h+="<div class='alert amber'><b>Lưu ý:</b><br>"+r.warns.map(esc).join("<br>")+"</div>";if(!r.errs.length&&!r.warns.length)h="<div class='alert green'>Quét sạch: đủ khóa, thoại vừa 8 giây mỗi cảnh, có giày dép, có quy tắc không chữ trên màn hình. Sẵn sàng tạo prompt.</div>";else if(!r.errs.length)h+="<div class='alert green'>Không có lỗi chặn. Sửa các lưu ý vàng nếu muốn chắc hơn, rồi tick khóa và tạo prompt.</div>";$("scanBox").innerHTML=h;toast(r.errs.length?"Quét thấy "+r.errs.length+" lỗi cần sửa":"Quét xong — không có lỗi chặn")});
+function scanErrors(){var errs=[];var warns=[];var p=productData();var pp=priceParts();var sc=buildScripts();S.scenes=sc;
+ if(!p.name)errs.push("Chưa nhập tên sản phẩm (Bước 2).");
+ if(!p.detail)errs.push("Chưa có chi tiết khóa sản phẩm — Flow sẽ tự bịa hình dáng/chữ.");
+ if(!/giày|dép|chân trần/i.test(p.outfit))errs.push("Trang phục chưa ghi giày dép — lỗi từng gặp: ngoài trời mà chân trần.");
+ if(!/xẻ|không xẻ/i.test(p.outfit))warns.push("Trang phục chưa nói rõ có/không xẻ tà — nên ghi rõ để khỏi mất chi tiết như đầm D2985.");
+ var sp=$("ctxRoom");var spShort=(sp&&sp.options&&sp.options[sp.selectedIndex])?sp.options[sp.selectedIndex].getAttribute("data-short"):"";
+ if(spShort&&spShort!=="phòng ngủ"&&/phòng ngủ/i.test(p.outfit))errs.push("Lệch bối cảnh: trang phục đang ghi “phòng ngủ” nhưng không gian đã chọn là "+spShort+" — đổi không gian ở Bước 2 hoặc sửa ô trang phục cho khớp.");
+ if(spShort==="ngoài trời"&&/chân trần/i.test(p.outfit))errs.push("Lệch bối cảnh: không gian ngoài trời nhưng trang phục ghi chân trần — phải ghi rõ giày/dép.");
+ var lines=sc.lines;var first=lines[0]||"";var last=lines[lines.length-1]||"";
+ if(!pp.price&&(S.format==="affiliate"||S.genre==="ads"))errs.push("Ô giá chưa có con số giá (dạng …đ) — video affiliate / quảng cáo bắt buộc nêu giá ngay trong thoại cảnh 1.");
+ if(pp.price&&first.indexOf(pp.price)<0)errs.push("Thoại cảnh 1 thiếu giá "+pp.price+" — giá phải xuất hiện ngay cảnh đầu, không được để sang cảnh sau.");
+ if(pp.sales){var core=salesCore(pp.sales);var twoFirst=first+" "+(lines[1]||"");if(core&&twoFirst.indexOf(core)<0)errs.push("Thoại 2 cảnh đầu thiếu lượt bán ("+pp.sales+") — thiếu bằng chứng xã hội là lỗi chặn.")}
+ var painFrag=$("pPain").value.trim().split(/\s+/).slice(0,3).join(" ");
+ var hasHook=(pp.price&&first.indexOf(pp.price)>=0)||/giá sốc/i.test(first)||(painFrag&&first.indexOf(painFrag)>=0)||first.indexOf("?")>=0;
+ if(!hasHook)errs.push("Thoại cảnh 1 thiếu hook 0–2 giây — chưa có giá sốc, nỗi đau hay câu hỏi mở đầu.");
+ if(last.indexOf("?")<0)errs.push("Thoại cảnh cuối thiếu câu hỏi kéo bình luận.");
+ if(!/follow/i.test(last))errs.push("Thoại cảnh cuối thiếu câu kêu follow.");
+ var bens=benefitsList();if(bens.length){var bf=bens[0].split(/\s+/).slice(0,3).join(" ");if(lines.join(" ").indexOf(bf)<0)errs.push("Thoại chưa nhắc lợi ích chính của sản phẩm ("+bens[0]+").")}
+ sc.beats.forEach(function(b){if(!b)return;lines.forEach(function(l,i){if(l.toLowerCase().indexOf(b.toLowerCase())>=0)errs.push("Tiêu đề cảnh “"+b+"” đang lọt vào lời thoại cảnh "+(i+1)+" — tiêu đề cảnh không bao giờ được nằm trong thoại.")})});
+ lines.forEach(function(l,i){var w=l.split(/\s+/).filter(Boolean).length;if(w>sc.budget)errs.push("Thoại cảnh "+(i+1)+" dài "+w+" từ — quá "+sc.sec+" giây (tối đa ~"+sc.budget+" từ) sẽ nói không kịp. Bỏ bớt lợi ích phụ hoặc tăng thời lượng.")});
+ var v=curVoice();if(S.format!=="daily"&&v.gender==="Nam"&&$("industry").value==="mypham")warns.push("Đang chọn giọng nam cho sản phẩm mỹ phẩm nữ — cân nhắc giọng nữ để hợp khách mục tiêu.");
+ if(!S.refs.product.length)warns.push("Chưa tải ảnh sản phẩm trong phiên này — nhớ đính kèm ảnh sản phẩm thật khi vào Flow.");
+ if(!S.refs.face.length)warns.push("Chưa tải ảnh mặt — nhớ đính kèm ảnh mặt chuẩn cho mọi cảnh.");
+ return{errs:errs,warns:warns}}
+$("runScan").addEventListener("click",function(){var r=scanErrors();var h="";if(r.errs.length)h+="<div class='alert red'><b>Có "+r.errs.length+" lỗi cần sửa:</b><br>"+r.errs.map(esc).join("<br>")+"</div>";if(r.warns.length)h+="<div class='alert amber'><b>Lưu ý:</b><br>"+r.warns.map(esc).join("<br>")+"</div>";if(!r.errs.length&&!r.warns.length)h="<div class='alert green'>Quét sạch: đủ khóa, thoại đủ hook + giá + lượt bán + câu hỏi + kêu follow và vừa thời lượng mỗi cảnh, có giày dép, bối cảnh khớp nhau, có quy tắc không chữ trên màn hình. Sẵn sàng tạo prompt.</div>";else if(!r.errs.length)h+="<div class='alert green'>Không có lỗi chặn. Sửa các lưu ý vàng nếu muốn chắc hơn, rồi tick khóa và tạo prompt.</div>";$("scanBox").innerHTML=h;toast(r.errs.length?"Quét thấy "+r.errs.length+" lỗi cần sửa":"Quét xong — không có lỗi chặn")});
 
 /* ---------- SINH PROMPT ---------- */
 function attachItems(i,beat){var items=[];var face=S.refs.face.length?S.refs.face.map(function(r){return r.name}).join(", "):"ảnh mặt chuẩn của người dẫn (chưa tải trong tool — dùng file mặt chuẩn của bạn)";items.push("Ảnh mặt: "+face+" — dùng cho mọi cảnh");if(/Demo|Thoa|Cận cảnh|Bước|dùng|Tính năng/i.test(beat)||i===1){var prod=S.refs.product.length?S.refs.product.map(function(r){return r.name}).join(", "):"ảnh sản phẩm đã cắt bỏ người mẫu (chưa tải trong tool)";items.push("Ảnh sản phẩm: "+prod+" — cho cảnh demo / khoe màu")}if(i===0||/toàn thân|set/i.test(beat)){var body=S.refs.body.length?S.refs.body.map(function(r){return r.name}).join(", "):"ảnh dáng / trang phục toàn thân (chưa tải trong tool)";items.push("Ảnh dáng / trang phục: "+body+" — cho cảnh toàn thân")}return items}
 function refListForScene(i,n,beat){var list=[];var face=S.refs.face.length?S.refs.face.map(function(r){return r.name}).join(", "):"FACE reference photo (standard face)";var prod=S.refs.product.length?S.refs.product.map(function(r){return r.name}).join(", "):"PRODUCT reference photo (product only, model removed)";var body=S.refs.body.length?S.refs.body.map(function(r){return r.name}).join(", "):"FULL-BODY / outfit reference photo";list.push("Attach FACE reference: "+face+" (use in EVERY scene)");if(/Demo|Thoa|Cận cảnh|Bước|dùng|Tính năng/i.test(beat)||i===1)list.push("Attach PRODUCT reference: "+prod);if(i===0||/toàn thân|set/i.test(beat))list.push("Attach FULL-BODY reference: "+body);return list}
 function buildPrompt(i,beat,line){var p=productData();var ind=INDUSTRIES[p.industry]||INDUSTRIES.mypham;var v=curVoice();var host=$("hostName").value.trim()||"Lisa";var move=$("ctxMove").value;var moveTxt={I1:"Movement pattern I1 (indoor): standing, one slow turn, then sit down gracefully. One movement pattern only.",I2:"Movement pattern I2 (indoor): already seated from the first frame, natural small gestures, hair touch while seated, look straight at camera.",O1:"Movement pattern O1 (outdoor): walking naturally toward camera, then one turn while walking. Never spin standing still in the middle of the street.",O2:"Movement pattern O2 (outdoor): camera moves backward following her steps, she walks forward naturally.",O3:"Movement pattern O3 (outdoor): camera slowly pushes in toward her while she walks/stands naturally."}[move];
- var timeTxt={sang:"Morning",chieu:"Afternoon",toi:"Evening"}[$("ctxTime").value];var dayTxt=$("ctxDay").value==="cuoituan"?"weekend (leisure context, NEVER going to work)":"weekday";var actTxt={olai:"at home / at the vanity table",dilam:"going to work",dichoi:"going out for fun",daopho:"strolling the street",muasam:"shopping",naucom:"cooking at home",cafe:"at a cafe",banbe:"meeting friends",ngu:"getting ready for bed"}[$("ctxAct").value];
+ var timeTxt={sang:"Morning",chieu:"Afternoon",toi:"Evening"}[$("ctxTime").value];var dayTxt=$("ctxDay").value==="cuoituan"?"weekend (leisure context, NEVER going to work)":"weekday";var actTxt={olai:"at home / at the vanity table",phongkhach:"relaxing in the living room",dilam:"going to work",dichoi:"going out for fun",daopho:"strolling the street",muasam:"shopping",naucom:"cooking at home",cafe:"at a cafe",banbe:"meeting friends",ngu:"getting ready for bed"}[$("ctxAct").value];
  var turnRule="TURN RULE: turn pivoting on ONE heel, other foot steps in close, BOTH feet stay on the ground at all times, arms relaxed down while turning, NO hair touch while turning, natural real-time speed, NOT slow motion.";
- var camRule=i===0?"CAMERA LOCK: FULL BODY shot for the entire first 8 seconds, show the whole outfit/product context, camera steady, at most a very slight push-in.":"CAMERA LOCK: may push in slowly to at most head-and-shoulders framing, never closer to the face.";
+ var sec=sceneSec();
+ var camRule=i===0?"CAMERA LOCK: FULL BODY shot for the entire first "+sec+" seconds, show the whole outfit/product context, camera steady, at most a very slight push-in.":"CAMERA LOCK: may push in slowly to at most head-and-shoulders framing, never closer to the face.";
  var parts=[];
- parts.push("SCENE "+(i+1)+" / "+scenesCount()+" — "+beat.toUpperCase()+" · Vertical 9:16 · 8 seconds · photorealistic UGC product video");
+ parts.push("SCENE "+(i+1)+" / "+scenesCount()+" — "+beat.toUpperCase()+" · Vertical 9:16 · "+sec+" seconds · "+(S.source==="omni"?"Gemini Omni clip (Omni does NOT use Flow credits)":"Flow clip")+" · photorealistic UGC product video");
  parts.push("CONTEXT LOCK: "+timeTxt+", "+dayTxt+", activity: "+actTxt+". Location: "+($("ctxRoom").value||ind.room)+".");
  parts.push("FACE LOCK: Same woman as the FACE reference photo in every scene — "+host+", "+$("hostDesc").value+". Identical face, identical hairstyle, no face drift, no beautify morphing.");
  parts.push("BODY LOCK: "+$("hostBody").value+". Model proportions in EVERY frame: slim waist, long straight slim legs. Camera slightly low, angled slightly up to lengthen the legs. Footwear exactly as in the outfit description — never barefoot outdoors. "+turnRule);
@@ -598,18 +696,18 @@ function buildPrompt(i,beat,line){var p=productData();var ind=INDUSTRIES[p.indus
  parts.push("VOICE: "+v.veo+(S.voiceFile?(" Reference voice sample file: \""+S.voiceFile.name+"\" ("+S.voiceFile.duration+") — match its timbre when dubbing the voice-only version."):"")+" She speaks Vietnamese, lip-sync matched.");
  parts.push("DIALOGUE (Vietnamese, she says exactly this): \""+line+"\"");
  parts.push("STRICT NEGATIVES: no on-screen text, no captions, no watermark text, no extra product, no extra brush, no loose cap, no deformed hands, no extra fingers, no slow motion.");
- parts.push("REFERENCE IMAGES TO ATTACH IN FLOW (upload manually inside the Flow interface): "+refListForScene(i,scenesCount(),beat).join(" | "));
+ parts.push((S.source==="omni"?"REFERENCE IMAGES TO ATTACH IN GEMINI (upload manually inside the Gemini app): ":"REFERENCE IMAGES TO ATTACH IN FLOW (upload manually inside the Flow interface): ")+refListForScene(i,scenesCount(),beat).join(" | "));
  return parts.join("\n")}
 $("genPrompts").addEventListener("click",function(){if(!gateCheck()){toast("Chưa tick đủ 6 khóa");return}var r=scanErrors();if(r.errs.length){$("scanBox").innerHTML="<div class='alert red'><b>Đang có lỗi chặn, sửa trước khi tạo:</b><br>"+r.errs.map(esc).join("<br>")+"</div>";window.scrollTo({top:$("buoc4").offsetTop-70,behavior:"smooth"});return}var sc=buildScripts();S.scenes=sc;S.generated=true;renderHooksAndCaptions();var out=$("scenesOut");out.innerHTML="";sc.beats.forEach(function(beat,i){var prompt=buildPrompt(i,beat,sc.lines[i]);var d=document.createElement("div");d.className="scene-card";var at=attachItems(i,beat);var ah="<div class='attach-box'><b>Đính kèm vào Flow cho cảnh này:</b><ul>"+at.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul><span class='hint' style='margin:0'>Tải lên Flow bằng tay — nút Tải lên của Flow chỉ mở khi bấm chuột thật, bấm tự động thì menu đóng lại. Tool không đẩy ảnh vào Flow được.</span></div>";d.innerHTML="<h3>Cảnh "+(i+1)+": "+esc(beat)+"</h3><div class='hint'>Thoại: “"+esc(sc.lines[i])+"”</div>"+ah;var pre=document.createElement("pre");pre.className="prompt";pre.textContent=prompt;d.appendChild(pre);var row=document.createElement("div");row.className="btnrow";var cb=document.createElement("button");cb.type="button";cb.className="btn sm";cb.textContent="Sao chép prompt cảnh "+(i+1);cb.addEventListener("click",function(){copyText(prompt,"Đã sao chép prompt cảnh "+(i+1))});row.appendChild(cb);d.appendChild(row);out.appendChild(d)});toast("Đã tạo "+sc.beats.length+" prompt — sao chép từng cảnh dán vào Flow");window.scrollTo({top:$("buoc5").offsetTop-70,behavior:"smooth"})});
 function allPromptsText(){if(!S.generated)return"";var sc=S.scenes;return sc.beats.map(function(b,i){return buildPrompt(i,b,sc.lines[i])}).join("\n\n====================\n\n")}
 $("copyAll").addEventListener("click",function(){var t=allPromptsText();if(!t){toast("Chưa có prompt — tạo prompt ở Bước 4 trước");return}copyText(t,"Đã sao chép tất cả prompt")});
-function productionScript(){var p=productData();var c=captions();var lines=[];lines.push("# SCRIPT DỰNG VIDEO — "+p.name);lines.push("Dạng: "+S.format+" · Thể loại: "+(GENRES[S.genre]||{}).label+" · Thời lượng: "+S.dur+" giây · "+scenesCount()+" cảnh");lines.push("Giọng: "+curVoice().name+" — "+curVoice().tts+(S.voiceFile?(" · File mẫu: "+S.voiceFile.name):""));lines.push("");lines.push("## THOẠI TỪNG CẢNH");(S.scenes.lines||buildScripts().lines).forEach(function(l,i){lines.push("Cảnh "+(i+1)+": "+l)});lines.push("");lines.push("## XUẤT BẢN");lines.push("- 2 bản âm thanh: bản có nhạc (FB/IG/X) + bản chỉ giọng (TikTok, chừa im ~1 giây ở đuôi)");lines.push("- Nhạc nền: "+$("optMusic").value+" ở mức ~30% so với giọng (giọng 0 dB, nhạc khoảng -15 dB)");lines.push("- Phụ đề: "+($("optSub").checked?"tiếng Việt có dấu, khớp thoại từng cảnh":"không phụ đề"));lines.push("- Thương hiệu "+$("brandName").value+": hiện "+$("optBrandSec").value+" giây đầu");lines.push("- Ảnh bìa: "+$("optCover").value);if(S.format==="affiliate")lines.push("- Affiliate: dựng 2 bản lồng tiếng — quảng cáo (Facebook) + trung tính (TikTok/IG/X)");lines.push("");lines.push("## CAPTION");lines.push("[Facebook - quảng cáo]\n"+c.fb);lines.push("[TikTok/IG - trung tính]\n"+c.neutral);lines.push("[X - rút gọn]\n"+c.x);return lines.join("\n")}
+function productionScript(){var p=productData();var c=captions();var lines=[];lines.push("# SCRIPT DỰNG VIDEO — "+p.name);lines.push("Dạng: "+S.format+" · Thể loại: "+(GENRES[S.genre]||{}).label+" · Thời lượng: "+S.dur+" giây · "+scenesCount()+" cảnh · Nguồn clip: "+(S.source==="omni"?"Gemini Omni ("+sceneSec()+" giây/cảnh, không trừ credit Flow)":"Flow ("+sceneSec()+" giây/cảnh, 10 credit/cảnh)"));lines.push("Giọng: "+curVoice().name+" — "+curVoice().tts+(S.voiceFile?(" · File mẫu: "+S.voiceFile.name):""));lines.push("");lines.push("## THOẠI TỪNG CẢNH");(S.scenes.lines||buildScripts().lines).forEach(function(l,i){lines.push("Cảnh "+(i+1)+": "+l)});lines.push("");lines.push("## XUẤT BẢN");lines.push("- 2 bản âm thanh: bản có nhạc (FB/IG/X) + bản chỉ giọng (TikTok, chừa im ~1 giây ở đuôi)");lines.push("- Nhạc nền: "+$("optMusic").value+" ở mức ~30% so với giọng (giọng 0 dB, nhạc khoảng -15 dB)");lines.push("- Phụ đề: "+($("optSub").checked?"tiếng Việt có dấu, khớp thoại từng cảnh":"không phụ đề"));lines.push("- Thương hiệu "+$("brandName").value+": hiện "+$("optBrandSec").value+" giây đầu");lines.push("- Ảnh bìa: "+$("optCover").value);if(S.format==="affiliate")lines.push("- Affiliate: dựng 2 bản lồng tiếng — quảng cáo (Facebook) + trung tính (TikTok/IG/X)");lines.push("");lines.push("## CAPTION");lines.push("[Facebook - quảng cáo]\n"+c.fb);lines.push("[TikTok/IG - trung tính]\n"+c.neutral);lines.push("[X - rút gọn]\n"+c.x);return lines.join("\n")}
 $("dlScript").addEventListener("click",function(){download("script-dung-video.txt",productionScript());toast("Đã tải script dựng")});
 
 /* ---------- NỐI VIDEO ---------- */
 $("clipFiles").addEventListener("change",function(){Array.prototype.forEach.call($("clipFiles").files,function(f){var url=URL.createObjectURL(f);var item={name:f.name,url:url,size:f.size,dur:0,file:f};S.clips.push(item);probeClip(item)});$("clipFiles").value="";renderClips()});
 function probeClip(item){var v=document.createElement("video");v.preload="metadata";v.src=item.url;v.addEventListener("loadedmetadata",function(){item.dur=v.duration||0;renderClips()})}
-$("addSceneClips").addEventListener("click",function(){var n=scenesCount();for(var i=0;i<n;i++){if(!S.clips.some(function(c){return c.name==="Cảnh "+(i+1)+" (placeholder)"}))S.clips.push({name:"Cảnh "+(i+1)+" (placeholder)",url:null,size:0,dur:8,file:null})}renderClips();toast("Đã thêm placeholder theo thứ tự cảnh")});
+$("addSceneClips").addEventListener("click",function(){var n=scenesCount();for(var i=0;i<n;i++){if(!S.clips.some(function(c){return c.name==="Cảnh "+(i+1)+" (placeholder)"}))S.clips.push({name:"Cảnh "+(i+1)+" (placeholder)",url:null,size:0,dur:sceneSec(),file:null})}renderClips();toast("Đã thêm placeholder theo thứ tự cảnh")});
 function renderClips(){var box=$("clipList");box.innerHTML="";S.clips.forEach(function(c,i){var d=document.createElement("div");d.className="clip-row";var media=c.url?"<video src='"+c.url+"' muted preload='metadata'></video>":"<div style='width:64px;height:96px;border-radius:8px;background:var(--surface);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;text-align:center;padding:4px'>Chưa có file</div>";d.innerHTML=media+"<div class='grow'><b>Thứ tự "+(i+1)+":</b> "+esc(c.name)+"<br><span class='hint'>Thời lượng: "+(c.dur?c.dur.toFixed(1)+" giây":"chưa rõ")+" · Dung lượng: "+(c.size?(c.size/1024/1024).toFixed(1)+" MB":"—")+"</span></div>";var up=document.createElement("button");up.type="button";up.className="btn sec sm icon-btn";up.textContent="↑ Lên";up.setAttribute("aria-label","Đưa clip lên");up.addEventListener("click",function(){if(i>0){var t=S.clips[i-1];S.clips[i-1]=S.clips[i];S.clips[i]=t;renderClips()}});var dn=document.createElement("button");dn.type="button";dn.className="btn sec sm icon-btn";dn.textContent="↓ Xuống";dn.setAttribute("aria-label","Đưa clip xuống");dn.addEventListener("click",function(){if(i<S.clips.length-1){var t=S.clips[i+1];S.clips[i+1]=S.clips[i];S.clips[i]=t;renderClips()}});var del=document.createElement("button");del.type="button";del.className="btn sec sm";del.textContent="Xóa";del.addEventListener("click",function(){if(c.url)URL.revokeObjectURL(c.url);S.clips.splice(i,1);renderClips()});d.appendChild(up);d.appendChild(dn);d.appendChild(del);box.appendChild(d)});var td=S.clips.reduce(function(a,c){return a+(c.dur||0)},0);var ts=S.clips.reduce(function(a,c){return a+(c.size||0)},0);$("stitchDur").textContent=td?td.toFixed(1)+" giây":"0 giây";$("stitchSize").textContent=ts?(ts/1024/1024).toFixed(1)+" MB":"~"+(td*1.2).toFixed(0)+" MB (ước tính)";$("stitchCount").textContent=S.clips.length+" clip"}
 $("dlFfmpeg").addEventListener("click",function(){if(!S.clips.length){toast("Chưa có clip nào trong hàng nối");return}var names=S.clips.map(function(c){return c.file?c.name:"canh-"+(S.clips.indexOf(c)+1)+".mp4"});var list=names.map(function(n){return "file '"+n+"'" }).join("\n");var sh="#!/bin/bash\n# Script nối video — nối cứng, không làm chậm, giữ nguyên âm thanh từng clip\n# 1) Để tất cả clip cùng thư mục với file này, đặt tên đúng như danh sách dưới\n# 2) Chạy: bash noi-video.sh\ncat > danh-sach.txt <<'EOF'\n"+list+"\nEOF\nffmpeg -f concat -safe 0 -i danh-sach.txt -c copy video-da-noi.mp4\n# Áp tùy chọn xuất: nhạc nền ~30% + thương hiệu 0-2,5s làm ở bước dựng tiếp theo theo script-dung-video.txt\necho 'Xong: video-da-noi.mp4'\n";download("noi-video.sh",sh);download("danh-sach-noi.txt",list);toast("Đã tải script nối + danh sách clip")});
 $("stitchNow").addEventListener("click",function(){var real=S.clips.filter(function(c){return c.file});if(real.length<1){toast("Cần ít nhất 1 clip thật đã tải lên để nối trong trình duyệt");return}if(!window.MediaRecorder){toast("Trình duyệt này không hỗ trợ nối trực tiếp — dùng script ffmpeg");return}$("stitchStatus").textContent="Đang nối… giữ nguyên tab này, video chạy theo thời gian thật.";stitchInBrowser(real)});
@@ -617,14 +715,14 @@ function stitchInBrowser(clips){var canvas=document.createElement("canvas");canv
 
 /* ---------- BƯỚC 7 ---------- */
 $("creditBalance").addEventListener("input",syncKpi);
-$("saveBrief").addEventListener("click",function(){var p=productData();if(!p.name){toast("Nhập tên sản phẩm trước khi lưu brief");return}var bal=parseInt($("creditBalance").value||"0",10);var cost=scenesCount()*10;if(bal>=cost){$("creditBalance").value=bal-cost;toast("Đã lưu brief và trừ "+cost+" credit (còn "+(bal-cost)+")")}else{toast("Đã lưu brief — số dư không đủ để trừ credit, kiểm tra lại")}S.briefs.push({name:p.name,dur:S.dur,genre:S.genre,format:S.format,voice:S.voice,product:p,profile:profileData(),time:new Date().toLocaleString("vi-VN")});renderBriefs();syncKpi()});
-function renderBriefs(){var box=$("briefLib");if(!S.briefs.length){box.innerHTML="<span class='hint'>Chưa có brief nào được lưu trong phiên này.</span>";return}box.innerHTML="";S.briefs.forEach(function(b,i){var d=document.createElement("div");d.className="clip-row";d.innerHTML="<div class='grow'><b>"+esc(b.name)+"</b><br><span class='hint'>"+b.dur+" giây · "+esc((GENRES[b.genre]||{}).label||"")+" · Lưu lúc "+esc(b.time)+"</span></div>";var use=document.createElement("button");use.type="button";use.className="btn sm";use.textContent="Dùng lại brief này";use.addEventListener("click",function(){$("pName").value=b.product.name;$("pPrice").value=b.product.price;$("pPain").value=b.product.pain;$("pBenefit").value=b.product.benefit;$("pDetail").value=b.product.detail;$("pOutfit").value=b.product.outfit;$("pLink").value=b.product.link;setDur(b.dur);setGenre(b.genre);setFormat(b.format);S.voice=b.voice;renderVoices();toast("Đã nạp lại brief: "+b.name);window.scrollTo({top:$("buoc2").offsetTop-70,behavior:"smooth"})});var dl=document.createElement("button");dl.type="button";dl.className="btn sec sm";dl.textContent="Xuất brief";dl.addEventListener("click",function(){download("brief-"+(i+1)+".json",JSON.stringify(b,null,2),"application/json")});d.appendChild(use);d.appendChild(dl);box.appendChild(d)})}
+$("saveBrief").addEventListener("click",function(){var p=productData();if(!p.name){toast("Nhập tên sản phẩm trước khi lưu brief");return}var bal=parseInt($("creditBalance").value||"0",10);var cost=S.source==="omni"?0:scenesCount()*10;if(cost===0){toast("Đã lưu brief — nguồn Gemini Omni không trừ credit Flow")}else if(bal>=cost){$("creditBalance").value=bal-cost;toast("Đã lưu brief và trừ "+cost+" credit (còn "+(bal-cost)+")")}else{toast("Đã lưu brief — số dư không đủ để trừ credit, kiểm tra lại")}S.briefs.push({name:p.name,dur:S.dur,genre:S.genre,format:S.format,source:S.source,voice:S.voice,product:p,profile:profileData(),time:new Date().toLocaleString("vi-VN")});renderBriefs();syncKpi()});
+function renderBriefs(){var box=$("briefLib");if(!S.briefs.length){box.innerHTML="<span class='hint'>Chưa có brief nào được lưu trong phiên này.</span>";return}box.innerHTML="";S.briefs.forEach(function(b,i){var d=document.createElement("div");d.className="clip-row";d.innerHTML="<div class='grow'><b>"+esc(b.name)+"</b><br><span class='hint'>"+b.dur+" giây · "+esc((GENRES[b.genre]||{}).label||"")+" · Lưu lúc "+esc(b.time)+"</span></div>";var use=document.createElement("button");use.type="button";use.className="btn sm";use.textContent="Dùng lại brief này";use.addEventListener("click",function(){$("pName").value=b.product.name;$("pPrice").value=b.product.price;$("pPain").value=b.product.pain;$("pBenefit").value=b.product.benefit;$("pDetail").value=b.product.detail;$("pOutfit").value=b.product.outfit;$("pLink").value=b.product.link;setSource(b.source||"flow");setDur(b.dur);setGenre(b.genre);setFormat(b.format);S.voice=b.voice;renderVoices();refreshAll();toast("Đã nạp lại brief: "+b.name);window.scrollTo({top:$("buoc2").offsetTop-70,behavior:"smooth"})});var dl=document.createElement("button");dl.type="button";dl.className="btn sec sm";dl.textContent="Xuất brief";dl.addEventListener("click",function(){download("brief-"+(i+1)+".json",JSON.stringify(b,null,2),"application/json")});d.appendChild(use);d.appendChild(dl);box.appendChild(d)})}
 $("exportPack").addEventListener("click",function(){var p=productData();var c=captions();var host=$("hostName").value.trim()||"Lisa";var txt="# GÓI ĐĂNG ĐẦY ĐỦ — "+p.name+"\n\n## CAPTION FACEBOOK (bản quảng cáo)\n"+c.fb+"\n\n## CAPTION TIKTOK / INSTAGRAM (bản trung tính)\n"+c.neutral+"\n\n## CAPTION X (bản rút gọn)\n"+c.x+"\n\n## HASHTAG\n"+c.tags+"\n\n## ẢNH BÌA\n"+$("optCover").value+" — chọn khung toàn thân đẹp nhất, mặt rõ, sản phẩm thấy rõ.\n\n## LỊCH ĐĂNG GỢI Ý\n- Facebook: đăng bản có nhạc lúc 08:00 / 16:00 / 21:00 theo lịch Page\n- Instagram: đăng cùng bản Facebook (Reels)\n- TikTok: đăng bản chỉ giọng, tự thêm nhạc trong app, "+host+" tự đăng gần giờ vàng 08–10h / 11–13h / sau 20h\n- X: đăng bản có nhạc kèm caption rút gọn\n\n## NHÁP BLOG\nTiêu đề: Review "+p.name+": "+lower(firstBenefit())+"\nMở bài: "+(p.pain||"")+"\nThân bài: trải nghiệm từng cảnh theo script dựng, chèn video mẫu + 3–4 ảnh khung đẹp nhất.\nKết bài: câu hỏi cho độc giả + mời follow "+$("brandName").value+".\n"+(p.link?"Link sản phẩm: "+p.link:"");download("goi-dang-day-du.txt",txt);toast("Đã tải gói đăng đầy đủ")});
 $("exportPreview").addEventListener("click",function(){var p=productData();var v=curVoice();var faceImg=S.refs.face.length?"<img src='"+S.refs.face[0].url+"' style='width:100%;border-radius:12px' alt='Ảnh mặt người dẫn'>":"<p>(Ảnh mặt người dẫn — đính kèm khi gửi khách)</p>";var prodImg=S.refs.product.length?"<img src='"+S.refs.product[0].url+"' style='width:100%;border-radius:12px' alt='Ảnh sản phẩm'>":"<p>(Ảnh sản phẩm — đính kèm khi gửi khách)</p>";var bodyImg=S.refs.body.length?"<img src='"+S.refs.body[0].url+"' style='width:100%;border-radius:12px' alt='Ảnh trang phục'>":"";var html="<!doctype html><html lang='vi'><head><meta charset='utf-8'><title>Bản xem trước — "+esc(p.name)+"</title><style>body{font-family:system-ui;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.6;color:#1c2420}h1{font-size:22px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:600px){.grid{grid-template-columns:1fr}}.box{border:1px solid #ddd;border-radius:12px;padding:14px}</style></head><body><h1>Bản xem trước video — "+esc(p.name)+"</h1><p>Shop: <b>"+esc($("brandName").value)+"</b> · Thời lượng dự kiến: "+S.dur+" giây · Giọng: "+esc(v.name)+" ("+v.gender+", miền "+v.region+", "+esc(v.tone.toLowerCase())+")"+(S.voiceFile?" · File giọng mẫu: "+esc(S.voiceFile.name):"")+"</p><div class='grid'><div class='box'><h3>Ảnh sản phẩm</h3>"+prodImg+"<p>"+esc(p.detail)+"</p></div><div class='box'><h3>Người dẫn + trang phục</h3>"+faceImg+bodyImg+"<p>"+esc(p.outfit)+"</p></div></div><div class='box' style='margin-top:14px'><h3>Thoại dự kiến</h3><p>"+buildScripts().lines.map(esc).join("<br>")+"</p></div><p><b>Vui lòng duyệt bản xem trước này.</b> Bạn được chỉnh 1 lần miễn phí trước khi shop làm video đầy đủ.</p></body></html>";download("ban-xem-truoc-cho-khach.html",html,"text/html");toast("Đã tải trang xem trước cho khách")});
 $("dlQc").addEventListener("click",function(){var qc="# CHECKLIST QC FILE THÀNH PHẨM\nVideo: "+$("pName").value+"\n\n[ ] Mặt: đúng mặt chuẩn, không lệch mặt, không đổi tóc/mái giữa các cảnh\n[ ] Dáng: tỷ lệ người mẫu, chân thon thẳng, xoay không lơ lửng chân\n[ ] Sản phẩm: đúng 1 sản phẩm, chữ xuôi đọc được, đúng chính tả thương hiệu, màu đúng mã\n[ ] Tay/cọ: cọ chỉ xuất hiện khi rút/thoa, không thừa ngón, tuýp đóng nắp khi không dùng, không nắp rời\n[ ] Đếm đồ vật: rà từng mốc thời gian, số lượng từng món không đổi vô lý\n[ ] Trang phục: đủ chi tiết khóa trang phục (cổ/tay/xẻ tà/khóa/nút), không thêm bớt\n[ ] Nền: cùng một phòng cả video, nền sống động, không lọt nền lạ\n[ ] Âm thanh: giọng phủ hết thời lượng, nhạc ~30% so với giọng, đuôi bản TikTok im ~1 giây\n[ ] Phụ đề: tiếng Việt có dấu, khớp thoại; sai dấu thì bỏ phụ đề\n[ ] Lỗi nhỏ chỉ thấy khi tạm dừng phóng to: ghi vào bảng lỗi, cân nhắc giữ nguyên để tiết kiệm credit thay vì làm lại";download("checklist-qc.txt",qc);toast("Đã tải checklist QC")});
 
 /* ---------- KHỞI TẠO ---------- */
-renderVoices();renderRefs();syncKpi();S.scenes=buildScripts();renderHooksAndCaptions();renderClips();
+renderVoices();renderRefs();renderDurPills();syncKpi();refreshAll();renderClips();
 </script>
 </body>
 </html>
