@@ -214,7 +214,7 @@ function render() {
   document.getElementById('stMoneySub').textContent = 'Đã thu cọc ' + fmt(collected) + ' · Còn phải thu ' + fmt(Math.max(outstanding, 0));
 
   var tabsEl = document.getElementById('tabs');
-  tabsEl.innerHTML = '';
+  tabsEl.replaceChildren();
   Object.keys(GROUPS).forEach(function (k) {
     var b = document.createElement('button');
     b.className = 'tab' + (k === curTab ? ' on' : '');
