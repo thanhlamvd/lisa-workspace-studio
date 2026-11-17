@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="vi">
-<!-- v16 (13/11/2026): SEO cơ bản (OG tags + favicon + robots.txt + sitemap.xml) và nút nghe thử 3 giọng AI mẫu (mau/giong-*.mp3); v15 nội dung CK = mã đơn + tên khách, footer hotro@; giới hạn file 5MB (v12) -->
+<!-- v17 (17/11/2026): tối ưu theo rà soát Modern Web Guidance — .htaccess (HTTPS redirect + security headers + cache 30 ngày), canonical + JSON-LD, ảnh WebP (cover/logo/poster-me-be), lazy-load gallery, width/height chống CLS; v16 SEO cơ bản (OG tags + favicon + robots.txt + sitemap.xml) và nút nghe thử 3 giọng AI mẫu (mau/giong-*.mp3); v15 nội dung CK = mã đơn + tên khách, footer hotro@; giới hạn file 5MB (v12) -->
 <head>
 <!-- Google tag (gtag.js) - Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J3YXHJLZ8Q"></script>
@@ -21,6 +21,10 @@ gtag('config', 'G-J3YXHJLZ8Q');
 <meta property="og:image" content="https://videoshopai.vn/images/cover.jpg">
 <meta property="og:locale" content="vi_VN">
 <link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="canonical" href="https://videoshopai.vn/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"VideoShop AI","description":"Dịch vụ làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu.","url":"https://videoshopai.vn/","image":"https://videoshopai.vn/images/cover.jpg","telephone":"+84-327-659-686","email":"hotro@videoshopai.vn","priceRange":"290000 VND - 4500000 VND","areaServed":"VN","sameAs":["https://www.tiktok.com/@videoshop_ai","https://www.facebook.com/VideoShopAI/"]}
+</script>
 <style>
 :root{--blue:#0b6fa4;--blue-dark:#095a85;--blue-soft:#eef7fc;--ink:#222;--muted:#666;--line:#e5e5e5;--green:#1e7d32;--green-soft:#e8f5e9}
 *{box-sizing:border-box}
@@ -161,8 +165,8 @@ form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0
 </head>
 <body>
 <header>
-<img class="hero-banner" src="images/cover.jpg" alt="VideoShop AI — Video ngắn bán hàng cho shop nhỏ">
-<div class="brand"><img src="images/logo.jpg" alt="Logo VideoShop AI"><h1>VideoShop AI</h1></div>
+<picture><source srcset="images/cover.webp" type="image/webp"><img class="hero-banner" src="images/cover.jpg" alt="VideoShop AI — Video ngắn bán hàng cho shop nhỏ" width="1200" height="456" fetchpriority="high"></picture>
+<div class="brand"><picture><source srcset="images/logo.webp" type="image/webp"><img src="images/logo.jpg" alt="Logo VideoShop AI" width="144" height="144"></picture><h1>VideoShop AI</h1></div>
 <p class="tagline">Video ngắn bán hàng cho shop nhỏ — làm đều mỗi ngày, không cần quay, không cần người mẫu</p>
 <p>Bạn chỉ cần gửi ảnh sản phẩm. Chúng tôi lo từ nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề tới hướng dẫn đăng.</p>
 <p><a class="cta" href="#dat-hang">Đặt hàng ngay</a> <a class="cta-ghost" href="#bang-gia">Xem bảng giá</a></p>
@@ -488,7 +492,7 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <p>Đèn dây LED trang trí phòng ngủ</p>
 </div>
 <div class="video-card">
-<video controls preload="metadata" playsinline poster="images/poster-me-be.jpg" src="mau/videoshop-mau-me-be.mp4"></video>
+<video controls preload="metadata" playsinline poster="images/poster-me-be.webp" src="mau/videoshop-mau-me-be.mp4"></video>
 <h3>👶 Mẹ &amp; bé</h3>
 <p>Set mũ, bao tay, bao chân sơ sinh</p>
 </div>
@@ -500,12 +504,12 @@ Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
 <h2>Một vài khung hình từ video mẫu</h2>
 <p>Ảnh cắt từ chính các video mẫu trên — để bạn thấy rõ chất lượng hình ảnh, ánh sáng và cách khoe sản phẩm:</p>
 <div class="gallery">
-<figure><img src="images/gallery/thoi-trang-1.jpg" alt="Video mẫu thời trang — sơ mi xanh"><figcaption>Thời trang — sơ mi xanh</figcaption></figure>
-<figure><img src="images/gallery/thoi-trang-2.jpg" alt="Video mẫu thời trang — chân váy xếp ly be"><figcaption>Thời trang — chân váy xếp ly</figcaption></figure>
-<figure><img src="images/gallery/lam-dep-1.jpg" alt="Video mẫu làm đẹp — dầu dưỡng tóc"><figcaption>Làm đẹp — dầu dưỡng tóc</figcaption></figure>
-<figure><img src="images/gallery/lam-dep-2.jpg" alt="Video mẫu làm đẹp — cận cảnh sản phẩm"><figcaption>Làm đẹp — cận cảnh sản phẩm</figcaption></figure>
-<figure><img src="images/gallery/gia-dung-1.jpg" alt="Video mẫu gia dụng — đèn dây LED"><figcaption>Gia dụng — đèn dây LED</figcaption></figure>
-<figure><img src="images/gallery/gia-dung-2.jpg" alt="Video mẫu gia dụng — phòng ngủ trang trí"><figcaption>Gia dụng — phòng ngủ trang trí</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/thoi-trang-1.jpg" alt="Video mẫu thời trang — sơ mi xanh"><figcaption>Thời trang — sơ mi xanh</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/thoi-trang-2.jpg" alt="Video mẫu thời trang — chân váy xếp ly be"><figcaption>Thời trang — chân váy xếp ly</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/lam-dep-1.jpg" alt="Video mẫu làm đẹp — dầu dưỡng tóc"><figcaption>Làm đẹp — dầu dưỡng tóc</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/lam-dep-2.jpg" alt="Video mẫu làm đẹp — cận cảnh sản phẩm"><figcaption>Làm đẹp — cận cảnh sản phẩm</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/gia-dung-1.jpg" alt="Video mẫu gia dụng — đèn dây LED"><figcaption>Gia dụng — đèn dây LED</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/gia-dung-2.jpg" alt="Video mẫu gia dụng — phòng ngủ trang trí"><figcaption>Gia dụng — phòng ngủ trang trí</figcaption></figure>
 </div>
 </section>
 
