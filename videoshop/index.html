@@ -1,19 +1,39 @@
 <!doctype html>
 <html lang="vi">
+<!-- v17 (17/11/2026): tối ưu theo rà soát Modern Web Guidance — .htaccess (HTTPS redirect + security headers + cache 30 ngày), canonical + JSON-LD, ảnh WebP (cover/logo/poster-me-be), lazy-load gallery, width/height chống CLS; v16 SEO cơ bản (OG tags + favicon + robots.txt + sitemap.xml) và nút nghe thử 3 giọng AI mẫu (mau/giong-*.mp3); v15 nội dung CK = mã đơn + tên khách, footer hotro@; giới hạn file 5MB (v12) -->
 <head>
+<!-- Google tag (gtag.js) - Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J3YXHJLZ8Q"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-J3YXHJLZ8Q');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ</title>
-<meta name="description" content="VideoShop AI làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu.">
+<title>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ | Đặt hàng online</title>
+<meta name="description" content="VideoShop AI làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu. Đặt hàng và thanh toán chuyển khoản ngay trên website.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ">
+<meta property="og:description" content="Video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: chỉ cần gửi ảnh sản phẩm, chúng tôi lo kịch bản, giọng đọc AI, dựng video và phụ đề. Gói Thử 3 video 990.000đ. Tặng 1 video miễn phí cho 5 shop đầu tiên.">
+<meta property="og:url" content="https://videoshopai.vn/">
+<meta property="og:image" content="https://videoshopai.vn/images/cover.jpg">
+<meta property="og:locale" content="vi_VN">
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="canonical" href="https://videoshopai.vn/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"VideoShop AI","description":"Dịch vụ làm video ngắn bán hàng cho shop nhỏ trên TikTok Shop và Shopee: nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề. Chỉ cần gửi ảnh sản phẩm — không cần quay, không cần người mẫu.","url":"https://videoshopai.vn/","image":"https://videoshopai.vn/images/cover.jpg","telephone":"+84-327-659-686","email":"hotro@videoshopai.vn","priceRange":"290000 VND - 4500000 VND","areaServed":"VN","sameAs":["https://www.tiktok.com/@videoshop_ai","https://www.facebook.com/VideoShopAI/"]}
+</script>
 <style>
-:root{--blue:#0b6fa4;--blue-soft:#eef7fc;--ink:#222;--muted:#666;--line:#e5e5e5;--gold:#b7791f}
+:root{--blue:#0b6fa4;--blue-dark:#095a85;--blue-soft:#eef7fc;--ink:#222;--muted:#666;--line:#e5e5e5;--green:#1e7d32;--green-soft:#e8f5e9}
 *{box-sizing:border-box}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;max-width:860px;margin:0 auto;padding:0 20px 60px;line-height:1.65;color:var(--ink);background:#fff}
 header{padding:40px 0 10px;text-align:center}
 h1{color:var(--blue);margin:0 0 4px;font-size:34px}
 .tagline{font-size:19px;color:var(--muted);margin:0 0 14px}
 .cta{display:inline-block;background:var(--blue);color:#fff;border-radius:999px;padding:12px 26px;text-decoration:none;font-weight:700;font-size:17px;margin-top:10px}
-.cta:hover{background:#095a85}
+.cta:hover{background:var(--blue-dark)}
 .cta-ghost{display:inline-block;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:10px 24px;text-decoration:none;font-weight:700;margin:10px 0 0 8px}
 section{margin-top:40px}
 h2{border-bottom:2px solid var(--blue);padding-bottom:6px}
@@ -22,7 +42,10 @@ h3{margin:18px 0 6px}
 .card{border:1px solid var(--line);border-radius:12px;padding:18px}
 .card h3{margin-top:0}
 .price{font-size:26px;font-weight:800;color:var(--blue);margin:6px 0}
-.price small{font-size:14px;color:var(--muted);font-weight:400}
+.price small{font-size:14px;color:var(--muted);font-weight:400;white-space:nowrap}
+.topnav{text-align:center;margin:18px 0 0;font-size:15px}
+.topnav a{color:var(--blue);font-weight:600;text-decoration:none;margin:0 10px}
+.topnav a:hover{text-decoration:underline}
 .card ul{margin:10px 0 0;padding-left:20px}
 .card li{margin:4px 0}
 .highlight{border:2px solid var(--blue);background:var(--blue-soft)}
@@ -33,6 +56,20 @@ h3{margin:18px 0 6px}
 .sample{border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
 .sample h3{margin-top:0}
 .sample a{color:var(--blue);font-weight:600}
+.sample video{width:100%;max-width:320px;display:block;border-radius:10px;background:#000;margin:10px auto 0}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:16px}
+.video-card{border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
+.video-card h3{margin:6px 0 4px;font-size:16px}
+.video-card p{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.video-card video{width:100%;max-width:300px;border-radius:10px;background:#000}
+.hero-banner{width:100%;border-radius:14px;display:block}
+.brand{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:18px}
+.brand img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--blue-soft)}
+.brand h1{margin:0}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px}
+.gallery figure{margin:0}
+.gallery img{width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:10px;display:block}
+.gallery figcaption{font-size:13px;color:var(--muted);margin-top:6px;text-align:center}
 .note{background:var(--blue-soft);border:1px solid var(--blue);padding:14px 16px;border-radius:8px;font-size:15px}
 .zalo-box{border:2px dashed var(--blue);border-radius:12px;padding:20px;text-align:center;background:var(--blue-soft)}
 .zalo-box .number{font-size:22px;font-weight:800;color:var(--blue)}
@@ -40,22 +77,108 @@ h3{margin:18px 0 6px}
 .channels li a{display:inline-block;border:1px solid var(--blue);color:var(--blue);border-radius:999px;padding:6px 14px;text-decoration:none;font-weight:600}
 .channels li a:hover{background:var(--blue-soft)}
 footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:14px;text-align:center}
+/* --- Đặt hàng --- */
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.pkg{border:2px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;background:#fff;text-align:left;font:inherit;line-height:1.5;color:var(--ink);width:100%}
+.dur-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.dur{padding:8px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-size:15px;color:var(--ink)}
+.dur.selected{border-color:var(--blue);background:var(--blue-soft);font-weight:700}
+.pkg:hover{border-color:var(--blue)}
+.pkg.selected{border-color:var(--blue);background:var(--blue-soft);box-shadow:0 0 0 2px var(--blue) inset}
+.pkg h3{margin:0 0 4px;font-size:17px}
+.pkg .price{font-size:22px;margin:4px 0}
+.pkg .desc{font-size:14px;color:var(--muted);margin:0}
+.pkg .tick{display:none;font-weight:700;color:var(--blue);font-size:14px}
+.pkg.selected .tick{display:block}
+form.order{margin-top:20px}
+form.order label{display:block;font-weight:700;margin:14px 0 4px}
+form.order label span{font-weight:400;color:var(--muted);font-size:14px}
+form.order input,form.order textarea{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:16px}
+form.order input:focus,form.order textarea:focus{outline:none;border-color:var(--blue)}
+form.order textarea{min-height:84px;resize:vertical}
+.btn{display:inline-block;background:var(--blue);color:#fff;border:none;border-radius:999px;padding:13px 26px;font:inherit;font-weight:700;font-size:17px;cursor:pointer;margin-top:18px;text-decoration:none}
+.btn:hover{background:var(--blue-dark)}
+.btn-green{background:var(--green)}
+.btn-green:hover{background:#156a29}
+.btn-ghost{background:#fff;border:2px solid var(--blue);color:var(--blue)}
+.btn-ghost:hover{background:var(--blue-soft)}
+.error{color:#c62828;font-size:15px;margin-top:8px;display:none}
+.total-line{margin-top:18px;padding:14px 16px;background:var(--blue-soft);border-radius:10px;font-size:17px}
+.total-line b{color:var(--blue)}
+#order-result{display:none;margin-top:24px;border:2px solid var(--green);border-radius:14px;padding:20px;background:var(--green-soft)}
+#order-result h3{color:var(--green);margin-top:0}
+#order-result table{width:100%;border-collapse:collapse;font-size:15px}
+#order-result td{padding:6px 4px;border-bottom:1px solid #c8e6c9;vertical-align:top}
+#order-result td:first-child{font-weight:700;width:130px}
+.pay-box{margin-top:16px;background:#fff;border:1.5px dashed var(--green);border-radius:10px;padding:14px 16px;font-size:15px}
+.pay-box .amount{font-size:22px;font-weight:800;color:var(--green)}
+.saved-note{margin-top:14px;font-size:14px;color:var(--green);font-weight:700;display:none}
+/* --- Tra cứu đơn hàng --- */
+#lookup-result{display:none;margin-top:24px;border:2px solid var(--blue);border-radius:14px;padding:20px;background:var(--blue-soft)}
+#lookup-result h3{margin-top:18px}
+#lookup-result h3:first-child{margin-top:0;color:var(--blue)}
+#lookup-result table{width:100%;border-collapse:collapse;font-size:15px;background:#fff;border-radius:10px}
+#lookup-result td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+#lookup-result td:first-child{font-weight:700;width:130px}
+#lk-r-status{color:var(--blue)}
+/* --- Chat với Pip --- */
+#chat-fab{position:fixed;right:18px;bottom:18px;width:60px;height:60px;border-radius:50%;background:var(--blue);color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:999}
+#chat-fab:hover{background:var(--blue-dark)}
+#chat-panel{position:fixed;right:18px;bottom:90px;width:min(360px,calc(100vw - 36px));height:480px;max-height:calc(100vh - 120px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.2);display:none;flex-direction:column;overflow:hidden;z-index:999}
+#chat-panel.open{display:flex}
+#chat-head{background:var(--blue);color:#fff;padding:12px 14px}
+#chat-head b{font-size:16px}
+#chat-head p{margin:2px 0 0;font-size:13px;opacity:.9}
+#chat-head .close{float:right;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1}
+#chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f7f9fb}
+.chat-msg{max-width:85%;padding:9px 12px;border-radius:12px;font-size:15px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.chat-msg.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.chat-msg.pip{align-self:flex-start;background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+.chat-msg .who{display:block;font-size:12px;font-weight:700;margin-bottom:2px;opacity:.8}
+#chat-form{border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;flex-direction:column}
+#chat-form .row{display:flex;gap:8px}
+#chat-form input[type=text]{flex:1;padding:10px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:15px;min-width:0}
+#chat-form input[type=text]:focus{outline:none;border-color:var(--blue)}
+#chat-send{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+#chat-send:hover{background:var(--blue-dark)}
+#chat-quick{display:flex;gap:6px;padding:8px 10px 0;flex-wrap:wrap}
+#chat-quick button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+#chat-quick button:hover{border-color:var(--blue);color:var(--blue)}
+#chat-quick button.active{background:var(--blue);border-color:var(--blue);color:#fff}
+#chat-mode{padding:8px 12px;font-size:13px;background:#fff3cd;color:#7a5b00;border-top:1px solid #ffe08a}
+#chat-mode button{background:none;border:none;color:#7a5b00;font:inherit;font-weight:700;cursor:pointer;text-decoration:underline}
+#chat-first{display:flex;gap:8px}
+#chat-first input{flex:1;min-width:0}
+@media (max-width:560px){
+  h1{font-size:28px}
+  .cta,.cta-ghost,.btn{display:block;text-align:center;margin-left:0;margin-right:0}
+  .cta-ghost{margin-top:10px}
+}
+/* --- Giọng đọc --- */
+form.order .voice-box{border:1.5px solid var(--line);border-radius:10px;padding:6px 16px 14px;margin-top:8px}
+form.order .voice-box label{display:flex;gap:8px;align-items:flex-start;font-weight:400;margin:10px 0;cursor:pointer}
+form.order .voice-box input[type=radio]{width:auto;margin-top:4px;flex:none}
+form.order .voice-box select{width:100%;padding:12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:16px;margin-top:6px}
+form.order .voice-box input[type=file]{width:100%;margin-top:6px;font-size:15px}
+form.order .voice-box .voice-note{font-size:14px;color:var(--muted);margin:6px 0 0}
 </style>
 </head>
 <body>
 <header>
-<h1>VideoShop AI</h1>
+<picture><source srcset="images/cover.webp" type="image/webp"><img class="hero-banner" src="images/cover.jpg" alt="VideoShop AI — Video ngắn bán hàng cho shop nhỏ" width="1200" height="456" fetchpriority="high"></picture>
+<div class="brand"><picture><source srcset="images/logo.webp" type="image/webp"><img src="images/logo.jpg" alt="Logo VideoShop AI" width="144" height="144"></picture><h1>VideoShop AI</h1></div>
 <p class="tagline">Video ngắn bán hàng cho shop nhỏ — làm đều mỗi ngày, không cần quay, không cần người mẫu</p>
 <p>Bạn chỉ cần gửi ảnh sản phẩm. Chúng tôi lo từ nghiên cứu trend, viết kịch bản, giọng đọc AI, dựng video, phụ đề tới hướng dẫn đăng.</p>
-<p><a class="cta" href="#lien-he">Nhận 1 video miễn phí</a> <a class="cta-ghost" href="#bang-gia">Xem bảng giá</a></p>
+<p><a class="cta" href="#dat-hang">Đặt hàng ngay</a> <a class="cta-ghost" href="#bang-gia">Xem bảng giá</a></p>
 <p style="color:var(--muted);font-size:14px">5 shop đầu tiên được tặng 1 video miễn phí — để bạn xem chất lượng trước khi quyết định.</p>
+<nav class="topnav"><a href="index.html">Trang chủ</a> · <a href="#bang-gia">Bảng giá</a> · <a href="#dat-hang">Đặt hàng</a> · <a href="blog/">Blog</a> · <a href="ho-tro.html">Hỗ trợ</a></nav>
 </header>
 
 <section>
 <h2>Video của chúng tôi gồm những gì?</h2>
 <div class="grid">
 <div class="card"><h3>🎯 Kịch bản bán hàng</h3><p>Nghiên cứu trend đang lên trong ngành của bạn, viết hook 3 giây đầu giữ người xem, và 1 câu hỏi gợi bình luận ở cuối video.</p></div>
-<div class="card"><h3>🎙️ Giọng đọc AI</h3><p>Giọng đọc tiếng Việt tự nhiên, rõ ràng, phù hợp từng ngành hàng — không cần bạn tự thu âm.</p></div>
+<div class="card"><h3>🎙️ Giọng đọc AI</h3><p>Giọng đọc tiếng Việt tự nhiên, rõ ràng, phù hợp từng ngành hàng — không cần bạn tự thu âm. Bạn có thể chọn giọng mẫu của chúng tôi hoặc gửi giọng của chính bạn.</p></div>
 <div class="card"><h3>🎬 Dựng video dọc 9:16</h3><p>Video 8–16 giây, chuẩn TikTok Shop, Shopee Video, Facebook Reels và Instagram — đăng đâu cũng vừa khung.</p></div>
 <div class="card"><h3>💬 Phụ đề + caption</h3><p>Phụ đề tiếng Việt có dấu, caption gợi ý sẵn, giờ đăng gợi ý theo giờ vàng của ngành.</p></div>
 </div>
@@ -69,7 +192,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h3>Gói Thử</h3>
 <p class="price">990.000đ <small>/ 3 video</small></p>
 <ul>
-<li>3 video (8–16 giây)</li>
+<li>3 video chuẩn 16 giây</li>
 <li>Kịch bản + giọng đọc AI + phụ đề</li>
 <li>Hướng dẫn đăng</li>
 <li>Trả 100% trước khi làm</li>
@@ -80,7 +203,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h3>Gói Cơ bản</h3>
 <p class="price">3.000.000đ <small>/ tháng — 12 video</small></p>
 <ul>
-<li>12 video/tháng (3 video/tuần)</li>
+<li>12 video/tháng (3 video/tuần, chuẩn 16 giây)</li>
 <li>Kịch bản theo trend tuần</li>
 <li>Giọng đọc AI + phụ đề + lịch đăng gợi ý</li>
 <li>Báo cáo cuối tháng</li>
@@ -91,7 +214,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h3>Gói Tăng trưởng</h3>
 <p class="price">4.500.000đ <small>/ tháng — 20 video</small></p>
 <ul>
-<li>20 video/tháng (5 video/tuần)</li>
+<li>20 video/tháng (5 video/tuần, chuẩn 16 giây)</li>
 <li>Mọi quyền lợi gói Cơ bản</li>
 <li>Thêm 2 kịch bản livestream/tháng</li>
 <li>Báo cáo tuần + tư vấn trend riêng</li>
@@ -102,25 +225,292 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h3>Video lẻ</h3>
 <p class="price">390.000đ <small>/ video</small></p>
 <ul>
-<li>1 video (8–16 giây)</li>
+<li>Thời lượng tùy chọn: 8s — 290.000đ · 16s — 390.000đ · 24s — 490.000đ · 32s — 590.000đ · 40s — 690.000đ</li>
+<li>Số lượng tùy chọn (tối đa 20 video) — tổng tiền tự tính: số video × đơn giá theo thời lượng.</li>
 <li>Kịch bản + giọng đọc AI + phụ đề</li>
 <li>Hướng dẫn đăng</li>
 <li>Trả 100% trước khi làm</li>
 </ul>
 </div>
 </div>
+<p style="font-size:15px;color:var(--muted)">Thời lượng tùy chọn khi đặt hàng: video 8s được nhiều video hơn, video dài hơn được ít video hơn — số video tự tính theo gói, tổng tiền gói không đổi. Video lẻ tính theo đơn giá từng thời lượng (xem bảng trên).</p>
 <p style="font-size:15px;color:var(--muted)">Mỗi video được chỉnh sửa tối đa 2 lần (sửa chữ phụ đề, đổi câu hook). Sửa quá 2 lần hoặc đổi ý tưởng tính thêm 50% giá video. Giá trên chưa bao gồm quay thật tại shop, người mẫu thật và chạy quảng cáo — quảng cáo tính riêng theo ngân sách bạn duyệt.</p>
 </section>
 
+<section id="dat-hang">
+<h2>Đặt hàng</h2>
+<p>Chọn gói bên dưới, điền thông tin, rồi chuyển khoản đặt cọc theo điều khoản gói. Chúng tôi xác nhận đơn qua Zalo trong ngày làm việc.</p>
+
+<h3>Bước 1 — Chọn gói</h3>
+<div class="pkg-grid" id="pkg-grid">
+<button type="button" class="pkg" data-pkg="thu" data-name="Gói Thử — 3 video" data-total="990000" data-deposit="990000" data-deposit-note="100% trước khi làm">
+<h3>Gói Thử</h3>
+<p class="price">990.000đ <small>/ 3 video</small></p>
+<p class="desc">Dùng thử 3 video — trả 100% trước khi làm.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+<button type="button" class="pkg" data-pkg="coban" data-name="Gói Cơ bản — 12 video/tháng" data-total="3000000" data-deposit="1500000" data-deposit-note="50% đợt 1 (đầu tháng), 50% còn lại ngày 15">
+<h3>Gói Cơ bản</h3>
+<p class="price">3.000.000đ <small>/ tháng — 12 video</small></p>
+<p class="desc">12 video/tháng — trả 50% đầu tháng + 50% ngày 15.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+<button type="button" class="pkg" data-pkg="tangtruong" data-name="Gói Tăng trưởng — 20 video/tháng" data-total="4500000" data-deposit="2250000" data-deposit-note="50% đợt 1 (đầu tháng), 50% còn lại ngày 15">
+<h3>Gói Tăng trưởng</h3>
+<p class="price">4.500.000đ <small>/ tháng — 20 video</small></p>
+<p class="desc">20 video/tháng — trả 50% đầu tháng + 50% ngày 15.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+<button type="button" class="pkg" data-pkg="le" data-name="Video lẻ — 1 video" data-total="390000" data-deposit="390000" data-deposit-note="100% trước khi làm">
+<h3>Video lẻ</h3>
+<p class="price">390.000đ <small>/ video</small></p>
+<p class="desc">1 video 16s (chuẩn) — trả 100% trước khi làm.</p>
+<p class="tick">✓ Đã chọn</p>
+</button>
+</div>
+
+<div id="duration-row" style="display:none;margin-top:14px">
+<p style="margin:0 0 6px"><b>Thời lượng video:</b> <span style="color:var(--muted);font-size:14px">mỗi 8 giây là 1 cảnh quay.</span></p>
+<div class="dur-grid" id="dur-grid">
+<button type="button" class="dur" data-dur="8" data-price="290000">8 giây</button>
+<button type="button" class="dur selected" data-dur="16" data-price="390000">16 giây</button>
+<button type="button" class="dur" data-dur="24" data-price="490000">24 giây</button>
+<button type="button" class="dur" data-dur="32" data-price="590000">32 giây</button>
+<button type="button" class="dur" data-dur="40" data-price="690000">40 giây</button>
+</div>
+<p id="dur-note" style="color:var(--muted);font-size:14px;margin:8px 0 0"></p>
+</div>
+
+<div id="qty-row" style="display:none;margin-top:14px">
+<p style="margin:0 0 6px"><b>Số lượng video:</b></p>
+<div style="display:flex;align-items:center;gap:8px">
+<button type="button" class="dur" id="qty-minus" aria-label="Giảm số lượng">−</button>
+<input id="qty-input" type="number" min="1" max="20" value="1" style="width:64px;padding:8px;border:1.5px solid var(--line);border-radius:8px;font:inherit;font-size:15px;text-align:center">
+<button type="button" class="dur" id="qty-plus" aria-label="Tăng số lượng">+</button>
+<span style="color:var(--muted);font-size:14px">video (tối đa 20)</span>
+</div>
+</div>
+
+<div class="total-line" id="total-line" style="display:none">Gói đã chọn: <b id="total-pkg-name">—</b><br>Tổng tiền: <b id="total-amount">—</b> &nbsp;·&nbsp; Cần chuyển đợt 1: <b id="total-deposit">—</b></div>
+
+<h3>Bước 2 — Thông tin đặt hàng</h3>
+<form class="order" id="order-form" novalidate>
+<label for="f-name">Họ tên <span style="color:#c62828">*</span></label>
+<input id="f-name" type="text" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="name">
+<label for="f-phone">Số Zalo / điện thoại <span style="color:#c62828">*</span></label>
+<input id="f-phone" type="tel" placeholder="Ví dụ: 0901234567" autocomplete="tel">
+<label for="f-email">Email <span>(không bắt buộc — để nhận video và liên lạc)</span></label>
+<input id="f-email" type="email" placeholder="Ví dụ: shopcuaban@gmail.com" autocomplete="email">
+<label for="f-telegram">Telegram <span>(không bắt buộc — @username để nhận video)</span></label>
+<input id="f-telegram" type="text" placeholder="Ví dụ: @tenshop" autocomplete="off">
+<label for="f-shop">Link shop TikTok / Shopee <span>(không bắt buộc)</span></label>
+<input id="f-shop" type="url" placeholder="Ví dụ: https://www.tiktok.com/@shopcuaban">
+<label for="f-product">Sản phẩm muốn làm video <span>(không bắt buộc)</span></label>
+<textarea id="f-product" placeholder="Ví dụ: áo sơ mi trắng nữ, giá 189.000đ, bán chạy nhất shop"></textarea>
+<label for="f-note">Ghi chú <span>(không bắt buộc)</span></label>
+<textarea id="f-note" placeholder="Phong cách muốn làm, ngày cần video, yêu cầu khác..."></textarea>
+<h3>Ảnh tham chiếu <span style="font-weight:400;color:var(--muted);font-size:14px">(không bắt buộc)</span></h3>
+<p style="font-size:15px">Ảnh sản phẩm hoặc ảnh mẫu bạn muốn video làm theo — tối đa 3 ảnh, mỗi ảnh jpg/png/webp tối đa 5MB. Gửi thêm ảnh sau ở mục Tra cứu đơn hàng (tối đa 5 ảnh/đơn).</p>
+<input id="f-ref-images" type="file" accept=".jpg,.jpeg,.png,.webp" multiple style="width:100%;font-size:15px">
+<p class="error" id="ref-error">Ảnh tham chiếu chưa đúng — chỉ nhận jpg/png/webp, mỗi ảnh tối đa 5MB, tối đa 3 ảnh lúc đặt hàng.</p>
+<p id="ref-note" style="font-size:14px;color:var(--muted);display:none"></p>
+<div class="note" style="margin-top:12px"><strong>Những hình ảnh / nhân vật chúng tôi không làm được:</strong>
+<ul style="margin:8px 0 0;padding-left:20px;font-size:15px">
+<li>Ảnh có nội dung nhạy cảm, 18+, bạo lực.</li>
+<li>Ảnh trẻ em (dưới 18 tuổi) làm nhân vật trong video.</li>
+<li>Người thật khác: người nổi tiếng, hoặc người khác khi không có sự đồng ý của họ — chỉ dùng ảnh của chính bạn và sản phẩm của bạn.</li>
+<li>Nhân vật có bản quyền: nhân vật hoạt hình, game, phim (ví dụ: Disney, Marvel, anime) — không làm video nhái nhân vật có bản quyền.</li>
+<li>Logo / thương hiệu của shop khác để làm giả quảng cáo.</li>
+<li>Ảnh mờ, quá tối hoặc độ phân giải quá thấp — không đủ rõ để dựng video.</li>
+</ul>
+<p style="margin:8px 0 0;font-size:14px">Nếu ảnh bạn gửi thuộc nhóm trên, chúng tôi sẽ báo lại và đề xuất phương án khác (dùng người mẫu AI của chúng tôi, hoặc đổi ảnh).</p></div>
+<h3>Bước 3 — Giọng đọc</h3>
+<div class="voice-box" id="voice-box">
+  <label><input type="radio" name="voice-mode" value="ai" checked> <span><b>Dùng giọng mẫu của VideoShop AI</b><br><span style="color:var(--muted);font-size:14px">Giọng đọc AI tiếng Việt, bên mình lồng tiếng theo kịch bản.</span></span></label>
+  <select id="f-voice-ai">
+    <option value="nu-tre">Nữ trẻ trung (mặc định)</option>
+    <option value="nu-tram">Nữ trầm ấm</option>
+    <option value="nam-tre">Nam trẻ</option>
+  </select>
+  <p id="voice-preview-row" style="margin:8px 0 0"><button type="button" class="btn btn-ghost" id="btn-voice-preview" style="padding:8px 14px;font-size:15px">▶ Nghe thử giọng đã chọn</button> <span id="voice-preview-note" style="font-size:14px;color:var(--muted)"></span></p>
+  <audio id="voice-preview" preload="none" style="display:none"></audio>
+  <label><input type="radio" name="voice-mode" value="own"> <span><b>Tôi tự gửi giọng mẫu</b><br><span style="color:var(--muted);font-size:14px">Gửi file thu giọng của chính bạn (mp3/wav/m4a/webm, tối đa 5MB, 1 file). Chỉ gửi giọng của chính mình, không gửi giọng người khác hay người nổi tiếng. Bản v1 chưa nhân bản giọng tự động — nếu muốn đọc đúng kịch bản thì gửi bản thu đầy đủ lời đọc, bên mình sẽ dùng trực tiếp.</span></span></label>
+  <input id="f-voice-file" type="file" accept=".mp3,.wav,.m4a,.webm,audio/*" style="display:none">
+  <p class="voice-note" id="voice-file-note" style="display:none"></p>
+</div>
+<p class="error" id="voice-error">File giọng chưa đúng — chỉ nhận mp3/wav/m4a/webm, tối đa 5MB.</p>
+<h3>Bước 4 — Nhận video qua đâu?</h3>
+<div class="voice-box" id="delivery-box">
+  <label><input type="radio" name="delivery" value="zalo" checked> <span><b>Zalo</b> <span style="color:var(--muted);font-size:14px">— theo số Zalo / điện thoại đã nhập ở trên.</span></span></label>
+  <label><input type="radio" name="delivery" value="telegram"> <span><b>Telegram</b> <span style="color:var(--muted);font-size:14px">— theo @username Telegram đã nhập ở trên.</span></span></label>
+  <label><input type="radio" name="delivery" value="email"> <span><b>Email</b> <span style="color:var(--muted);font-size:14px">— theo email đã nhập ở trên.</span></span></label>
+  <label><input type="radio" name="delivery" value="direct"> <span><b>Tải trực tiếp từ mã đơn</b> <span style="color:var(--muted);font-size:14px">— video giao xong sẽ có ở mục Tra cứu đơn hàng, bạn tự tải về bằng mã đơn + số điện thoại.</span></span></label>
+</div>
+<p class="error" id="delivery-error">Bạn chọn nhận qua Telegram thì nhập @username Telegram ở trên nhé; chọn nhận qua Email thì nhập email ở trên nhé.</p>
+<p class="error" id="form-error">Bạn vui lòng chọn gói và điền họ tên + số Zalo/điện thoại trước khi gửi đơn.</p>
+<button type="submit" class="btn">Xem lại đơn &amp; thanh toán →</button>
+</form>
+
+<div id="order-result">
+<h3 id="result-title">Xem lại đơn của bạn</h3>
+<table>
+<tr><td>Mã đơn</td><td id="r-code">—</td></tr>
+<tr><td>Gói đã chọn</td><td id="r-pkg">—</td></tr>
+<tr><td>Tổng tiền</td><td id="r-total">—</td></tr>
+<tr><td>Họ tên</td><td id="r-name">—</td></tr>
+<tr><td>Zalo / điện thoại</td><td id="r-phone">—</td></tr>
+<tr><td>Email</td><td id="r-email">—</td></tr>
+<tr><td>Telegram</td><td id="r-telegram">—</td></tr>
+<tr><td>Nhận video qua</td><td id="r-delivery">—</td></tr>
+<tr><td>Ảnh tham chiếu</td><td id="r-ref">—</td></tr>
+<tr><td>Link shop</td><td id="r-shop">—</td></tr>
+<tr><td>Sản phẩm</td><td id="r-product">—</td></tr>
+<tr><td>Ghi chú</td><td id="r-note">—</td></tr>
+<tr><td>Giọng đọc</td><td id="r-voice">—</td></tr>
+</table>
+<p class="error" id="voice-file-warn" style="display:none">File giọng chưa tải lên được (sai định dạng hoặc quá 5MB) — đơn vẫn ghi nhận, bạn tải lại file giọng ở mục Tra cứu đơn hàng nhé.</p>
+<div class="pay-box">
+<strong>Thanh toán — chuyển khoản ngân hàng</strong><br>
+Số tiền cần chuyển đợt 1: <span class="amount" id="r-deposit">—</span><br>
+<span id="r-deposit-note">—</span><br><br>
+<strong>Ngân hàng:</strong> BIDV<br>
+<strong>Số tài khoản:</strong> 8812103302<br>
+<strong>Chủ tài khoản:</strong> Trương Quốc Thùy<br>
+<img id="qr-img" src="images/vietqr-bidv.svg" alt="Mã VietQR thanh toán BIDV 8812103302" style="max-width:220px;display:block;margin:12px 0 4px" onerror="this.onerror=null;this.src='images/vietqr-bidv.svg';">
+<span style="font-size:14px;color:var(--muted)">Quét mã VietQR bằng app ngân hàng — số tiền và nội dung đã điền sẵn theo đơn của bạn.</span><br>
+Nội dung chuyển khoản: <b id="r-transfer-note">—</b>
+</div>
+<p id="submit-row" style="margin-top:16px"><button type="button" class="btn" id="btn-submit-order" style="font-size:17px;padding:12px 26px">Gửi đơn ✓</button><br><span style="font-size:14px;color:var(--muted)">Bấm "Gửi đơn" thì đơn mới được tạo và gửi tới VideoShop AI. Trước lúc đó, bạn vẫn sửa lại thông tin ở trên được.</span></p>
+<div id="order-status" style="display:none;margin-top:14px;border:1px solid #c8e6c9;border-radius:10px;padding:12px 14px;background:#fff">
+<b>Trạng thái đơn: Đang xác minh thanh toán</b>
+<p style="margin:6px 0 0;font-size:14px">Đơn của bạn đã được ghi nhận và có hiệu lực. Chúng tôi đang xác minh thanh toán — sau khi xác nhận đã nhận tiền, chúng tôi sẽ bắt đầu làm video và báo lại cho bạn thời gian hoàn thành dự kiến qua <b id="order-status-channel">Zalo</b>.</p>
+<p style="margin:6px 0 0;font-size:14px;display:none" id="order-status-email">Email xác nhận kèm mã đơn đã được gửi tới <b id="order-status-email-addr"></b> (nếu không thấy, bạn kiểm tra mục Spam nhé).</p>
+</div>
+<p>
+<button type="button" class="btn btn-green" id="btn-zalo">Gửi đơn qua Zalo</button>
+<button type="button" class="btn btn-ghost" id="btn-email">Gửi đơn qua Email</button>
+<button type="button" class="btn btn-ghost" id="btn-copy">Sao chép nội dung đơn</button>
+<p style="font-size:14px;color:var(--muted);margin-top:10px">Đơn gửi qua Zalo hoặc email donhang@videoshopai.vn đều được ghi nhận.</p>
+</p>
+<p class="saved-note" id="saved-note">✓ Đã lưu đơn vào máy của bạn. Chúng tôi sẽ liên hệ xác nhận qua Zalo trong ngày làm việc.</p>
+<p class="error" id="save-error" style="display:none">Đơn chưa lưu được lên hệ thống (lỗi mạng hoặc thông tin chưa đúng) — bạn nhắn Zalo cho shop kèm mã đơn <b id="save-error-code"></b> để shop ghi nhận, hoặc tải lại trang và đặt lại nhé.</p>
+<p style="font-size:14px;color:var(--muted)">Giữ mã đơn để tra cứu tiến độ tại mục Tra cứu đơn hàng bên dưới.</p>
+<p style="font-size:14px;color:var(--muted)">Sau khi chuyển khoản, bạn nhắn Zalo kèm ảnh bill để chúng tôi xác nhận và bắt đầu làm video cho bạn.</p>
+</div>
+</section>
+
+<section id="tra-cuu">
+<h2>Tra cứu đơn hàng</h2>
+<p>Nhập mã đơn và số điện thoại bạn đã dùng khi đặt hàng để xem tiến độ, tải video đã giao, gửi yêu cầu sửa và tải thêm ảnh tham chiếu.</p>
+<form class="order" id="lookup-form" novalidate>
+<label for="lk-code">Mã đơn</label>
+<input id="lk-code" type="text" placeholder="Ví dụ: VS-1311-123" autocomplete="off">
+<label for="lk-phone">Số Zalo / điện thoại đã đặt hàng</label>
+<input id="lk-phone" type="tel" placeholder="Ví dụ: 0901234567" autocomplete="tel">
+<p class="error" id="lookup-error">Không tìm thấy đơn nào khớp mã đơn và số điện thoại. Bạn kiểm tra lại nhé.</p>
+<button type="submit" class="btn">Tra cứu đơn →</button>
+<button type="button" class="btn btn-ghost" id="btn-last-order" style="display:none">Dùng đơn gần nhất của bạn</button>
+</form>
+
+<div id="lookup-result">
+<h3>Đơn hàng <span id="lk-r-code">—</span></h3>
+<table>
+<tr><td>Gói đã chọn</td><td id="lk-r-pkg">—</td></tr>
+<tr><td>Trạng thái</td><td><b id="lk-r-status">—</b><br><span id="lk-r-status-note" style="font-size:14px;color:var(--muted);font-weight:400"></span></td></tr>
+<tr><td>Ngày đặt</td><td id="lk-r-date">—</td></tr>
+<tr><td>Tổng tiền</td><td id="lk-r-total">—</td></tr>
+<tr><td>Cọc đợt 1</td><td id="lk-r-deposit">—</td></tr>
+<tr><td>Email</td><td id="lk-r-email">—</td></tr>
+<tr><td>Telegram</td><td id="lk-r-telegram">—</td></tr>
+<tr><td>Nhận video qua</td><td id="lk-r-delivery">—</td></tr>
+</table>
+<div id="lk-delivered-wrap" style="display:none">
+<h3>🎬 Video đã giao</h3>
+<div id="lk-delivered"></div>
+</div>
+<h3>Yêu cầu sửa đã gửi</h3>
+<div id="lk-revisions"><p style="color:var(--muted);font-size:15px">Chưa có yêu cầu sửa nào.</p></div>
+<h3>Gửi yêu cầu sửa video</h3>
+<form class="order" id="revise-form" novalidate>
+<textarea id="rv-message" placeholder="Ví dụ: video 1 đổi cảnh mở đầu sang ngoài trời, chữ phụ đề nhỏ lại một chút..." maxlength="1000"></textarea>
+<p class="error" id="revise-error">Chưa gửi được, bạn thử lại sau vài giây nhé.</p>
+<p class="saved-note" id="revise-ok">✓ Đã gửi yêu cầu sửa. Chúng tôi xem và trả lời bạn trong ngày làm việc.</p>
+<button type="submit" class="btn">Gửi yêu cầu sửa</button>
+</form>
+<h3>Không hài lòng với video?</h3>
+<p style="font-size:15px">Bấm nút dưới đây để nhắn riêng cho Pip — tin khiếu nại được ưu tiên xử lý ngay, thường có trả lời trong 5–10 phút.</p>
+<button type="button" class="btn btn-ghost" id="btn-complaint" onclick="openChatComplaint(document.getElementById('lk-r-code').textContent)">⚠️ Gửi khiếu nại về đơn này</button>
+<h3>Tải thêm ảnh tham chiếu</h3>
+<p style="font-size:14px;color:var(--muted)">Ảnh sản phẩm, ảnh mẫu bạn muốn video làm theo. Chỉ nhận jpg, png, webp — mỗi ảnh tối đa 5MB, tối đa 5 ảnh/đơn (tính cả ảnh đã gửi lúc đặt hàng).</p>
+<div id="lk-uploads"></div>
+<form class="order" id="upload-form" novalidate>
+<input id="up-file" type="file" accept=".jpg,.jpeg,.png,.webp">
+<p class="error" id="upload-error">Chưa tải ảnh lên được, bạn kiểm tra lại định dạng (jpg/png/webp) và dung lượng (tối đa 5MB) nhé.</p>
+<p class="saved-note" id="upload-ok">✓ Đã tải ảnh lên.</p>
+<button type="submit" class="btn">Tải ảnh lên</button>
+</form>
+<h3>🎙️ Giọng đọc</h3>
+<div id="lk-voice"></div>
+<form class="order" id="voice-form" novalidate>
+<input id="voice-file2" type="file" accept=".mp3,.wav,.m4a,.webm,audio/*">
+<p class="error" id="voice-error2">Chưa tải file giọng lên được, bạn kiểm tra lại định dạng (mp3/wav/m4a/webm) và dung lượng (tối đa 5MB) nhé.</p>
+<p class="saved-note" id="voice-ok2">✓ Đã tải file giọng lên.</p>
+<button type="submit" class="btn">Tải file giọng lên</button>
+</form>
+</div>
+</section>
+
 <section>
-<h2>Quy trình làm việc — 5 bước</h2>
+<h2>Quy trình làm việc — 6 bước</h2>
 <ol class="steps">
 <li><strong>Tiếp nhận:</strong> Bạn nhắn qua Zalo hoặc Fanpage, gửi link shop, sản phẩm chủ lực và phong cách muốn làm. Chúng tôi gửi bảng giá và video mẫu.</li>
 <li><strong>Chốt gói:</strong> Bạn chọn gói, ký thỏa thuận dịch vụ và chuyển khoản đặt cọc theo điều khoản gói.</li>
-<li><strong>Sản xuất:</strong> Chúng tôi nghiên cứu trend, viết kịch bản, thu giọng AI, dựng video và kiểm tra chất lượng từng khung hình, rồi gửi bạn duyệt bản nháp.</li>
+<li><strong>Thanh toán đặt cọc:</strong> Bạn chuyển khoản theo điều khoản gói — Gói Thử và video lẻ trả 100% trước khi làm; gói tháng trả 50% đợt 1 (đầu tháng), 50% còn lại ngày 15. Chúng tôi xác nhận đã nhận tiền qua Zalo trong ngày làm việc.</li>
+<li><strong>Sản xuất:</strong> Chúng tôi nghiên cứu trend, viết kịch bản, thu giọng AI (hoặc dùng giọng mẫu của bạn), dựng video và kiểm tra chất lượng từng khung hình, rồi gửi bạn duyệt bản nháp.</li>
 <li><strong>Bàn giao:</strong> Bạn duyệt xong, chúng tôi giao file MP4, file phụ đề, caption gợi ý và giờ đăng gợi ý.</li>
 <li><strong>Báo cáo và chăm sóc:</strong> Cuối tháng gửi báo cáo — video nào view cao, trend tuần sau là gì. Hỏi bạn có gia hạn không trước 5 ngày hết tháng.</li>
 </ol>
+</section>
+
+<section>
+<h2>Video mẫu — VideoShop AI</h2>
+<p>4 video mẫu làm sẵn theo từng ngành hàng — xem thử chất lượng video chúng tôi làm cho shop:</p>
+<div class="video-grid">
+<div class="video-card">
+<video controls preload="metadata" playsinline poster="images/poster-thoi-trang.jpg" src="mau/videoshop-mau-thoi-trang.mp4"></video>
+<h3>👗 Thời trang</h3>
+<p>Sơ mi xanh + chân váy xếp ly be</p>
+</div>
+<div class="video-card">
+<video controls preload="metadata" playsinline poster="images/poster-lam-dep.jpg" src="mau/videoshop-mau-lam-dep.mp4"></video>
+<h3>💄 Làm đẹp</h3>
+<p>Dầu dưỡng tóc</p>
+</div>
+<div class="video-card">
+<video controls preload="metadata" playsinline poster="images/poster-gia-dung.jpg" src="mau/videoshop-mau-gia-dung.mp4"></video>
+<h3>🏠 Gia dụng</h3>
+<p>Đèn dây LED trang trí phòng ngủ</p>
+</div>
+<div class="video-card">
+<video controls preload="metadata" playsinline poster="images/poster-me-be.webp" src="mau/videoshop-mau-me-be.mp4"></video>
+<h3>👶 Mẹ &amp; bé</h3>
+<p>Set mũ, bao tay, bao chân sơ sinh</p>
+</div>
+</div>
+<p style="font-size:14px;color:var(--muted)">Video mẫu dùng clip có sẵn để minh họa format và chất lượng. Video làm cho shop của bạn sẽ quay/dựng riêng theo đúng sản phẩm của bạn.</p>
+</section>
+
+<section>
+<h2>Một vài khung hình từ video mẫu</h2>
+<p>Ảnh cắt từ chính các video mẫu trên — để bạn thấy rõ chất lượng hình ảnh, ánh sáng và cách khoe sản phẩm:</p>
+<div class="gallery">
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/thoi-trang-1.jpg" alt="Video mẫu thời trang — sơ mi xanh"><figcaption>Thời trang — sơ mi xanh</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/thoi-trang-2.jpg" alt="Video mẫu thời trang — chân váy xếp ly be"><figcaption>Thời trang — chân váy xếp ly</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/lam-dep-1.jpg" alt="Video mẫu làm đẹp — dầu dưỡng tóc"><figcaption>Làm đẹp — dầu dưỡng tóc</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/lam-dep-2.jpg" alt="Video mẫu làm đẹp — cận cảnh sản phẩm"><figcaption>Làm đẹp — cận cảnh sản phẩm</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/gia-dung-1.jpg" alt="Video mẫu gia dụng — đèn dây LED"><figcaption>Gia dụng — đèn dây LED</figcaption></figure>
+<figure><img loading="lazy" decoding="async" width="540" height="960" src="images/gallery/gia-dung-2.jpg" alt="Video mẫu gia dụng — phòng ngủ trang trí"><figcaption>Gia dụng — phòng ngủ trang trí</figcaption></figure>
+</div>
 </section>
 
 <section>
@@ -165,15 +555,429 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;color:v
 <h2>Liên hệ</h2>
 <div class="zalo-box">
 <p style="margin:0 0 6px"><strong>Nhắn Zalo để nhận video miễn phí đầu tiên</strong></p>
-<p class="number">[Số Zalo — đang cập nhật]</p>
-<p style="margin:6px 0 0;color:var(--muted);font-size:14px">Ghi chú nội bộ: số Zalo sẽ được Vo điền vào đây trước khi gửi landing page cho khách hàng.</p>
+<p class="number"><a href="tel:0327659686" style="color:inherit;text-decoration:none">0327 659 686</a></p>
+<p style="margin:8px 0 0"><a href="https://zalo.me/0327659686" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700">Nhắn Zalo ngay →</a></p>
 </div>
 <p style="margin-top:16px">Khi nhắn tin, bạn gửi kèm giúp chúng tôi: link shop TikTok/Shopee của bạn, 1–2 sản phẩm muốn làm video trước, và gói bạn quan tâm. Chúng tôi trả lời trong ngày làm việc.</p>
 </section>
 
 <footer>
 <p>VideoShop AI — Dịch vụ làm video ngắn cho shop nhỏ.<br>
-Portfolio: Lisa Style — Mặc đẹp mỗi ngày (nhân vật AI Lisa).</p>
+Portfolio: Lisa Style — Mặc đẹp mỗi ngày (nhân vật AI Lisa).<br>
+Website: <a href="https://videoshopai.vn/">videoshopai.vn</a> · Email hỗ trợ: <a href="mailto:hotro@videoshopai.vn">hotro@videoshopai.vn</a> · Zalo: 0327 659 686</p>
+<p style="margin-top:10px"><a href="blog/">Blog</a> · <a href="ho-tro.html">Hỗ trợ</a> · <a href="dieu-khoan.html">Điều khoản dịch vụ</a> · <a href="chinh-sach-bao-mat.html">Chính sách bảo mật</a></p>
 </footer>
+
+<script>
+(function(){
+  var selected=null;
+  var fmt=function(n){return n.toLocaleString('vi-VN')+'đ';};
+  var pkgs=document.querySelectorAll('#pkg-grid .pkg');
+  var totalLine=document.getElementById('total-line');
+  pkgs.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      pkgs.forEach(function(b){b.classList.remove('selected');});
+      btn.classList.add('selected');
+      selected=btn;
+      totalLine.style.display='block';
+      document.getElementById('duration-row').style.display='block';
+      document.getElementById('qty-row').style.display=(btn.getAttribute('data-pkg')==='le')?'block':'none';
+      updateSelection();
+      document.getElementById('form-error').style.display='none';
+    });
+  });
+  var leBtn=document.querySelector('#pkg-grid .pkg[data-pkg="le"]');
+  var durBtns=document.querySelectorAll('#dur-grid .dur');
+  var qtyInput=document.getElementById('qty-input');
+  var durNote=document.getElementById('dur-note');
+  var curDur='16', curUnit=390000, curQty=1;
+  // Số cảnh quay mỗi gói có (tính theo video chuẩn 16s = 2 cảnh): Thử 3 video = 6,
+  // Cơ bản 12 video = 24, Tăng trưởng 20 video = 40. Chọn thời lượng khác thì
+  // số video = số cảnh của gói / số cảnh mỗi video (làm tròn xuống).
+  var pkgClips={'thu':6,'coban':24,'tangtruong':40};
+  var pkgBaseName={'thu':'Gói Thử','coban':'Gói Cơ bản','tangtruong':'Gói Tăng trưởng'};
+  var durClips={'8':1,'16':2,'24':3,'32':4,'40':5};
+  function pkgCount(pkg,dur){return Math.floor(pkgClips[pkg]/durClips[dur]);}
+  function updateSelection(){
+    var pkg=selected.getAttribute('data-pkg');
+    if(pkg==='le'){
+      var total=curQty*curUnit;
+      leBtn.setAttribute('data-total',String(total));
+      leBtn.setAttribute('data-deposit',String(total));
+      leBtn.setAttribute('data-name','Video lẻ — '+curQty+' video '+curDur+'s');
+      document.getElementById('total-pkg-name').textContent=leBtn.getAttribute('data-name');
+      document.getElementById('total-amount').textContent=fmt(total);
+      document.getElementById('total-deposit').textContent=fmt(total);
+      durNote.textContent='Video lẻ: giá mặc định theo video 16s — chọn 8s thì rẻ hơn, chọn dài hơn thì đắt hơn (xem bảng giá).';
+    }else{
+      var n=pkgCount(pkg,curDur);
+      var suffix=(pkg==='thu')?'':'/tháng';
+      var name=pkgBaseName[pkg]+' — '+n+' video '+curDur+'s'+suffix;
+      selected.setAttribute('data-name',name);
+      document.getElementById('total-pkg-name').textContent=name;
+      document.getElementById('total-amount').textContent=fmt(parseInt(selected.getAttribute('data-total'),10));
+      document.getElementById('total-deposit').textContent=fmt(parseInt(selected.getAttribute('data-deposit'),10));
+      durNote.textContent='Gói cố định theo số cảnh quay: chọn 8s được '+pkgCount(pkg,'8')+' video, chọn 24s được '+pkgCount(pkg,'24')+' video, chọn 40s được '+pkgCount(pkg,'40')+' video — tổng tiền gói không đổi.';
+    }
+  }
+  function applyDuration(btn){
+    durBtns.forEach(function(b){b.classList.remove('selected');});
+    btn.classList.add('selected');
+    curUnit=parseInt(btn.getAttribute('data-price'),10);
+    curDur=btn.getAttribute('data-dur');
+    if(selected) updateSelection();
+  }
+  durBtns.forEach(function(b){b.addEventListener('click',function(){applyDuration(b);});});
+  function setQty(n){
+    n=Math.max(1,Math.min(20,parseInt(n,10)||1));
+    curQty=n; qtyInput.value=n;
+    if(selected) updateSelection();
+  }
+  document.getElementById('qty-minus').addEventListener('click',function(){setQty(curQty-1);});
+  document.getElementById('qty-plus').addEventListener('click',function(){setQty(curQty+1);});
+  qtyInput.addEventListener('change',function(){setQty(qtyInput.value);});
+  var voiceAiLabels={'nu-tre':'Nữ trẻ trung','nu-tram':'Nữ trầm ấm','nam-tre':'Nam trẻ'};
+  document.querySelectorAll('input[name="voice-mode"]').forEach(function(r){
+    r.addEventListener('change',function(){
+      var own=this.value==='own';
+      document.getElementById('f-voice-ai').style.display=own?'none':'block';
+      document.getElementById('voice-preview-row').style.display=own?'none':'block';
+      document.getElementById('f-voice-file').style.display=own?'block':'none';
+      document.getElementById('voice-error').style.display='none';
+    });
+  });
+  document.getElementById('f-voice-file').addEventListener('change',function(){
+    var f=this.files[0],n=document.getElementById('voice-file-note');
+    if(f){n.style.display='block';n.textContent='Đã chọn: '+f.name+' ('+Math.round(f.size/1024)+' KB)';}
+    else{n.style.display='none';}
+  });
+  var voiceSamples={'nu-tre':'mau/giong-nu-tre.mp3','nu-tram':'mau/giong-nu-tram.mp3','nam-tre':'mau/giong-nam-tre.mp3'};
+  document.getElementById('btn-voice-preview').addEventListener('click',function(){
+    var a=document.getElementById('voice-preview');
+    var v=document.getElementById('f-voice-ai').value;
+    var note=document.getElementById('voice-preview-note');
+    a.src=voiceSamples[v]||voiceSamples['nu-tre'];
+    a.play();
+    if(note)note.textContent='Đang phát giọng mẫu...';
+    a.onended=function(){if(note)note.textContent='';};
+  });
+  document.getElementById('f-ref-images').addEventListener('change',function(){
+    var n=document.getElementById('ref-note');
+    if(this.files.length){n.style.display='block';n.textContent='Đã chọn '+this.files.length+' ảnh: '+Array.prototype.map.call(this.files,function(f){return f.name;}).join(', ');}
+    else{n.style.display='none';}
+    document.getElementById('ref-error').style.display='none';
+  });
+  var deliveryLabels={zalo:'Zalo',telegram:'Telegram',email:'Email',direct:'Tải trực tiếp từ mã đơn'};
+  function genCode(){var d=new Date();return 'VS-'+String(d.getDate()).padStart(2,'0')+String(d.getMonth()+1).padStart(2,'0')+'-'+String(Math.floor(100+Math.random()*900));}
+  var orderText='';
+  document.getElementById('order-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('f-name').value.trim();
+    var phone=document.getElementById('f-phone').value.trim();
+    var email=document.getElementById('f-email').value.trim();
+    var telegram=document.getElementById('f-telegram').value.trim();
+    var delivery=(document.querySelector('input[name="delivery"]:checked')||{}).value||'zalo';
+    var refFiles=document.getElementById('f-ref-images').files;
+    var shop=document.getElementById('f-shop').value.trim();
+    var product=document.getElementById('f-product').value.trim();
+    var note=document.getElementById('f-note').value.trim();
+    var voiceMode=(document.querySelector('input[name="voice-mode"]:checked')||{}).value||'ai';
+    var voiceAi=document.getElementById('f-voice-ai').value;
+    var voiceFile=document.getElementById('f-voice-file').files[0]||null;
+    var voiceText=voiceMode==='ai'
+      ?('Giọng mẫu VideoShop AI — '+voiceAiLabels[voiceAi])
+      :('Giọng mẫu của khách'+(voiceFile?' — file: '+voiceFile.name:' — chưa đính kèm file, sẽ gửi sau'));
+    var verr=document.getElementById('voice-error');verr.style.display='none';
+    if(voiceMode==='own'&&voiceFile){
+      var okExt=/\.(mp3|wav|m4a|webm)$/i.test(voiceFile.name);
+      if(!okExt||voiceFile.size>5*1024*1024){verr.style.display='block';return;}
+    }
+    var rerr=document.getElementById('ref-error');rerr.style.display='none';
+    if(refFiles.length>3){rerr.style.display='block';return;}
+    for(var ri=0;ri<refFiles.length;ri++){
+      var rf=refFiles[ri];
+      if(!/\.(jpg|jpeg|png|webp)$/i.test(rf.name)||rf.size>5*1024*1024){rerr.style.display='block';return;}
+    }
+    var derr=document.getElementById('delivery-error');derr.style.display='none';
+    if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){derr.textContent='Email chưa đúng định dạng — bạn kiểm tra lại nhé.';derr.style.display='block';return;}
+    if(telegram&&!/^@?[A-Za-z0-9_]{5,32}$/.test(telegram)){derr.textContent='Telegram chưa đúng — nhập @username (5–32 ký tự, chữ/số/gạch dưới).';derr.style.display='block';return;}
+    if(delivery==='telegram'&&!telegram){derr.textContent='Bạn chọn nhận qua Telegram thì nhập @username Telegram ở trên nhé.';derr.style.display='block';return;}
+    if(delivery==='email'&&!email){derr.textContent='Bạn chọn nhận qua Email thì nhập email ở trên nhé.';derr.style.display='block';return;}
+    var err=document.getElementById('form-error');
+    var phoneOk=/[0-9]{9,}/.test(phone.replace(/[^0-9]/g,''));
+    if(!selected||!name||!phoneOk){err.style.display='block';return;}
+    err.style.display='none';
+    var code=genCode();
+    var total=parseInt(selected.getAttribute('data-total'),10);
+    var deposit=parseInt(selected.getAttribute('data-deposit'),10);
+    var pkgName=selected.getAttribute('data-name');
+    document.getElementById('r-code').textContent=code;
+    document.getElementById('r-pkg').textContent=pkgName;
+    document.getElementById('r-total').textContent=fmt(total);
+    document.getElementById('r-name').textContent=name;
+    document.getElementById('r-phone').textContent=phone;
+    document.getElementById('r-email').textContent=email||'—';
+    document.getElementById('r-telegram').textContent=telegram||'—';
+    document.getElementById('r-delivery').textContent=deliveryLabels[delivery];
+    document.getElementById('r-ref').textContent=refFiles.length?refFiles.length+' ảnh: '+Array.prototype.map.call(refFiles,function(f){return f.name;}).join(', '):'—';
+    document.getElementById('r-shop').textContent=shop||'—';
+    document.getElementById('r-product').textContent=product||'—';
+    document.getElementById('r-note').textContent=note||'—';
+    document.getElementById('r-voice').textContent=voiceText;
+    document.getElementById('r-deposit').textContent=fmt(deposit);
+    document.getElementById('r-deposit-note').textContent='Điều khoản: '+selected.getAttribute('data-deposit-note')+'.';
+    var updatePayment=function(c){
+      document.getElementById('r-transfer-note').textContent=c+' '+name;
+      var qr=document.getElementById('qr-img');
+      if(qr){
+        var qrName=name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^A-Za-z0-9 ]/g,'').replace(/\s+/g,' ').trim();
+        var qrInfo=(c.replace(/-/g,'')+' '+qrName).substring(0,25).replace(/\s+$/,'');
+        qr.src='https://img.vietqr.io/image/BIDV-8812103302-compact2.png?amount='+encodeURIComponent(String(deposit))+'&addInfo='+encodeURIComponent(qrInfo)+'&accountName=TRUONG%20QUOC%20THUY';
+      }
+    };
+    updatePayment(code);
+    orderText='ĐƠN HÀNG VIDEOSHOP AI\nMã đơn: '+code+'\nGói: '+pkgName+'\nTổng tiền: '+fmt(total)+'\nCần chuyển đợt 1: '+fmt(deposit)+' ('+selected.getAttribute('data-deposit-note')+')\nHọ tên: '+name+'\nZalo/ĐT: '+phone+'\nEmail: '+(email||'—')+'\nTelegram: '+(telegram||'—')+'\nNhận video qua: '+deliveryLabels[delivery]+'\nẢnh tham chiếu: '+(refFiles.length?refFiles.length+' ảnh':'—')+'\nLink shop: '+(shop||'—')+'\nSản phẩm: '+(product||'—')+'\nGhi chú: '+(note||'—')+'\nGiọng đọc: '+voiceText+'\nNội dung CK: '+code+' '+name;
+    // Chế độ xem lại: CHƯA tạo đơn, CHƯA gửi gì lên máy chủ.
+    // Đơn chỉ được tạo khi khách bấm nút "Gửi đơn" ở bên dưới.
+    document.getElementById('result-title').textContent='Xem lại đơn của bạn';
+    document.getElementById('submit-row').style.display='block';
+    document.getElementById('order-status').style.display='none';
+    document.getElementById('order-status-email').style.display='none';
+    document.getElementById('saved-note').style.display='none';
+    document.getElementById('save-error').style.display='none';
+    var submitBtn=document.getElementById('btn-submit-order');
+    submitBtn.disabled=false;submitBtn.textContent='Gửi đơn ✓';
+    // Lưu đơn lên máy chủ để khách tra cứu được (không chặn luồng Zalo nếu lỗi)
+    var showSaveError=function(){
+      var se=document.getElementById('save-error');
+      if(se){
+        var rc=document.getElementById('r-code');
+        if(rc)document.getElementById('save-error-code').textContent=rc.textContent;
+        se.style.display='block';
+      }
+    };
+    var saveTries=0;
+    var saveOrder=function(codeToSave){
+      var fd=new FormData();
+      fd.append('action','create');fd.append('code',codeToSave);fd.append('pkg',pkgName);
+      fd.append('name',name);fd.append('phone',phone);fd.append('shop',shop);
+      fd.append('product',product);fd.append('note',note);
+      fd.append('email',email);fd.append('telegram',telegram);fd.append('delivery',delivery);
+      fd.append('total',String(total));fd.append('deposit',String(deposit));
+      fd.append('voice',voiceMode);fd.append('voice_ai',voiceAi);
+      if(voiceFile)fd.append('voice_file',voiceFile);
+      for(var fi=0;fi<refFiles.length;fi++){fd.append('ref_images[]',refFiles[fi]);}
+      fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+        if(j.ok){
+          if(j.voice_file_ok===false){document.getElementById('voice-file-warn').style.display='block';}
+          onSubmitted(j);
+          return;
+        }
+        if(j.error==='duplicate'&&saveTries<1){
+          saveTries++;
+          var code2=genCode();
+          if(code2!==codeToSave){
+            document.getElementById('r-code').textContent=code2;
+            updatePayment(code2);
+            orderText=orderText.split(codeToSave).join(code2);
+            try{var os=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');if(os.length)os[os.length-1].code=code2;localStorage.setItem('videoshopai_orders',JSON.stringify(os));}catch(_){}
+            saveOrder(code2);
+            return;
+          }
+        }
+        showSaveError();
+        var sb=document.getElementById('btn-submit-order');if(sb){sb.disabled=false;sb.textContent='Gửi đơn ✓';}
+      }).catch(function(){showSaveError();var sb2=document.getElementById('btn-submit-order');if(sb2){sb2.disabled=false;sb2.textContent='Gửi đơn ✓';}});
+    };
+    // Khách bấm "Gửi đơn" thì mới tạo đơn trên máy chủ + lưu vào máy khách.
+    var onSubmitted=function(j){
+      document.getElementById('result-title').textContent='✓ Đơn hàng của bạn đã được ghi nhận';
+      document.getElementById('submit-row').style.display='none';
+      document.getElementById('order-status-channel').textContent=deliveryLabels[delivery];
+      if(j.email_sent&&email){document.getElementById('order-status-email-addr').textContent=email;document.getElementById('order-status-email').style.display='block';}
+      document.getElementById('order-status').style.display='block';
+      var sn=document.getElementById('saved-note');
+      sn.textContent='✓ Đơn đã gửi thành công — mã đơn của bạn là '+document.getElementById('r-code').textContent+'. Giữ mã này để tra cứu tiến độ đơn hàng.';
+      sn.style.display='block';
+      var sb=document.getElementById('btn-submit-order');if(sb){sb.textContent='Đã gửi ✓';}
+    };
+    submitBtn.onclick=function(){
+      submitBtn.disabled=true;submitBtn.textContent='Đang gửi đơn...';
+      document.getElementById('save-error').style.display='none';
+      try{
+        var orders=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
+        orders.push({code:code,pkg:pkgName,total:total,deposit:deposit,name:name,phone:phone,email:email,telegram:telegram,delivery:delivery,shop:shop,product:product,note:note,at:new Date().toISOString()});
+        localStorage.setItem('videoshopai_orders',JSON.stringify(orders));
+      }catch(_){/* localStorage không khả dụng thì vẫn tạo đơn */}
+      saveOrder(code);
+    };
+    var res=document.getElementById('order-result');
+    res.style.display='block';
+    res.scrollIntoView({behavior:'smooth'});
+  });
+  document.getElementById('btn-copy').addEventListener('click',function(){
+    var done=function(){var b=document.getElementById('btn-copy');b.textContent='Đã sao chép ✓';setTimeout(function(){b.textContent='Sao chép nội dung đơn';},2500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(orderText).then(done).catch(function(){fallbackCopy();});}
+    else{fallbackCopy();}
+    function fallbackCopy(){
+      var ta=document.createElement('textarea');ta.value=orderText;document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(_){}
+      document.body.removeChild(ta);
+    }
+  });
+  document.getElementById('btn-zalo').addEventListener('click',function(){
+    window.open('https://zalo.me/0327659686','_blank');
+  });
+  document.getElementById('btn-email').addEventListener('click',function(){
+    var code=document.getElementById('r-code').textContent;
+    var subject='Đơn hàng VideoShop AI '+code;
+    window.location.href='mailto:donhang@videoshopai.vn?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(orderText);
+  });
+})();
+</script>
+<script>
+(function(){
+  var fmt=function(n){return n.toLocaleString('vi-VN')+'đ';};
+  var curCode='',curPhone='';
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function fmtDate(iso){try{var d=new Date(iso);return d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit',year:'numeric'})+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});}catch(_){return iso;}}
+  function fmtTs(ts){return fmtDate(new Date(ts*1000).toISOString());}
+  function renderOrder(o){
+    document.getElementById('lk-r-code').textContent=o.code;
+    document.getElementById('lk-r-pkg').textContent=o.pkg;
+    var statusLabels={'Mới nhận':'Đang xác minh thanh toán','Đã nhận cọc':'Đã nhận cọc','Đang làm':'Đang làm video','Đang sửa theo yêu cầu':'Đang sửa theo yêu cầu','Đã giao':'Đã giao','Đã hủy':'Đã hủy'};
+    document.getElementById('lk-r-status').textContent=statusLabels[o.status]||o.status;
+    var statusNotes={'Mới nhận':'Đơn đã được ghi nhận và có hiệu lực — chúng tôi đang xác minh thanh toán. Sau khi xác nhận đã nhận tiền, chúng tôi sẽ bắt đầu làm video.','Đã nhận cọc':'Đã xác nhận thanh toán — chúng tôi đang làm video cho bạn.','Đang làm':'Chúng tôi đang làm video cho bạn — bản xem trước sẽ gửi bạn duyệt trước khi làm bản đầy đủ.','Đang sửa theo yêu cầu':'Chúng tôi đang sửa video theo yêu cầu của bạn.','Đã giao':'Video đã được giao — bạn kiểm tra mục "Video đã giao" bên dưới.','Đã hủy':'Đơn này đã bị hủy.'};
+    document.getElementById('lk-r-status-note').textContent=statusNotes[o.status]||'';
+    document.getElementById('lk-r-date').textContent=fmtDate(o.created_at);
+    document.getElementById('lk-r-total').textContent=fmt(o.total);
+    document.getElementById('lk-r-deposit').textContent=fmt(o.deposit);
+    document.getElementById('lk-r-email').textContent=o.email||'—';
+    document.getElementById('lk-r-telegram').textContent=o.telegram||'—';
+    document.getElementById('lk-r-delivery').textContent=({zalo:'Zalo',telegram:'Telegram',email:'Email',direct:'Tải trực tiếp từ mã đơn'})[o.delivery]||'Zalo';
+    var dw=document.getElementById('lk-delivered-wrap');
+    if(o.delivered&&o.delivered.length){dw.style.display='block';document.getElementById('lk-delivered').innerHTML=o.delivered.map(function(d){return '<p>🎬 <a href="'+esc(d.url)+'" target="_blank" rel="noopener">'+esc(d.label)+'</a></p>';}).join('');}
+    else{dw.style.display='none';document.getElementById('lk-delivered').replaceChildren();}
+    var rv=document.getElementById('lk-revisions');
+    if(o.revisions&&o.revisions.length){rv.innerHTML=o.revisions.map(function(r){return '<p>• '+esc(r.message)+' <span style="color:var(--muted);font-size:13px">('+(r.status==='new'?'Đang chờ xử lý':'Đã xử lý')+' — '+fmtTs(r.ts)+')</span></p>';}).join('');}
+    else{rv.innerHTML='<p style="color:var(--muted);font-size:15px">Chưa có yêu cầu sửa nào.</p>';}
+    var up=document.getElementById('lk-uploads');
+    if(o.uploads&&o.uploads.length){up.innerHTML=o.uploads.map(function(u){return '<a href="'+esc(u.url)+'" target="_blank" rel="noopener" style="display:inline-block;margin:0 8px 8px 0"><img src="'+esc(u.url)+'" alt="'+esc(u.name)+'" style="max-width:110px;max-height:110px;object-fit:cover;border-radius:8px;border:1px solid var(--line)"></a>';}).join('');}
+    else{up.innerHTML='<p style="color:var(--muted);font-size:15px">Chưa có ảnh tham chiếu nào.</p>';}
+    var vv=document.getElementById('lk-voice');
+    var v=o.voice||{mode:'ai',ai_voice:'nu-tre',file:null};
+    var aiLabels={'nu-tre':'Nữ trẻ trung','nu-tram':'Nữ trầm ấm','nam-tre':'Nam trẻ'};
+    if(v.mode==='ai'){vv.innerHTML='<p>Giọng mẫu VideoShop AI — '+esc(aiLabels[v.ai_voice]||'Nữ trẻ trung')+'</p>';}
+    else if(v.file){vv.innerHTML='<p>Giọng mẫu của bạn: '+esc(v.file.name)+'</p><audio controls preload="none" src="'+esc(v.file.url)+'" style="width:100%"></audio><p><a href="'+esc(v.file.url)+'" target="_blank" rel="noopener">Tải file giọng xuống</a></p>';}
+    else{vv.innerHTML='<p>Bạn chọn tự gửi giọng mẫu nhưng chưa đính kèm file. Tải file lên ở dưới nhé.</p>';}
+    document.getElementById('voice-form').style.display=(v.mode==='own')?'block':'none';
+    document.getElementById('lookup-result').style.display='block';
+  }
+  function lookup(code,phone){
+    var err=document.getElementById('lookup-error');err.style.display='none';
+    return fetch('orders.php?action=lookup&code='+encodeURIComponent(code)+'&phone='+encodeURIComponent(phone))
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(!j.ok){err.style.display='block';document.getElementById('lookup-result').style.display='none';return false;}
+        curCode=j.order.code;curPhone=phone;renderOrder(j.order);return true;
+      }).catch(function(){err.style.display='block';return false;});
+  }
+  document.getElementById('lookup-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var code=document.getElementById('lk-code').value.trim().toUpperCase();
+    var phone=document.getElementById('lk-phone').value.trim();
+    if(!code||!phone)return;
+    lookup(code,phone);
+  });
+  // Dùng đơn gần nhất đã lưu trên máy này
+  try{
+    var saved=JSON.parse(localStorage.getItem('videoshopai_orders')||'[]');
+    if(saved.length){
+      var last=saved[saved.length-1];
+      var btn=document.getElementById('btn-last-order');
+      btn.style.display='inline-block';
+      btn.addEventListener('click',function(){
+        document.getElementById('lk-code').value=last.code;
+        document.getElementById('lk-phone').value=last.phone;
+        lookup(last.code,last.phone);
+      });
+    }
+  }catch(_){}
+  document.getElementById('revise-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var msg=document.getElementById('rv-message').value.trim();
+    var err=document.getElementById('revise-error'),ok=document.getElementById('revise-ok');
+    err.style.display='none';ok.style.display='none';
+    if(!msg||!curCode)return;
+    var fd=new FormData();fd.append('action','revise');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('message',msg);
+    fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ok.style.display='block';document.getElementById('rv-message').value='';lookup(curCode,curPhone);}
+      else{err.style.display='block';}
+    }).catch(function(){err.style.display='block';});
+  });
+  document.getElementById('upload-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var input=document.getElementById('up-file');
+    var err=document.getElementById('upload-error'),ok=document.getElementById('upload-ok');
+    err.style.display='none';ok.style.display='none';
+    if(!input.files.length||!curCode)return;
+    var fd=new FormData();fd.append('action','upload');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('file',input.files[0]);
+    fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ok.style.display='block';input.value='';lookup(curCode,curPhone);}
+      else{err.style.display='block';}
+    }).catch(function(){err.style.display='block';});
+  });
+  document.getElementById('voice-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var input=document.getElementById('voice-file2');
+    var err=document.getElementById('voice-error2'),ok=document.getElementById('voice-ok2');
+    err.style.display='none';ok.style.display='none';
+    if(!input.files.length||!curCode)return;
+    var fd=new FormData();fd.append('action','upload_voice');fd.append('code',curCode);fd.append('phone',curPhone);fd.append('voice_file',input.files[0]);
+    fetch('orders.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){
+      if(j.ok){ok.style.display='block';input.value='';lookup(curCode,curPhone);}
+      else{err.style.display='block';}
+    }).catch(function(){err.style.display='block';});
+  });
+})();
+</script>
+<button id="chat-fab" type="button" aria-label="Chat với VideoShop AI">💬</button>
+<div id="chat-panel" role="dialog" aria-label="Chat với VideoShop AI">
+<div id="chat-head"><button class="close" type="button" id="chat-close" aria-label="Đóng">×</button><b>Chat với VideoShop AI</b><p>Pip (trợ lý AI) trả lời trực tiếp tại đây, thường trong 5–10 phút.</p></div>
+<div id="chat-msgs"></div>
+<div id="chat-quick"><button type="button" data-type="normal" data-prefill="">💬 Tư vấn dịch vụ</button><button type="button" data-type="complaint" data-prefill="Khiếu nại: ">⚠️ Khiếu nại</button><button type="button" data-type="normal" data-prefill="Hỏi về đơn hàng: ">📦 Hỏi về đơn</button></div>
+<div id="chat-mode" style="display:none">⚠️ Bạn đang gửi khiếu nại — Pip sẽ ưu tiên xử lý ngay. <button type="button" id="chat-mode-cancel">Hủy</button></div>
+<form id="chat-form">
+<div id="chat-first"><input type="text" id="chat-name" placeholder="Tên bạn" maxlength="60"><input type="text" id="chat-contact" placeholder="Zalo / SĐT (để liên hệ lại)" maxlength="60"></div>
+<div class="row"><input type="text" id="chat-input" placeholder="Bạn cần video cho sản phẩm nào?" maxlength="1000" autocomplete="off"><button type="submit" id="chat-send">Gửi</button></div>
+</form>
+</div>
+<script>
+(function(){
+var fab=document.getElementById('chat-fab'),panel=document.getElementById('chat-panel'),closeBtn=document.getElementById('chat-close'),
+msgs=document.getElementById('chat-msgs'),form=document.getElementById('chat-form'),input=document.getElementById('chat-input'),
+nameEl=document.getElementById('chat-name'),contactEl=document.getElementById('chat-contact'),firstRow=document.getElementById('chat-first');
+var session=null;try{session=localStorage.getItem('vs-chat-session');if(!session){session='vs-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10);localStorage.setItem('vs-chat-session',session);}var sn=localStorage.getItem('vs-chat-name');if(sn)nameEl.value=sn;var sc=localStorage.getItem('vs-chat-contact');if(sc)contactEl.value=sc;}catch(_){session='vs-'+Date.now().toString(36);}
+var lastCount=0,pollTimer=null,chatType='normal';
+var modeEl=document.getElementById('chat-mode');
+function setChatType(t,prefill){chatType=t;var btns=document.querySelectorAll('#chat-quick button');btns.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-type')===t&&b.getAttribute('data-prefill')===prefill);});if(t==='complaint'){modeEl.style.display='block';}else{modeEl.style.display='none';}if(prefill&&input.value.indexOf(prefill)!==0){input.value=prefill+input.value;}input.focus();}
+document.querySelectorAll('#chat-quick button').forEach(function(b){b.addEventListener('click',function(){setChatType(b.getAttribute('data-type'),b.getAttribute('data-prefill'));});});
+document.getElementById('chat-mode-cancel').addEventListener('click',function(){setChatType('normal','');input.value='';});
+window.openChatComplaint=function(code){panel.classList.add('open');if(!pollTimer)pollTimer=setInterval(poll,20000);poll();setChatType('complaint','Khiếu nại về đơn '+code+': ');window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});};
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function render(list){msgs.replaceChildren();if(!list.length){msgs.innerHTML='<div class="chat-msg pip"><span class="who">Pip — VideoShop AI</span>Chào bạn! Bạn cần làm video cho sản phẩm nào? Cho mình biết tên sản phẩm với link shop (nếu có) nhé. Gói Thử 3 video 990.000đ, 5 shop đầu tiên được tặng 1 video miễn phí.</div>';return;}
+list.forEach(function(m){var d=document.createElement('div');d.className='chat-msg '+(m.from==='pip'?'pip':'me');d.innerHTML='<span class="who">'+esc(m.from==='pip'?'Pip — VideoShop AI':'Bạn')+'</span>'+esc(m.message);msgs.appendChild(d);});msgs.scrollTop=msgs.scrollHeight;}
+function poll(){fetch('chat.php?action=poll&session='+encodeURIComponent(session)).then(function(r){return r.json();}).then(function(j){if(j.ok&&j.messages){if(j.messages.length!==lastCount){lastCount=j.messages.length;render(j.messages);}}}).catch(function(){});}
+fab.addEventListener('click',function(){panel.classList.toggle('open');if(panel.classList.contains('open')){poll();if(!pollTimer)pollTimer=setInterval(poll,20000);input.focus();}});
+closeBtn.addEventListener('click',function(){panel.classList.remove('open');});
+form.addEventListener('submit',function(e){e.preventDefault();var text=input.value.trim();if(!text)return;
+var fd=new FormData();fd.append('action','send');fd.append('session',session);fd.append('name',nameEl.value.trim());fd.append('contact',contactEl.value.trim());fd.append('message',text);fd.append('type',chatType);
+try{localStorage.setItem('vs-chat-name',nameEl.value.trim());localStorage.setItem('vs-chat-contact',contactEl.value.trim());}catch(_){}
+input.value='';setChatType('normal','');
+fetch('chat.php',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(j){if(j.ok){poll();}else{render([{from:'pip',message:'Gửi tin chưa được, bạn thử lại sau vài giây nhé. Hoặc nhắn Zalo 0327 659 686 cho nhanh.'}]);}}).catch(function(){});
+});
+poll();
+})();
+</script>
 </body>
 </html>
